@@ -397,6 +397,7 @@ mutation policyWanFirewallUpdatePolicy ($wanFirewallPolicyUpdateInput: WanFirewa
 								}
 								connectionOrigin
 								direction
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -404,6 +405,7 @@ mutation policyWanFirewallUpdatePolicy ($wanFirewallPolicyUpdateInput: WanFirewa
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType

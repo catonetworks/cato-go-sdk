@@ -143,6 +143,10 @@ mutation mutationPolicyInternetFirewallDiscardPolicyRevision ($accountId: ID!, $
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -313,6 +317,10 @@ mutation mutationPolicyInternetFirewallDiscardPolicyRevision ($accountId: ID!, $
 											name
 										}
 									}
+									group {
+										id
+										name
+									}
 								}
 								service {
 									standard {
@@ -329,6 +337,7 @@ mutation mutationPolicyInternetFirewallDiscardPolicyRevision ($accountId: ID!, $
 									}
 								}
 								connectionOrigin
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -340,6 +349,7 @@ mutation mutationPolicyInternetFirewallDiscardPolicyRevision ($accountId: ID!, $
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType

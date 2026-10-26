@@ -12,6 +12,7 @@ import (
 )
 
 type CatoClient interface {
+	Access(ctx context.Context, accessRemoteAccessSetEligibilityListInput cato_models.AccessRemoteAccessSetEligibilityListInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Access, error)
 	AccountManagementDisableAccount(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagementDisableAccount, error)
 	AdminAddAdmin(ctx context.Context, addAdminInput cato_models.AddAdminInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*AdminAddAdmin, error)
 	AdminAddServicePrincipalAdmin(ctx context.Context, accountID string, addServicePrincipalAdminInput cato_models.AddServicePrincipalAdminInput, interceptors ...clientv2.RequestInterceptor) (*AdminAddServicePrincipalAdmin, error)
@@ -513,6 +514,7 @@ type CatoClient interface {
 	ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense(ctx context.Context, accountID string, updateZtnaAppConnectorBwLicenseInput cato_models.UpdateZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense, error)
 	ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration(ctx context.Context, accountID string, updateZtnaAppConnectorsConfigurationInput cato_models.UpdateZtnaAppConnectorsConfigurationInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration, error)
 	ZtnaAppConnectorUpgradeZtnaAppConnector(ctx context.Context, accountID string, upgradeZtnaAppConnectorInput cato_models.UpgradeZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpgradeZtnaAppConnector, error)
+	QueryAccess(ctx context.Context, accessRemoteAccessEntityListInput cato_models.AccessRemoteAccessEntityListInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*QueryAccess, error)
 	AccountBySubdomain(ctx context.Context, accountID string, subdomains []string, interceptors ...clientv2.RequestInterceptor) (*AccountBySubdomain, error)
 	AccountManagementAddAccount(ctx context.Context, addAccountInput cato_models.AddAccountInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagementAddAccount, error)
 	AccountManagement(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagement, error)
@@ -683,6 +685,8 @@ type CatoClient interface {
 	UserDynamicUserGroupsConfiguration(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*UserDynamicUserGroupsConfiguration, error)
 	User(ctx context.Context, accountID string, userListInput cato_models.UserListInput, interceptors ...clientv2.RequestInterceptor) (*User, error)
 	UserUserList(ctx context.Context, accountID string, userListInput cato_models.UserListInput, interceptors ...clientv2.RequestInterceptor) (*UserUserList, error)
+	UserUsersGroupMembers(ctx context.Context, accountID string, usersGroupInput cato_models.UsersGroupInput, usersGroupMembersInput cato_models.UsersGroupMembersInput, interceptors ...clientv2.RequestInterceptor) (*UserUsersGroupMembers, error)
+	UserUsersGroupList(ctx context.Context, accountID string, usersGroupListInput cato_models.UsersGroupListInput, interceptors ...clientv2.RequestInterceptor) (*UserUsersGroupList, error)
 	Xdr(ctx context.Context, storyInput cato_models.StoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Xdr, error)
 	XdrStoryQuery(ctx context.Context, accountID string, storyID *string, producer *cato_models.StoryProducerEnum, incidentID *string, interceptors ...clientv2.RequestInterceptor) (*XdrStoryQuery, error)
 	AppConnectorReadConnector(ctx context.Context, accountID string, ref cato_models.ZtnaAppConnectorRefInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorReadConnector, error)
@@ -698,6 +702,39 @@ type Client struct {
 
 func NewClient(cli clientv2.HttpClient, baseURL string, options *clientv2.Options, interceptors ...clientv2.RequestInterceptor) CatoClient {
 	return &Client{Client: clientv2.NewClient(cli, baseURL, options, interceptors...)}
+}
+
+type Access_Access_RemoteAccessEligibility_SetEligibilityList struct {
+	Status cato_models.MutationStatus "json:\"status\" graphql:\"status\""
+}
+
+func (t *Access_Access_RemoteAccessEligibility_SetEligibilityList) GetStatus() *cato_models.MutationStatus {
+	if t == nil {
+		t = &Access_Access_RemoteAccessEligibility_SetEligibilityList{}
+	}
+	return &t.Status
+}
+
+type Access_Access_RemoteAccessEligibility struct {
+	SetEligibilityList *Access_Access_RemoteAccessEligibility_SetEligibilityList "json:\"setEligibilityList,omitempty\" graphql:\"setEligibilityList\""
+}
+
+func (t *Access_Access_RemoteAccessEligibility) GetSetEligibilityList() *Access_Access_RemoteAccessEligibility_SetEligibilityList {
+	if t == nil {
+		t = &Access_Access_RemoteAccessEligibility{}
+	}
+	return t.SetEligibilityList
+}
+
+type Access_Access struct {
+	RemoteAccessEligibility Access_Access_RemoteAccessEligibility "json:\"remoteAccessEligibility\" graphql:\"remoteAccessEligibility\""
+}
+
+func (t *Access_Access) GetRemoteAccessEligibility() *Access_Access_RemoteAccessEligibility {
+	if t == nil {
+		t = &Access_Access{}
+	}
+	return &t.RemoteAccessEligibility
 }
 
 type AccountManagementDisableAccount_AccountManagement_DisableAccount_AccountInfo_Audit struct {
@@ -68684,6 +68721,24 @@ func (t *PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rul
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -68732,16 +68787,17 @@ func (t *PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rul
 }
 
 type PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule struct {
-	Country     []*PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                   "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                     "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                   "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                    "json:\"index\" graphql:\"index\""
-	Name        string                                                                                   "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                            "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                                "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                  "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                                "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                 "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                                "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                         "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule) GetCountry() []*PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_Country {
@@ -68755,6 +68811,12 @@ func (t *PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rul
 		t = &PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationAddRule_Policy_DynamicIPAllocation_AddRule_Rule_Rule) GetEnabled() bool {
 	if t == nil {
@@ -69303,6 +69365,24 @@ func (t *PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocatio
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -69351,16 +69431,17 @@ func (t *PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocatio
 }
 
 type PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule struct {
-	Country     []*PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                                                     "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                                                       "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                                                     "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                                                      "json:\"index\" graphql:\"index\""
-	Name        string                                                                                                                     "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                                                              "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                                                                  "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                                                    "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                                                                  "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                                                   "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                                                                  "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                                                           "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Country {
@@ -69374,6 +69455,12 @@ func (t *PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocatio
 		t = &PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationCreatePolicyRevision_Policy_DynamicIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
 	if t == nil {
@@ -69854,6 +69941,24 @@ func (t *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocati
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -69902,16 +70007,17 @@ func (t *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocati
 }
 
 type PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule struct {
-	Country     []*PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                                                       "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                                                         "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                                                       "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                                                        "json:\"index\" graphql:\"index\""
-	Name        string                                                                                                                       "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                                                                "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                                                                    "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                                                      "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                                                                    "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                                                     "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                                                                    "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                                                             "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Country {
@@ -69925,6 +70031,12 @@ func (t *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocati
 		t = &PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy_DynamicIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
 	if t == nil {
@@ -70405,6 +70517,24 @@ func (t *PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_R
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -70453,16 +70583,17 @@ func (t *PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_R
 }
 
 type PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule struct {
-	Country     []*PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                     "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                       "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                     "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                      "json:\"index\" graphql:\"index\""
-	Name        string                                                                                     "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                              "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                                  "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                    "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                                  "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                   "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                                  "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                           "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule) GetCountry() []*PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_Country {
@@ -70476,6 +70607,12 @@ func (t *PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_R
 		t = &PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationMoveRule_Policy_DynamicIPAllocation_MoveRule_Rule_Rule) GetEnabled() bool {
 	if t == nil {
@@ -71024,6 +71161,24 @@ func (t *PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocati
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -71072,16 +71227,17 @@ func (t *PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocati
 }
 
 type PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule struct {
-	Country     []*PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                                                       "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                                                         "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                                                       "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                                                        "json:\"index\" graphql:\"index\""
-	Name        string                                                                                                                       "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                                                                "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                                                                    "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                                                      "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                                                                    "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                                                     "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                                                                    "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                                                             "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Country {
@@ -71095,6 +71251,12 @@ func (t *PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocati
 		t = &PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationPublishPolicyRevision_Policy_DynamicIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
 	if t == nil {
@@ -71575,6 +71737,24 @@ func (t *PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRu
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -71623,16 +71803,17 @@ func (t *PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRu
 }
 
 type PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule struct {
-	Country     []*PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                         "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                           "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                         "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                          "json:\"index\" graphql:\"index\""
-	Name        string                                                                                         "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                                  "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                                      "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                                      "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                       "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                                      "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                               "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule) GetCountry() []*PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_Country {
@@ -71646,6 +71827,12 @@ func (t *PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRu
 		t = &PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationRemoveRule_Policy_DynamicIPAllocation_RemoveRule_Rule_Rule) GetEnabled() bool {
 	if t == nil {
@@ -72194,6 +72381,24 @@ func (t *PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_Update
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -72242,16 +72447,17 @@ func (t *PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_Update
 }
 
 type PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule struct {
-	Country     []*PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                                     "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                                       "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                                     "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                                      "json:\"index\" graphql:\"index\""
-	Name        string                                                                                                     "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                                              "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                                                  "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                                    "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                                                  "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                                   "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                                                  "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                                           "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetCountry() []*PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_Country {
@@ -72265,6 +72471,12 @@ func (t *PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_Update
 		t = &PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationUpdatePolicy_Policy_DynamicIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetEnabled() bool {
 	if t == nil {
@@ -72745,6 +72957,24 @@ func (t *PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRu
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -72793,16 +73023,17 @@ func (t *PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRu
 }
 
 type PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule struct {
-	Country     []*PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                         "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                           "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                         "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                          "json:\"index\" graphql:\"index\""
-	Name        string                                                                                         "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                                  "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                                      "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                                      "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                       "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                                      "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                               "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule) GetCountry() []*PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_Country {
@@ -72816,6 +73047,12 @@ func (t *PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRu
 		t = &PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationUpdateRule_Policy_DynamicIPAllocation_UpdateRule_Rule_Rule) GetEnabled() bool {
 	if t == nil {
@@ -73883,6 +74120,24 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -73893,6 +74148,7 @@ type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Des
 	Domain                 []string                                                                                                      "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                      "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                      "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                               "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -73953,6 +74209,12 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination) GetGroup() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -74859,6 +75121,24 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -74869,6 +75149,7 @@ type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exc
 	Domain                 []string                                                                                                                 "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                 "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                 "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                          "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -74929,6 +75210,12 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -75041,15 +75328,16 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 }
 
 type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                    "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                       "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                              "json:\"name\" graphql:\"name\""
-	Service          PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                    "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                 "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                       "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                              "json:\"name\" graphql:\"name\""
+	Service               PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -75057,6 +75345,12 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Country {
 	if t == nil {
@@ -75162,26 +75456,27 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 }
 
 type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                   "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                         "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                   "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                            "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                     "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                   "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                    "json:\"index\" graphql:\"index\""
-	Name             string                                                                                   "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                   "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                         "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                      "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                   "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                            "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                     "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                   "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                    "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                   "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -75207,6 +75502,12 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule) GetCountry() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Country {
 	if t == nil {
@@ -76372,6 +76673,24 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -76382,6 +76701,7 @@ type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Pol
 	Domain                 []string                                                                                                                        "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                        "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                        "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                 "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -76442,6 +76762,12 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -77348,6 +77674,24 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -77358,6 +77702,7 @@ type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Pol
 	Domain                 []string                                                                                                                                   "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                   "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                   "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                            "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -77418,6 +77763,12 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -77530,15 +77881,16 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 }
 
 type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                                                "json:\"name\" graphql:\"name\""
-	Service          PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                   "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                                                "json:\"name\" graphql:\"name\""
+	Service               PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -77546,6 +77898,12 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -77651,26 +78009,27 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 }
 
 type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                                     "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                     "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                                       "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                     "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                      "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                     "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                                     "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                        "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                     "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                                       "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                     "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                      "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                     "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -77696,6 +78055,12 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetCountry() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -78939,6 +79304,24 @@ func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_Crea
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -78949,6 +79332,7 @@ type PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePo
 	Domain                 []string                                                                                                                                        "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                        "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                        "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                                 "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -79009,6 +79393,12 @@ func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_Crea
 		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetGroup() []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -79915,6 +80305,24 @@ func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_Crea
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -79925,6 +80333,7 @@ type PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePo
 	Domain                 []string                                                                                                                                                   "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                                   "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                                   "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                                            "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -79985,6 +80394,12 @@ func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_Crea
 		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -80097,15 +80512,16 @@ func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_Crea
 }
 
 type PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                                                                "json:\"name\" graphql:\"name\""
-	Service          PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                                   "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                                                                "json:\"name\" graphql:\"name\""
+	Service               PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -80113,6 +80529,12 @@ func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_Crea
 		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -80218,26 +80640,27 @@ func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_Crea
 }
 
 type PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                                                     "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                                     "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                                                       "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                                     "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                                      "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                                     "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                                                     "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                        "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                                     "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                                                       "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                                     "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                                      "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                                     "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -80263,6 +80686,12 @@ func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_Crea
 		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyInternetFirewallCreatePolicyRevision_Policy_InternetFirewall_CreatePolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -81506,6 +81935,24 @@ func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFire
 	return t.IPAddressRangeContainer
 }
 
+type MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -81516,6 +81963,7 @@ type MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall
 	Domain                 []string                                                                                                                                                  "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                                  "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                                  "json:\"ip\" graphql:\"ip\""
 	IPRange                []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                                           "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -81576,6 +82024,12 @@ func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFire
 		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetGroup() []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -82482,6 +82936,24 @@ func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFire
 	return t.IPAddressRangeContainer
 }
 
+type MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -82492,6 +82964,7 @@ type MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall
 	Domain                 []string                                                                                                                                                             "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                                             "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                                             "json:\"ip\" graphql:\"ip\""
 	IPRange                []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                                                      "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -82552,6 +83025,12 @@ func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFire
 		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -82664,15 +83143,16 @@ func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFire
 }
 
 type MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                                                "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                                                   "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                                                                          "json:\"name\" graphql:\"name\""
-	Service          MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                                                "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                                             "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                                                   "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                                                                          "json:\"name\" graphql:\"name\""
+	Service               MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -82680,6 +83160,12 @@ func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFire
 		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions) GetCountry() []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -82785,26 +83271,27 @@ func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFire
 }
 
 type MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                                                               "json:\"action\" graphql:\"action\""
-	ActionConfig     MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                                     "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                                               "json:\"description\" graphql:\"description\""
-	Destination      MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                                        "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                                                                 "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                                               "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                                                "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                                               "json:\"name\" graphql:\"name\""
-	Schedule         MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                                                               "json:\"action\" graphql:\"action\""
+	ActionConfig          MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                                     "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                                  "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                                               "json:\"description\" graphql:\"description\""
+	Destination           MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                                        "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                                               "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                                                "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                                               "json:\"name\" graphql:\"name\""
+	Schedule              MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -82830,6 +83317,12 @@ func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFire
 		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule) GetCountry() []*MutationPolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -84073,6 +84566,24 @@ func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Ru
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -84083,6 +84594,7 @@ type PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_D
 	Domain                 []string                                                                                                        "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                        "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                        "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                 "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -84143,6 +84655,12 @@ func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Ru
 		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination) GetGroup() []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -85049,6 +85567,24 @@ func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Ru
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -85059,6 +85595,7 @@ type PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_E
 	Domain                 []string                                                                                                                   "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                   "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                   "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                            "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -85119,6 +85656,12 @@ func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Ru
 		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -85231,15 +85774,16 @@ func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Ru
 }
 
 type PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                                "json:\"name\" graphql:\"name\""
-	Service          PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                   "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                                "json:\"name\" graphql:\"name\""
+	Service               PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -85247,6 +85791,12 @@ func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Ru
 		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions_Country {
 	if t == nil {
@@ -85352,26 +85902,27 @@ func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Ru
 }
 
 type PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                     "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                     "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                       "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                     "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                      "json:\"index\" graphql:\"index\""
-	Name             string                                                                                     "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                     "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                        "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                     "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                       "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                     "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                      "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                     "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -85397,6 +85948,12 @@ func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Ru
 		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule) GetCountry() []*PolicyInternetFirewallMoveRule_Policy_InternetFirewall_MoveRule_Rule_Rule_Country {
 	if t == nil {
@@ -86562,6 +87119,24 @@ func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Pub
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -86572,6 +87147,7 @@ type PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Publish
 	Domain                 []string                                                                                                                                          "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                          "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                          "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                                   "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -86632,6 +87208,12 @@ func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Pub
 		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetGroup() []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -87538,6 +88120,24 @@ func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Pub
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -87548,6 +88148,7 @@ type PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Publish
 	Domain                 []string                                                                                                                                                     "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                                     "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                                     "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                                              "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -87608,6 +88209,12 @@ func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Pub
 		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -87720,15 +88327,16 @@ func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Pub
 }
 
 type PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                                        "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                                           "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                                                                  "json:\"name\" graphql:\"name\""
-	Service          PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                                        "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                                     "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                                           "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                                                                  "json:\"name\" graphql:\"name\""
+	Service               PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -87736,6 +88344,12 @@ func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Pub
 		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -87841,26 +88455,27 @@ func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Pub
 }
 
 type PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                                                       "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                             "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                                       "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                                "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                                                         "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                                       "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                                        "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                                       "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                                                       "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                             "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                          "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                                       "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                                "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                                                         "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                                       "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                                        "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                                       "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -87886,6 +88501,12 @@ func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_Pub
 		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyInternetFirewallPublishPolicyRevision_Policy_InternetFirewall_PublishPolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -89129,6 +89750,24 @@ func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rul
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -89139,6 +89778,7 @@ type PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Ru
 	Domain                 []string                                                                                                            "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                            "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                            "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                     "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -89199,6 +89839,12 @@ func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rul
 		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination) GetGroup() []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -90105,6 +90751,24 @@ func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rul
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -90115,6 +90779,7 @@ type PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Ru
 	Domain                 []string                                                                                                                       "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                       "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                       "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -90175,6 +90840,12 @@ func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rul
 		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -90287,15 +90958,16 @@ func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rul
 }
 
 type PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                          "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                             "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                                    "json:\"name\" graphql:\"name\""
-	Service          PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                          "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                       "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                             "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                                    "json:\"name\" graphql:\"name\""
+	Service               PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -90303,6 +90975,12 @@ func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rul
 		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions_Country {
 	if t == nil {
@@ -90408,26 +91086,27 @@ func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rul
 }
 
 type PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                         "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                               "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                         "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                  "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                           "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                         "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                          "json:\"index\" graphql:\"index\""
-	Name             string                                                                                         "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                         "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                               "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                            "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                         "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                  "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                           "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                         "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                          "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                         "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -90453,6 +91132,12 @@ func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rul
 		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule) GetCountry() []*PolicyInternetFirewallRemoveRule_Policy_InternetFirewall_RemoveRule_Rule_Rule_Country {
 	if t == nil {
@@ -91618,6 +92303,24 @@ func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSub
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -91628,6 +92331,7 @@ type PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPoli
 	Domain                 []string                                                                                                                              "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                              "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                              "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                       "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -91688,6 +92392,12 @@ func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSub
 		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination) GetGroup() []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -92594,6 +93304,24 @@ func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSub
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -92604,6 +93332,7 @@ type PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPoli
 	Domain                 []string                                                                                                                                         "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                         "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                         "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                                  "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -92664,6 +93393,12 @@ func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSub
 		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -92776,15 +93511,16 @@ func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSub
 }
 
 type PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                                                      "json:\"name\" graphql:\"name\""
-	Service          PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                         "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                                                      "json:\"name\" graphql:\"name\""
+	Service               PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -92792,6 +93528,12 @@ func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSub
 		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -92897,26 +93639,27 @@ func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSub
 }
 
 type PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                                           "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                           "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                                             "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                           "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                            "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                           "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                                           "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                              "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                           "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                                             "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                           "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                            "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                           "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -92942,6 +93685,12 @@ func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSub
 		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule) GetCountry() []*PolicyInternetFirewallRemoveSubPolicy_Policy_InternetFirewall_RemoveSubPolicy_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -94393,6 +95142,24 @@ func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -94403,6 +95170,7 @@ type PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Pol
 	Domain                 []string                                                                                                                        "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                        "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                        "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                 "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -94463,6 +95231,12 @@ func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy
 		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination) GetGroup() []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -95369,6 +96143,24 @@ func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -95379,6 +96171,7 @@ type PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Pol
 	Domain                 []string                                                                                                                                   "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                                   "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                                   "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                            "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -95439,6 +96232,12 @@ func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy
 		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -95551,15 +96350,16 @@ func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy
 }
 
 type PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                                                "json:\"name\" graphql:\"name\""
-	Service          PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                   "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                                                "json:\"name\" graphql:\"name\""
+	Service               PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -95567,6 +96367,12 @@ func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy
 		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -95672,26 +96478,27 @@ func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy
 }
 
 type PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                                     "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                     "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                                       "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                     "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                      "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                     "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                                     "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                        "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                     "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                                       "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                     "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                      "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                     "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -95717,6 +96524,12 @@ func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy
 		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule) GetCountry() []*PolicyInternetFirewallUpdatePolicy_Policy_InternetFirewall_UpdatePolicy_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -96960,6 +97773,24 @@ func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rul
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination struct {
 	AppCategory            []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -96970,6 +97801,7 @@ type PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Ru
 	Domain                 []string                                                                                                            "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                            "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                            "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                     "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -97030,6 +97862,12 @@ func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rul
 		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination) GetGroup() []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -97936,6 +98774,24 @@ func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rul
 	return t.IPAddressRangeContainer
 }
 
+type PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination struct {
 	AppCategory            []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -97946,6 +98802,7 @@ type PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Ru
 	Domain                 []string                                                                                                                       "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                                       "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                                       "json:\"ip\" graphql:\"ip\""
 	IPRange                []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                                "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -98006,6 +98863,12 @@ func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rul
 		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -98119,6 +98982,7 @@ func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rul
 
 type PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions struct {
 	ConnectionOriginInternetFirewallRuleException cato_models.ConnectionOriginEnum                                                                          "json:\"connectionOriginInternetFirewallRuleException\" graphql:\"connectionOriginInternetFirewallRuleException\""
+	ConnectionsOriginList                         []cato_models.ConnectionOriginsEnum                                                                       "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                                       []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
 	Destination                                   PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
 	Device                                        []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
@@ -98134,6 +98998,12 @@ func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rul
 		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions{}
 	}
 	return &t.ConnectionOriginInternetFirewallRuleException
+}
+func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions_Country {
 	if t == nil {
@@ -98239,26 +99109,27 @@ func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rul
 }
 
 type PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                                         "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                               "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                         "json:\"description\" graphql:\"description\""
-	Destination      PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                  "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                                           "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                         "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                          "json:\"index\" graphql:\"index\""
-	Name             string                                                                                         "json:\"name\" graphql:\"name\""
-	Schedule         PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                                         "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                               "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                            "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                         "json:\"description\" graphql:\"description\""
+	Destination           PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                  "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                                           "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                         "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                          "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                         "json:\"name\" graphql:\"name\""
+	Schedule              PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -98284,6 +99155,12 @@ func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rul
 		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule) GetCountry() []*PolicyInternetFirewallUpdateRule_Policy_InternetFirewall_UpdateRule_Rule_Rule_Country {
 	if t == nil {
@@ -189178,17 +190055,18 @@ func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exception
 }
 
 type PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions struct {
-	Application      PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                          "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                             "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                      "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                    "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                          "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                       "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                             "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                      "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                    "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions) GetApplication() *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Application {
@@ -189202,6 +190080,12 @@ func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exception
 		t = &PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions) GetCountry() []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions_Country {
 	if t == nil {
@@ -189288,28 +190172,29 @@ func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_ActionCon
 }
 
 type PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                              "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                               "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                         "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                  "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                           "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                           "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                         "json:\"id\" graphql:\"id\""
-	Index            int64                                                                          "json:\"index\" graphql:\"index\""
-	Name             string                                                                         "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                              "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                               "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                            "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                         "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                  "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                           "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                           "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                         "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                          "json:\"index\" graphql:\"index\""
+	Name                  string                                                                         "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -189341,6 +190226,12 @@ func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule) GetConne
 		t = &PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule) GetCountry() []*PolicyWanFirewallAddRule_Policy_WanFirewall_AddRule_Rule_Rule_Country {
 	if t == nil {
@@ -192070,17 +192961,18 @@ func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Ru
 }
 
 type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions struct {
-	Application      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                        "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                                      "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                         "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                        "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                                      "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetApplication() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application {
@@ -192094,6 +192986,12 @@ func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Ru
 		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -192180,28 +193078,29 @@ func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Ru
 }
 
 type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                                "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                           "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                             "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                                             "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                           "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                            "json:\"index\" graphql:\"index\""
-	Name             string                                                                                           "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                                "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                              "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                           "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                             "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                                             "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                           "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                            "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                           "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -192233,6 +193132,12 @@ func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Ru
 		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetCountry() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -195040,17 +195945,18 @@ func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRe
 }
 
 type PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions struct {
-	Application      PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                                        "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                                                      "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                         "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                                        "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                                                      "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions) GetApplication() *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application {
@@ -195064,6 +195970,12 @@ func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRe
 		t = &PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -195150,28 +196062,29 @@ func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRe
 }
 
 type PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                                                "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                           "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                             "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                                                             "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                           "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                            "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                           "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                                                "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                              "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                           "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                             "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                                                             "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                           "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                            "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                           "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -195203,6 +196116,12 @@ func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRe
 		t = &PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyWanFirewallCreatePolicyRevision_Policy_WanFirewall_CreatePolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -198010,17 +198929,18 @@ func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicy
 }
 
 type PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions struct {
-	Application      PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                              "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                                 "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                                          "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                                                        "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                              "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                           "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                                 "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                                          "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                                                        "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions) GetApplication() *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application {
@@ -198034,6 +198954,12 @@ func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicy
 		t = &PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -198120,28 +199046,29 @@ func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicy
 }
 
 type PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                                                  "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                   "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                             "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                      "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                               "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                                                               "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                             "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                              "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                             "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                                                  "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                   "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                             "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                      "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                               "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                                                               "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                             "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                              "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                             "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -198173,6 +199100,12 @@ func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicy
 		t = &PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyWanFirewallDiscardPolicyRevision_Policy_WanFirewall_DiscardPolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -200980,17 +201913,18 @@ func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Excepti
 }
 
 type PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions struct {
-	Application      PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                        "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                      "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                         "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                        "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                      "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions) GetApplication() *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Application {
@@ -201004,6 +201938,12 @@ func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Excepti
 		t = &PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions) GetCountry() []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions_Country {
 	if t == nil {
@@ -201090,28 +202030,29 @@ func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_ActionC
 }
 
 type PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                           "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                             "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                             "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                           "json:\"id\" graphql:\"id\""
-	Index            int64                                                                            "json:\"index\" graphql:\"index\""
-	Name             string                                                                           "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                              "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                           "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                             "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                             "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                           "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                            "json:\"index\" graphql:\"index\""
+	Name                  string                                                                           "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -201143,6 +202084,12 @@ func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule) GetCon
 		t = &PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule) GetCountry() []*PolicyWanFirewallMoveRule_Policy_WanFirewall_MoveRule_Rule_Rule_Country {
 	if t == nil {
@@ -203872,17 +204819,18 @@ func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicy
 }
 
 type PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions struct {
-	Application      PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                              "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                                 "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                                          "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                                                        "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                              "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                           "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                                 "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                                          "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                                                        "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions) GetApplication() *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application {
@@ -203896,6 +204844,12 @@ func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicy
 		t = &PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -203982,28 +204936,29 @@ func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicy
 }
 
 type PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                                                  "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                   "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                             "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                      "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                               "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                                                               "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                             "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                              "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                             "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                                                  "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                   "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                             "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                      "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                               "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                                                               "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                             "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                              "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                             "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -204035,6 +204990,12 @@ func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicy
 		t = &PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyWanFirewallPublishPolicyRevision_Policy_WanFirewall_PublishPolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -206842,17 +207803,18 @@ func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exc
 }
 
 type PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions struct {
-	Application      PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                   "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                            "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                          "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                             "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                   "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                            "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                          "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions) GetApplication() *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Application {
@@ -206866,6 +207828,12 @@ func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exc
 		t = &PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions) GetCountry() []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions_Country {
 	if t == nil {
@@ -206952,28 +207920,29 @@ func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Act
 }
 
 type PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                    "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                     "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                               "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                        "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                 "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                                 "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                               "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                "json:\"index\" graphql:\"index\""
-	Name             string                                                                               "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                    "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                     "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                  "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                               "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                        "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                 "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                               "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                "json:\"index\" graphql:\"index\""
+	Name                  string                                                                               "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -207005,6 +207974,12 @@ func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule) Ge
 		t = &PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule) GetCountry() []*PolicyWanFirewallRemoveRule_Policy_WanFirewall_RemoveRule_Rule_Rule_Country {
 	if t == nil {
@@ -209734,17 +210709,18 @@ func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Pol
 }
 
 type PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions struct {
-	Application      PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                                  "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                                     "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                              "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                                            "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                  "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                               "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                                     "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                              "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                                            "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions) GetApplication() *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Application {
@@ -209758,6 +210734,12 @@ func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Pol
 		t = &PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -209844,28 +210826,29 @@ func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Pol
 }
 
 type PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                                      "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                       "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                 "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                          "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                   "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                                                   "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                                 "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                  "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                 "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                                      "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                       "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                    "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                 "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                          "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                   "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                                                   "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                                 "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                  "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                 "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -209897,6 +210880,12 @@ func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Pol
 		t = &PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule) GetCountry() []*PolicyWanFirewallRemoveSubPolicy_Policy_WanFirewall_RemoveSubPolicy_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -212926,17 +213915,18 @@ func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Ru
 }
 
 type PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions struct {
-	Application      PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                                        "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                                                      "json:\"name\" graphql:\"name\""
-	Service          PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                         "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                                        "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                                                      "json:\"name\" graphql:\"name\""
+	Service               PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions) GetApplication() *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application {
@@ -212950,6 +213940,12 @@ func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Ru
 		t = &PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -213036,28 +214032,29 @@ func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Ru
 }
 
 type PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                                "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                                           "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                             "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                                             "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                                           "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                            "json:\"index\" graphql:\"index\""
-	Name             string                                                                                           "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                                "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                              "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                                           "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                             "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                                             "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                                           "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                            "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                           "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -213089,6 +214086,12 @@ func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Ru
 		t = &PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule) GetCountry() []*PolicyWanFirewallUpdatePolicy_Policy_WanFirewall_UpdatePolicy_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -215898,6 +216901,7 @@ func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exc
 type PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions struct {
 	Application                              PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
 	ConnectionOriginWanFirewallRuleException cato_models.ConnectionOriginEnum                                                                "json:\"connectionOriginWanFirewallRuleException\" graphql:\"connectionOriginWanFirewallRuleException\""
+	ConnectionsOriginList                    []cato_models.ConnectionOriginsEnum                                                             "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                                  []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
 	Destination                              PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
 	Device                                   []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
@@ -215920,6 +216924,12 @@ func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exc
 		t = &PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions{}
 	}
 	return &t.ConnectionOriginWanFirewallRuleException
+}
+func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions) GetCountry() []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions_Country {
 	if t == nil {
@@ -216006,28 +217016,29 @@ func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Act
 }
 
 type PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                                    "json:\"action\" graphql:\"action\""
-	ActionConfig     PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                     "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                               "json:\"description\" graphql:\"description\""
-	Destination      PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                        "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                                 "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                                 "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                               "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                "json:\"index\" graphql:\"index\""
-	Name             string                                                                               "json:\"name\" graphql:\"name\""
-	Schedule         PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                                    "json:\"action\" graphql:\"action\""
+	ActionConfig          PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                     "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                  "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                               "json:\"description\" graphql:\"description\""
+	Destination           PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                        "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                                 "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                               "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                "json:\"index\" graphql:\"index\""
+	Name                  string                                                                               "json:\"name\" graphql:\"name\""
+	Schedule              PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -216059,6 +217070,12 @@ func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule) Ge
 		t = &PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule) GetCountry() []*PolicyWanFirewallUpdateRule_Policy_WanFirewall_UpdateRule_Rule_Rule_Country {
 	if t == nil {
@@ -279942,6 +280959,96 @@ func (t *ZtnaAppConnectorUpgradeZtnaAppConnector_ZtnaAppConnector) GetUpgradeZtn
 	return &t.UpgradeZtnaAppConnector
 }
 
+type QueryAccess_Access_RemoteAccessEligibility_EntityList_Items struct {
+	ID   string                                   "json:\"id\" graphql:\"id\""
+	Name string                                   "json:\"name\" graphql:\"name\""
+	Type cato_models.AccessRemoteAccessEntityType "json:\"type\" graphql:\"type\""
+}
+
+func (t *QueryAccess_Access_RemoteAccessEligibility_EntityList_Items) GetID() string {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility_EntityList_Items{}
+	}
+	return t.ID
+}
+func (t *QueryAccess_Access_RemoteAccessEligibility_EntityList_Items) GetName() string {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility_EntityList_Items{}
+	}
+	return t.Name
+}
+func (t *QueryAccess_Access_RemoteAccessEligibility_EntityList_Items) GetType() *cato_models.AccessRemoteAccessEntityType {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility_EntityList_Items{}
+	}
+	return &t.Type
+}
+
+type QueryAccess_Access_RemoteAccessEligibility_EntityList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *QueryAccess_Access_RemoteAccessEligibility_EntityList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility_EntityList_Paging{}
+	}
+	return t.Total
+}
+
+type QueryAccess_Access_RemoteAccessEligibility_EntityList struct {
+	Items  []*QueryAccess_Access_RemoteAccessEligibility_EntityList_Items "json:\"items\" graphql:\"items\""
+	Paging QueryAccess_Access_RemoteAccessEligibility_EntityList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *QueryAccess_Access_RemoteAccessEligibility_EntityList) GetItems() []*QueryAccess_Access_RemoteAccessEligibility_EntityList_Items {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility_EntityList{}
+	}
+	return t.Items
+}
+func (t *QueryAccess_Access_RemoteAccessEligibility_EntityList) GetPaging() *QueryAccess_Access_RemoteAccessEligibility_EntityList_Paging {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility_EntityList{}
+	}
+	return &t.Paging
+}
+
+type QueryAccess_Access_RemoteAccessEligibility struct {
+	AllocationType     cato_models.AccessRemoteAccessAllocationType          "json:\"allocationType\" graphql:\"allocationType\""
+	EligibleUsersCount scalars.Long                                          "json:\"eligibleUsersCount\" graphql:\"eligibleUsersCount\""
+	EntityList         QueryAccess_Access_RemoteAccessEligibility_EntityList "json:\"entityList\" graphql:\"entityList\""
+}
+
+func (t *QueryAccess_Access_RemoteAccessEligibility) GetAllocationType() *cato_models.AccessRemoteAccessAllocationType {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility{}
+	}
+	return &t.AllocationType
+}
+func (t *QueryAccess_Access_RemoteAccessEligibility) GetEligibleUsersCount() *scalars.Long {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility{}
+	}
+	return &t.EligibleUsersCount
+}
+func (t *QueryAccess_Access_RemoteAccessEligibility) GetEntityList() *QueryAccess_Access_RemoteAccessEligibility_EntityList {
+	if t == nil {
+		t = &QueryAccess_Access_RemoteAccessEligibility{}
+	}
+	return &t.EntityList
+}
+
+type QueryAccess_Access struct {
+	RemoteAccessEligibility *QueryAccess_Access_RemoteAccessEligibility "json:\"remoteAccessEligibility,omitempty\" graphql:\"remoteAccessEligibility\""
+}
+
+func (t *QueryAccess_Access) GetRemoteAccessEligibility() *QueryAccess_Access_RemoteAccessEligibility {
+	if t == nil {
+		t = &QueryAccess_Access{}
+	}
+	return t.RemoteAccessEligibility
+}
+
 type AccountBySubdomain_AccountBySubdomain struct {
 	ID        string "json:\"id\" graphql:\"id\""
 	Name      string "json:\"name\" graphql:\"name\""
@@ -313459,6 +314566,24 @@ func (t *PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules
 	return t.UsersGroup
 }
 
+type PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_DevicePostureProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_DevicePostureProfile) GetID() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.ID
+}
+func (t *PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_DevicePostureProfile) GetName() string {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_DevicePostureProfile{}
+	}
+	return t.Name
+}
+
 type PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -313507,16 +314632,17 @@ func (t *PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules
 }
 
 type PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule struct {
-	Country     []*PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Country "json:\"country\" graphql:\"country\""
-	Description string                                                                                  "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                    "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                  "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                   "json:\"index\" graphql:\"index\""
-	Name        string                                                                                  "json:\"name\" graphql:\"name\""
-	Platform    []cato_models.OperatingSystem                                                           "json:\"platform\" graphql:\"platform\""
-	Range       PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Range      "json:\"range\" graphql:\"range\""
-	Section     PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Section    "json:\"section\" graphql:\"section\""
-	Source      PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Source     "json:\"source\" graphql:\"source\""
+	Country              []*PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
+	Description          string                                                                                               "json:\"description\" graphql:\"description\""
+	DevicePostureProfile []*PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
+	Enabled              bool                                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	ID                   string                                                                                               "json:\"id\" graphql:\"id\""
+	Index                int64                                                                                                "json:\"index\" graphql:\"index\""
+	Name                 string                                                                                               "json:\"name\" graphql:\"name\""
+	Platform             []cato_models.OperatingSystem                                                                        "json:\"platform\" graphql:\"platform\""
+	Range                PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Range                   "json:\"range\" graphql:\"range\""
+	Section              PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Section                 "json:\"section\" graphql:\"section\""
+	Source               PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Source                  "json:\"source\" graphql:\"source\""
 }
 
 func (t *PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule) GetCountry() []*PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_Country {
@@ -313530,6 +314656,12 @@ func (t *PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules
 		t = &PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule{}
 	}
 	return t.Description
+}
+func (t *PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule) GetDevicePostureProfile() []*PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule_DevicePostureProfile {
+	if t == nil {
+		t = &PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule{}
+	}
+	return t.DevicePostureProfile
 }
 func (t *PolicyDynamicIpAllocationPolicy_Policy_DynamicIPAllocation_Policy_Rules_Rule) GetEnabled() bool {
 	if t == nil {
@@ -319539,6 +320671,24 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destin
 	return t.IPAddressRangeContainer
 }
 
+type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
 type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -319549,6 +320699,7 @@ type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destinatio
 	Domain                 []string                                                                                               "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                               "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                               "json:\"ip\" graphql:\"ip\""
 	IPRange                []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                        "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -319609,6 +320760,12 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destin
 		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetGroup() []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
 }
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetIP() []string {
 	if t == nil {
@@ -320515,6 +321672,24 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Except
 	return t.IPAddressRangeContainer
 }
 
+type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
+	if t == nil {
+		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
+	if t == nil {
+		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Group{}
+	}
+	return t.Name
+}
+
 type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
@@ -320525,6 +321700,7 @@ type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions
 	Domain                 []string                                                                                                          "json:\"domain\" graphql:\"domain\""
 	Fqdn                   []string                                                                                                          "json:\"fqdn\" graphql:\"fqdn\""
 	GlobalIPRange          []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group                  []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
 	IP                     []string                                                                                                          "json:\"ip\" graphql:\"ip\""
 	IPRange                []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	RemoteAsn              []scalars.Asn32                                                                                                   "json:\"remoteAsn\" graphql:\"remoteAsn\""
@@ -320585,6 +321761,12 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Except
 		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination{}
 	}
 	return t.GlobalIPRange
+}
+func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Group {
+	if t == nil {
+		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination{}
+	}
+	return t.Group
 }
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
 	if t == nil {
@@ -320697,15 +321879,16 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Except
 }
 
 type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions struct {
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                             "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                                "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name             string                                                                                       "json:\"name\" graphql:\"name\""
-	Service          InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                             "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                          "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                                "json:\"deviceOS\" graphql:\"deviceOS\""
+	Name                  string                                                                                       "json:\"name\" graphql:\"name\""
+	Service               InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
@@ -320713,6 +321896,12 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Except
 		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions) GetCountry() []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -320818,26 +322007,27 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Action
 }
 
 type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule struct {
-	Action           cato_models.InternetFirewallActionEnum                                            "json:\"action\" graphql:\"action\""
-	ActionConfig     InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                  "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                            "json:\"description\" graphql:\"description\""
-	Destination      InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                     "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled          bool                                                                              "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                            "json:\"id\" graphql:\"id\""
-	Index            int64                                                                             "json:\"index\" graphql:\"index\""
-	Name             string                                                                            "json:\"name\" graphql:\"name\""
-	Schedule         InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.InternetFirewallActionEnum                                            "json:\"action\" graphql:\"action\""
+	ActionConfig          InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                  "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                               "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                            "json:\"description\" graphql:\"description\""
+	Destination           InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                     "json:\"deviceOS\" graphql:\"deviceOS\""
+	Enabled               bool                                                                              "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                            "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                             "json:\"index\" graphql:\"index\""
+	Name                  string                                                                            "json:\"name\" graphql:\"name\""
+	Schedule              InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
@@ -320863,6 +322053,12 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule) GetCo
 		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule) GetCountry() []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -333071,17 +334267,18 @@ func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Servi
 }
 
 type WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions struct {
-	Application      WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                                   "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination      WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                                      "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                               "json:\"direction\" graphql:\"direction\""
-	Name             string                                                                             "json:\"name\" graphql:\"name\""
-	Service          WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source           WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
+	Application           WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                   "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
+	Destination           WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                                      "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                               "json:\"direction\" graphql:\"direction\""
+	Name                  string                                                                             "json:\"name\" graphql:\"name\""
+	Service               WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
+	Source                WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
 }
 
 func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions) GetApplication() *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Application {
@@ -333095,6 +334292,12 @@ func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions) GetC
 		t = &WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions) GetCountry() []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions_Country {
 	if t == nil {
@@ -333181,28 +334384,29 @@ func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_ActionConfig) Ge
 }
 
 type WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule struct {
-	Action           cato_models.WanFirewallActionEnum                                       "json:\"action\" graphql:\"action\""
-	ActionConfig     WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod     WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application      WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin cato_models.ConnectionOriginEnum                                        "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description      string                                                                  "json:\"description\" graphql:\"description\""
-	Destination      WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device           []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs         []cato_models.OperatingSystem                                           "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction        cato_models.WanFirewallDirectionEnum                                    "json:\"direction\" graphql:\"direction\""
-	Enabled          bool                                                                    "json:\"enabled\" graphql:\"enabled\""
-	Exceptions       []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID               string                                                                  "json:\"id\" graphql:\"id\""
-	Index            int64                                                                   "json:\"index\" graphql:\"index\""
-	Name             string                                                                  "json:\"name\" graphql:\"name\""
-	Schedule         WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section          WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service          WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source           WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking         WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
+	Action                cato_models.WanFirewallActionEnum                                       "json:\"action\" graphql:\"action\""
+	ActionConfig          WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
+	ActivePeriod          WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
+	Application           WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
+	ConnectionOrigin      cato_models.ConnectionOriginEnum                                        "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                     "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
+	Description           string                                                                  "json:\"description\" graphql:\"description\""
+	Destination           WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
+	Device                []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
+	DeviceAttributes      WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
+	DeviceOs              []cato_models.OperatingSystem                                           "json:\"deviceOS\" graphql:\"deviceOS\""
+	Direction             cato_models.WanFirewallDirectionEnum                                    "json:\"direction\" graphql:\"direction\""
+	Enabled               bool                                                                    "json:\"enabled\" graphql:\"enabled\""
+	Exceptions            []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
+	ID                    string                                                                  "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                   "json:\"index\" graphql:\"index\""
+	Name                  string                                                                  "json:\"name\" graphql:\"name\""
+	Schedule              WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
+	Section               WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+	Service               WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
+	Source                WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
+	Tracking              WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
 }
 
 func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
@@ -333234,6 +334438,12 @@ func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule) GetConnectionOr
 		t = &WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule) GetCountry() []*WanFirewallPolicy_Policy_WanFirewall_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -349600,6 +350810,326 @@ func (t *UserUserList_User) GetUserList() *UserUserList_User_UserList {
 	return t.UserList
 }
 
+type UserUsersGroupMembers_User_UsersGroup_Members_Items_AuthInfo struct {
+	AuthMethod cato_models.UserAuthMethod "json:\"authMethod\" graphql:\"authMethod\""
+	AuthStatus cato_models.UserAuthStatus "json:\"authStatus\" graphql:\"authStatus\""
+}
+
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items_AuthInfo) GetAuthMethod() *cato_models.UserAuthMethod {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items_AuthInfo{}
+	}
+	return &t.AuthMethod
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items_AuthInfo) GetAuthStatus() *cato_models.UserAuthStatus {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items_AuthInfo{}
+	}
+	return &t.AuthStatus
+}
+
+type UserUsersGroupMembers_User_UsersGroup_Members_Items struct {
+	AuthInfo                   UserUsersGroupMembers_User_UsersGroup_Members_Items_AuthInfo "json:\"authInfo\" graphql:\"authInfo\""
+	CreationDate               string                                                       "json:\"creationDate\" graphql:\"creationDate\""
+	Department                 *string                                                      "json:\"department,omitempty\" graphql:\"department\""
+	DirectoryID                *string                                                      "json:\"directoryId,omitempty\" graphql:\"directoryId\""
+	DisplayName                string                                                       "json:\"displayName\" graphql:\"displayName\""
+	Email                      *string                                                      "json:\"email,omitempty\" graphql:\"email\""
+	FirstName                  *string                                                      "json:\"firstName,omitempty\" graphql:\"firstName\""
+	HasRemoteAccessEligibility bool                                                         "json:\"hasRemoteAccessEligibility\" graphql:\"hasRemoteAccessEligibility\""
+	ID                         string                                                       "json:\"id\" graphql:\"id\""
+	JobTitle                   *string                                                      "json:\"jobTitle,omitempty\" graphql:\"jobTitle\""
+	LastModified               string                                                       "json:\"lastModified\" graphql:\"lastModified\""
+	LastName                   *string                                                      "json:\"lastName,omitempty\" graphql:\"lastName\""
+	ObjectID                   *string                                                      "json:\"objectId,omitempty\" graphql:\"objectId\""
+	OnPremSid                  *string                                                      "json:\"onPremSid,omitempty\" graphql:\"onPremSid\""
+	Phone                      *string                                                      "json:\"phone,omitempty\" graphql:\"phone\""
+	RiskScore                  cato_models.RiskScore                                        "json:\"riskScore\" graphql:\"riskScore\""
+	UserID                     *string                                                      "json:\"userId,omitempty\" graphql:\"userId\""
+	UserImportType             cato_models.UserImportType                                   "json:\"userImportType\" graphql:\"userImportType\""
+	UserPrincipalName          *string                                                      "json:\"userPrincipalName,omitempty\" graphql:\"userPrincipalName\""
+	UserStatus                 cato_models.UserStatus                                       "json:\"userStatus\" graphql:\"userStatus\""
+}
+
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetAuthInfo() *UserUsersGroupMembers_User_UsersGroup_Members_Items_AuthInfo {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return &t.AuthInfo
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetCreationDate() string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.CreationDate
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetDepartment() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.Department
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetDirectoryID() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.DirectoryID
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetDisplayName() string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.DisplayName
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetEmail() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.Email
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetFirstName() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.FirstName
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetHasRemoteAccessEligibility() bool {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.HasRemoteAccessEligibility
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetID() string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.ID
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetJobTitle() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.JobTitle
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetLastModified() string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.LastModified
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetLastName() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.LastName
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetObjectID() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.ObjectID
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetOnPremSid() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.OnPremSid
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetPhone() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.Phone
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetRiskScore() *cato_models.RiskScore {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return &t.RiskScore
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetUserID() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.UserID
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetUserImportType() *cato_models.UserImportType {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return &t.UserImportType
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetUserPrincipalName() *string {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return t.UserPrincipalName
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Items) GetUserStatus() *cato_models.UserStatus {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Items{}
+	}
+	return &t.UserStatus
+}
+
+type UserUsersGroupMembers_User_UsersGroup_Members_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *UserUsersGroupMembers_User_UsersGroup_Members_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members_Paging{}
+	}
+	return t.Total
+}
+
+type UserUsersGroupMembers_User_UsersGroup_Members struct {
+	Items  []*UserUsersGroupMembers_User_UsersGroup_Members_Items "json:\"items\" graphql:\"items\""
+	Paging UserUsersGroupMembers_User_UsersGroup_Members_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *UserUsersGroupMembers_User_UsersGroup_Members) GetItems() []*UserUsersGroupMembers_User_UsersGroup_Members_Items {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members{}
+	}
+	return t.Items
+}
+func (t *UserUsersGroupMembers_User_UsersGroup_Members) GetPaging() *UserUsersGroupMembers_User_UsersGroup_Members_Paging {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup_Members{}
+	}
+	return &t.Paging
+}
+
+type UserUsersGroupMembers_User_UsersGroup struct {
+	Members UserUsersGroupMembers_User_UsersGroup_Members "json:\"members\" graphql:\"members\""
+}
+
+func (t *UserUsersGroupMembers_User_UsersGroup) GetMembers() *UserUsersGroupMembers_User_UsersGroup_Members {
+	if t == nil {
+		t = &UserUsersGroupMembers_User_UsersGroup{}
+	}
+	return &t.Members
+}
+
+type UserUsersGroupMembers_User struct {
+	UsersGroup *UserUsersGroupMembers_User_UsersGroup "json:\"usersGroup,omitempty\" graphql:\"usersGroup\""
+}
+
+func (t *UserUsersGroupMembers_User) GetUsersGroup() *UserUsersGroupMembers_User_UsersGroup {
+	if t == nil {
+		t = &UserUsersGroupMembers_User{}
+	}
+	return t.UsersGroup
+}
+
+type UserUsersGroupList_User_UsersGroupList_Items struct {
+	CreationDate *string                          "json:\"creationDate,omitempty\" graphql:\"creationDate\""
+	Description  *string                          "json:\"description,omitempty\" graphql:\"description\""
+	DirectoryID  *string                          "json:\"directoryId,omitempty\" graphql:\"directoryId\""
+	ID           string                           "json:\"id\" graphql:\"id\""
+	ImportType   cato_models.UsersGroupImportType "json:\"importType\" graphql:\"importType\""
+	LastModified *string                          "json:\"lastModified,omitempty\" graphql:\"lastModified\""
+	MembersCount int64                            "json:\"membersCount\" graphql:\"membersCount\""
+	Name         string                           "json:\"name\" graphql:\"name\""
+	ObjectID     *string                          "json:\"objectId,omitempty\" graphql:\"objectId\""
+}
+
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetCreationDate() *string {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return t.CreationDate
+}
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetDescription() *string {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return t.Description
+}
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetDirectoryID() *string {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return t.DirectoryID
+}
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetID() string {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return t.ID
+}
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetImportType() *cato_models.UsersGroupImportType {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return &t.ImportType
+}
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetLastModified() *string {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return t.LastModified
+}
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetMembersCount() int64 {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return t.MembersCount
+}
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetName() string {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return t.Name
+}
+func (t *UserUsersGroupList_User_UsersGroupList_Items) GetObjectID() *string {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Items{}
+	}
+	return t.ObjectID
+}
+
+type UserUsersGroupList_User_UsersGroupList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *UserUsersGroupList_User_UsersGroupList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList_Paging{}
+	}
+	return t.Total
+}
+
+type UserUsersGroupList_User_UsersGroupList struct {
+	Items  []*UserUsersGroupList_User_UsersGroupList_Items "json:\"items\" graphql:\"items\""
+	Paging UserUsersGroupList_User_UsersGroupList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *UserUsersGroupList_User_UsersGroupList) GetItems() []*UserUsersGroupList_User_UsersGroupList_Items {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList{}
+	}
+	return t.Items
+}
+func (t *UserUsersGroupList_User_UsersGroupList) GetPaging() *UserUsersGroupList_User_UsersGroupList_Paging {
+	if t == nil {
+		t = &UserUsersGroupList_User_UsersGroupList{}
+	}
+	return &t.Paging
+}
+
+type UserUsersGroupList_User struct {
+	UsersGroupList *UserUsersGroupList_User_UsersGroupList "json:\"usersGroupList,omitempty\" graphql:\"usersGroupList\""
+}
+
+func (t *UserUsersGroupList_User) GetUsersGroupList() *UserUsersGroupList_User_UsersGroupList {
+	if t == nil {
+		t = &UserUsersGroupList_User{}
+	}
+	return t.UsersGroupList
+}
+
 type Xdr_Xdr_Stories_Paging struct {
 	From  int64 "json:\"from\" graphql:\"from\""
 	Limit int64 "json:\"limit\" graphql:\"limit\""
@@ -364142,6 +365672,17 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector) GetZtnaAppConnec
 	return t.ZtnaAppConnectorList
 }
 
+type Access struct {
+	Access Access_Access "json:\"access\" graphql:\"access\""
+}
+
+func (t *Access) GetAccess() *Access_Access {
+	if t == nil {
+		t = &Access{}
+	}
+	return &t.Access
+}
+
 type AccountManagementDisableAccount struct {
 	AccountManagement *AccountManagementDisableAccount_AccountManagement "json:\"accountManagement,omitempty\" graphql:\"accountManagement\""
 }
@@ -369653,6 +371194,17 @@ func (t *ZtnaAppConnectorUpgradeZtnaAppConnector) GetZtnaAppConnector() *ZtnaApp
 	return t.ZtnaAppConnector
 }
 
+type QueryAccess struct {
+	Access QueryAccess_Access "json:\"access\" graphql:\"access\""
+}
+
+func (t *QueryAccess) GetAccess() *QueryAccess_Access {
+	if t == nil {
+		t = &QueryAccess{}
+	}
+	return &t.Access
+}
+
 type AccountBySubdomain struct {
 	AccountBySubdomain []*AccountBySubdomain_AccountBySubdomain "json:\"accountBySubdomain,omitempty\" graphql:\"accountBySubdomain\""
 }
@@ -371523,6 +373075,28 @@ func (t *UserUserList) GetUser() *UserUserList_User {
 	return &t.User
 }
 
+type UserUsersGroupMembers struct {
+	User UserUsersGroupMembers_User "json:\"user\" graphql:\"user\""
+}
+
+func (t *UserUsersGroupMembers) GetUser() *UserUsersGroupMembers_User {
+	if t == nil {
+		t = &UserUsersGroupMembers{}
+	}
+	return &t.User
+}
+
+type UserUsersGroupList struct {
+	User UserUsersGroupList_User "json:\"user\" graphql:\"user\""
+}
+
+func (t *UserUsersGroupList) GetUser() *UserUsersGroupList_User {
+	if t == nil {
+		t = &UserUsersGroupList{}
+	}
+	return &t.User
+}
+
 type Xdr struct {
 	Xdr Xdr_Xdr "json:\"xdr\" graphql:\"xdr\""
 }
@@ -371598,6 +373172,35 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList) GetZtnaAppConnector() *ZtnaAppCon
 		t = &ZtnaAppConnectorZtnaAppConnectorList{}
 	}
 	return t.ZtnaAppConnector
+}
+
+const AccessDocument = `mutation access ($accessRemoteAccessSetEligibilityListInput: AccessRemoteAccessSetEligibilityListInput!, $accountId: ID!) {
+	access(accountId: $accountId) {
+		remoteAccessEligibility {
+			setEligibilityList(input: $accessRemoteAccessSetEligibilityListInput) {
+				status
+			}
+		}
+	}
+}
+`
+
+func (c *Client) Access(ctx context.Context, accessRemoteAccessSetEligibilityListInput cato_models.AccessRemoteAccessSetEligibilityListInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Access, error) {
+	vars := map[string]any{
+		"accessRemoteAccessSetEligibilityListInput": accessRemoteAccessSetEligibilityListInput,
+		"accountId": accountID,
+	}
+
+	var res Access
+	if err := c.Client.Post(ctx, "access", AccessDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
 }
 
 const AccountManagementDisableAccountDocument = `mutation accountManagementDisableAccount ($accountId: ID!) {
@@ -385663,6 +387266,10 @@ const PolicyDynamicIPAllocationAddRuleDocument = `mutation policyDynamicIpAlloca
 							}
 						}
 						platform
+						devicePostureProfile {
+							id
+							name
+						}
 						country {
 							id
 							name
@@ -385813,6 +387420,10 @@ const PolicyDynamicIPAllocationCreatePolicyRevisionDocument = `mutation policyDy
 								}
 							}
 							platform
+							devicePostureProfile {
+								id
+								name
+							}
 							country {
 								id
 								name
@@ -385926,6 +387537,10 @@ const PolicyDynamicIPAllocationDiscardPolicyRevisionDocument = `mutation policyD
 								}
 							}
 							platform
+							devicePostureProfile {
+								id
+								name
+							}
 							country {
 								id
 								name
@@ -386037,6 +387652,10 @@ const PolicyDynamicIPAllocationMoveRuleDocument = `mutation policyDynamicIpAlloc
 							}
 						}
 						platform
+						devicePostureProfile {
+							id
+							name
+						}
 						country {
 							id
 							name
@@ -386187,6 +387806,10 @@ const PolicyDynamicIPAllocationPublishPolicyRevisionDocument = `mutation policyD
 								}
 							}
 							platform
+							devicePostureProfile {
+								id
+								name
+							}
 							country {
 								id
 								name
@@ -386298,6 +387921,10 @@ const PolicyDynamicIPAllocationRemoveRuleDocument = `mutation policyDynamicIpAll
 							}
 						}
 						platform
+						devicePostureProfile {
+							id
+							name
+						}
 						country {
 							id
 							name
@@ -386448,6 +388075,10 @@ const PolicyDynamicIPAllocationUpdatePolicyDocument = `mutation policyDynamicIpA
 								}
 							}
 							platform
+							devicePostureProfile {
+								id
+								name
+							}
 							country {
 								id
 								name
@@ -386559,6 +388190,10 @@ const PolicyDynamicIPAllocationUpdateRuleDocument = `mutation policyDynamicIpAll
 							}
 						}
 						platform
+						devicePostureProfile {
+							id
+							name
+						}
 						country {
 							id
 							name
@@ -386810,6 +388445,10 @@ const PolicyInternetFirewallAddRuleDocument = `mutation policyInternetFirewallAd
 									name
 								}
 							}
+							group {
+								id
+								name
+							}
 						}
 						service {
 							standard {
@@ -386980,6 +388619,10 @@ const PolicyInternetFirewallAddRuleDocument = `mutation policyInternetFirewallAd
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -386996,6 +388639,7 @@ const PolicyInternetFirewallAddRuleDocument = `mutation policyInternetFirewallAd
 								}
 							}
 							connectionOrigin
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -387007,6 +388651,7 @@ const PolicyInternetFirewallAddRuleDocument = `mutation policyInternetFirewallAd
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -387261,6 +388906,10 @@ const PolicyInternetFirewallAddSubPolicyDocument = `mutation policyInternetFirew
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -387431,6 +389080,10 @@ const PolicyInternetFirewallAddSubPolicyDocument = `mutation policyInternetFirew
 											name
 										}
 									}
+									group {
+										id
+										name
+									}
 								}
 								service {
 									standard {
@@ -387447,6 +389100,7 @@ const PolicyInternetFirewallAddSubPolicyDocument = `mutation policyInternetFirew
 									}
 								}
 								connectionOrigin
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -387458,6 +389112,7 @@ const PolicyInternetFirewallAddSubPolicyDocument = `mutation policyInternetFirew
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -387695,6 +389350,10 @@ const PolicyInternetFirewallCreatePolicyRevisionDocument = `mutation policyInter
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -387865,6 +389524,10 @@ const PolicyInternetFirewallCreatePolicyRevisionDocument = `mutation policyInter
 											name
 										}
 									}
+									group {
+										id
+										name
+									}
 								}
 								service {
 									standard {
@@ -387881,6 +389544,7 @@ const PolicyInternetFirewallCreatePolicyRevisionDocument = `mutation policyInter
 									}
 								}
 								connectionOrigin
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -387892,6 +389556,7 @@ const PolicyInternetFirewallCreatePolicyRevisionDocument = `mutation policyInter
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -388129,6 +389794,10 @@ const MutationPolicyInternetFirewallDiscardPolicyRevisionDocument = `mutation mu
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -388299,6 +389968,10 @@ const MutationPolicyInternetFirewallDiscardPolicyRevisionDocument = `mutation mu
 											name
 										}
 									}
+									group {
+										id
+										name
+									}
 								}
 								service {
 									standard {
@@ -388315,6 +389988,7 @@ const MutationPolicyInternetFirewallDiscardPolicyRevisionDocument = `mutation mu
 									}
 								}
 								connectionOrigin
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -388326,6 +390000,7 @@ const MutationPolicyInternetFirewallDiscardPolicyRevisionDocument = `mutation mu
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -388558,6 +390233,10 @@ const PolicyInternetFirewallMoveRuleDocument = `mutation policyInternetFirewallM
 									name
 								}
 							}
+							group {
+								id
+								name
+							}
 						}
 						service {
 							standard {
@@ -388728,6 +390407,10 @@ const PolicyInternetFirewallMoveRuleDocument = `mutation policyInternetFirewallM
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -388744,6 +390427,7 @@ const PolicyInternetFirewallMoveRuleDocument = `mutation policyInternetFirewallM
 								}
 							}
 							connectionOrigin
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -388755,6 +390439,7 @@ const PolicyInternetFirewallMoveRuleDocument = `mutation policyInternetFirewallM
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -389009,6 +390694,10 @@ const PolicyInternetFirewallPublishPolicyRevisionDocument = `mutation policyInte
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -389179,6 +390868,10 @@ const PolicyInternetFirewallPublishPolicyRevisionDocument = `mutation policyInte
 											name
 										}
 									}
+									group {
+										id
+										name
+									}
 								}
 								service {
 									standard {
@@ -389195,6 +390888,7 @@ const PolicyInternetFirewallPublishPolicyRevisionDocument = `mutation policyInte
 									}
 								}
 								connectionOrigin
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -389206,6 +390900,7 @@ const PolicyInternetFirewallPublishPolicyRevisionDocument = `mutation policyInte
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -389438,6 +391133,10 @@ const PolicyInternetFirewallRemoveRuleDocument = `mutation policyInternetFirewal
 									name
 								}
 							}
+							group {
+								id
+								name
+							}
 						}
 						service {
 							standard {
@@ -389608,6 +391307,10 @@ const PolicyInternetFirewallRemoveRuleDocument = `mutation policyInternetFirewal
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -389624,6 +391327,7 @@ const PolicyInternetFirewallRemoveRuleDocument = `mutation policyInternetFirewal
 								}
 							}
 							connectionOrigin
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -389635,6 +391339,7 @@ const PolicyInternetFirewallRemoveRuleDocument = `mutation policyInternetFirewal
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -389889,6 +391594,10 @@ const PolicyInternetFirewallRemoveSubPolicyDocument = `mutation policyInternetFi
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -390059,6 +391768,10 @@ const PolicyInternetFirewallRemoveSubPolicyDocument = `mutation policyInternetFi
 											name
 										}
 									}
+									group {
+										id
+										name
+									}
 								}
 								service {
 									standard {
@@ -390075,6 +391788,7 @@ const PolicyInternetFirewallRemoveSubPolicyDocument = `mutation policyInternetFi
 									}
 								}
 								connectionOrigin
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -390086,6 +391800,7 @@ const PolicyInternetFirewallRemoveSubPolicyDocument = `mutation policyInternetFi
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -390381,6 +392096,10 @@ const PolicyInternetFirewallUpdatePolicyDocument = `mutation policyInternetFirew
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -390551,6 +392270,10 @@ const PolicyInternetFirewallUpdatePolicyDocument = `mutation policyInternetFirew
 											name
 										}
 									}
+									group {
+										id
+										name
+									}
 								}
 								service {
 									standard {
@@ -390567,6 +392290,7 @@ const PolicyInternetFirewallUpdatePolicyDocument = `mutation policyInternetFirew
 									}
 								}
 								connectionOrigin
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -390578,6 +392302,7 @@ const PolicyInternetFirewallUpdatePolicyDocument = `mutation policyInternetFirew
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -390810,6 +392535,10 @@ const PolicyInternetFirewallUpdateRuleDocument = `mutation policyInternetFirewal
 									name
 								}
 							}
+							group {
+								id
+								name
+							}
 						}
 						service {
 							standard {
@@ -390980,6 +392709,10 @@ const PolicyInternetFirewallUpdateRuleDocument = `mutation policyInternetFirewal
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -390996,6 +392729,7 @@ const PolicyInternetFirewallUpdateRuleDocument = `mutation policyInternetFirewal
 								}
 							}
 							connectionOriginInternetFirewallRuleException: connectionOrigin
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -391007,6 +392741,7 @@ const PolicyInternetFirewallUpdateRuleDocument = `mutation policyInternetFirewal
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -408504,6 +410239,7 @@ const PolicyWanFirewallAddRuleDocument = `mutation policyWanFirewallAddRule ($wa
 							}
 							connectionOrigin
 							direction
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -408511,6 +410247,7 @@ const PolicyWanFirewallAddRuleDocument = `mutation policyWanFirewallAddRule ($wa
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -409019,6 +410756,7 @@ const PolicyWanFirewallAddSubPolicyDocument = `mutation policyWanFirewallAddSubP
 								}
 								connectionOrigin
 								direction
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -409026,6 +410764,7 @@ const PolicyWanFirewallAddSubPolicyDocument = `mutation policyWanFirewallAddSubP
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -409517,6 +411256,7 @@ const PolicyWanFirewallCreatePolicyRevisionDocument = `mutation policyWanFirewal
 								}
 								connectionOrigin
 								direction
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -409524,6 +411264,7 @@ const PolicyWanFirewallCreatePolicyRevisionDocument = `mutation policyWanFirewal
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -410015,6 +411756,7 @@ const PolicyWanFirewallDiscardPolicyRevisionDocument = `mutation policyWanFirewa
 								}
 								connectionOrigin
 								direction
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -410022,6 +411764,7 @@ const PolicyWanFirewallDiscardPolicyRevisionDocument = `mutation policyWanFirewa
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -410508,6 +412251,7 @@ const PolicyWanFirewallMoveRuleDocument = `mutation policyWanFirewallMoveRule ($
 							}
 							connectionOrigin
 							direction
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -410515,6 +412259,7 @@ const PolicyWanFirewallMoveRuleDocument = `mutation policyWanFirewallMoveRule ($
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -411023,6 +412768,7 @@ const PolicyWanFirewallPublishPolicyRevisionDocument = `mutation policyWanFirewa
 								}
 								connectionOrigin
 								direction
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -411030,6 +412776,7 @@ const PolicyWanFirewallPublishPolicyRevisionDocument = `mutation policyWanFirewa
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -411516,6 +413263,7 @@ const PolicyWanFirewallRemoveRuleDocument = `mutation policyWanFirewallRemoveRul
 							}
 							connectionOrigin
 							direction
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -411523,6 +413271,7 @@ const PolicyWanFirewallRemoveRuleDocument = `mutation policyWanFirewallRemoveRul
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -412031,6 +413780,7 @@ const PolicyWanFirewallRemoveSubPolicyDocument = `mutation policyWanFirewallRemo
 								}
 								connectionOrigin
 								direction
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -412038,6 +413788,7 @@ const PolicyWanFirewallRemoveSubPolicyDocument = `mutation policyWanFirewallRemo
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -412589,6 +414340,7 @@ const PolicyWanFirewallUpdatePolicyDocument = `mutation policyWanFirewallUpdateP
 								}
 								connectionOrigin
 								direction
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -412596,6 +414348,7 @@ const PolicyWanFirewallUpdatePolicyDocument = `mutation policyWanFirewallUpdateP
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType
@@ -413082,6 +414835,7 @@ const PolicyWanFirewallUpdateRuleDocument = `mutation policyWanFirewallUpdateRul
 							}
 							connectionOriginWanFirewallRuleException: connectionOrigin
 							directionWanFirewallRuleException: direction
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -413089,6 +414843,7 @@ const PolicyWanFirewallUpdateRuleDocument = `mutation policyWanFirewallUpdateRul
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -428067,6 +429822,44 @@ func (c *Client) ZtnaAppConnectorUpgradeZtnaAppConnector(ctx context.Context, ac
 	return &res, nil
 }
 
+const QueryAccessDocument = `query queryAccess ($accessRemoteAccessEntityListInput: AccessRemoteAccessEntityListInput!, $accountId: ID!) {
+	access(accountId: $accountId) {
+		remoteAccessEligibility {
+			eligibleUsersCount
+			allocationType
+			entityList(input: $accessRemoteAccessEntityListInput) {
+				items {
+					type
+					id
+					name
+				}
+				paging {
+					total
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) QueryAccess(ctx context.Context, accessRemoteAccessEntityListInput cato_models.AccessRemoteAccessEntityListInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*QueryAccess, error) {
+	vars := map[string]any{
+		"accessRemoteAccessEntityListInput": accessRemoteAccessEntityListInput,
+		"accountId":                         accountID,
+	}
+
+	var res QueryAccess
+	if err := c.Client.Post(ctx, "queryAccess", QueryAccessDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const AccountBySubdomainDocument = `query accountBySubdomain ($accountID: ID!, $subdomains: [String!]!) {
 	accountBySubdomain(accountID: $accountID, subdomains: $subdomains) {
 		id
@@ -435493,6 +437286,10 @@ const PolicyDynamicIPAllocationPolicyDocument = `query policyDynamicIpAllocation
 							}
 						}
 						platform
+						devicePostureProfile {
+							id
+							name
+						}
 						country {
 							id
 							name
@@ -436533,6 +438330,10 @@ const InternetFirewallPolicyDocument = `query internetFirewallPolicy ($accountId
 									name
 								}
 							}
+							group {
+								id
+								name
+							}
 						}
 						service {
 							standard {
@@ -436703,6 +438504,10 @@ const InternetFirewallPolicyDocument = `query internetFirewallPolicy ($accountId
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -436719,6 +438524,7 @@ const InternetFirewallPolicyDocument = `query internetFirewallPolicy ($accountId
 								}
 							}
 							connectionOrigin
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -436730,6 +438536,7 @@ const InternetFirewallPolicyDocument = `query internetFirewallPolicy ($accountId
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -439003,6 +440810,7 @@ const WanFirewallPolicyDocument = `query wanFirewallPolicy ($accountId: ID!, $wa
 							}
 							connectionOrigin
 							direction
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -439010,6 +440818,7 @@ const WanFirewallPolicyDocument = `query wanFirewallPolicy ($accountId: ID!, $wa
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType
@@ -443130,6 +444939,103 @@ func (c *Client) UserUserList(ctx context.Context, accountID string, userListInp
 	return &res, nil
 }
 
+const UserUsersGroupMembersDocument = `query userUsersGroupMembers ($accountId: ID!, $usersGroupInput: UsersGroupInput!, $usersGroupMembersInput: UsersGroupMembersInput!) {
+	user(accountId: $accountId) {
+		usersGroup(input: $usersGroupInput) {
+			members(input: $usersGroupMembersInput) {
+				items {
+					id
+					userId
+					objectId
+					onPremSid
+					firstName
+					lastName
+					userPrincipalName
+					displayName
+					phone
+					email
+					department
+					jobTitle
+					userStatus
+					creationDate
+					lastModified
+					userImportType
+					directoryId
+					hasRemoteAccessEligibility
+					authInfo {
+						authMethod
+						authStatus
+					}
+					riskScore
+				}
+				paging {
+					total
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) UserUsersGroupMembers(ctx context.Context, accountID string, usersGroupInput cato_models.UsersGroupInput, usersGroupMembersInput cato_models.UsersGroupMembersInput, interceptors ...clientv2.RequestInterceptor) (*UserUsersGroupMembers, error) {
+	vars := map[string]any{
+		"accountId":              accountID,
+		"usersGroupInput":        usersGroupInput,
+		"usersGroupMembersInput": usersGroupMembersInput,
+	}
+
+	var res UserUsersGroupMembers
+	if err := c.Client.Post(ctx, "userUsersGroupMembers", UserUsersGroupMembersDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const UserUsersGroupListDocument = `query userUsersGroupList ($accountId: ID!, $usersGroupListInput: UsersGroupListInput!) {
+	user(accountId: $accountId) {
+		usersGroupList(input: $usersGroupListInput) {
+			items {
+				id
+				name
+				description
+				importType
+				directoryId
+				objectId
+				creationDate
+				lastModified
+				membersCount
+			}
+			paging {
+				total
+			}
+		}
+	}
+}
+`
+
+func (c *Client) UserUsersGroupList(ctx context.Context, accountID string, usersGroupListInput cato_models.UsersGroupListInput, interceptors ...clientv2.RequestInterceptor) (*UserUsersGroupList, error) {
+	vars := map[string]any{
+		"accountId":           accountID,
+		"usersGroupListInput": usersGroupListInput,
+	}
+
+	var res UserUsersGroupList
+	if err := c.Client.Post(ctx, "userUsersGroupList", UserUsersGroupListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const XdrDocument = `query xdr ($storyInput: StoryInput!, $accountID: ID!) {
 	xdr(accountID: $accountID) {
 		stories(input: $storyInput) {
@@ -445508,6 +447414,7 @@ func (c *Client) ZtnaAppConnectorZtnaAppConnectorList(ctx context.Context, accou
 }
 
 var DocumentOperationNames = map[string]string{
+	AccessDocument:                                               "access",
 	AccountManagementDisableAccountDocument:                      "accountManagementDisableAccount",
 	AdminAddAdminDocument:                                        "adminAddAdmin",
 	AdminAddServicePrincipalAdminDocument:                        "adminAddServicePrincipalAdmin",
@@ -446009,6 +447916,7 @@ var DocumentOperationNames = map[string]string{
 	ZtnaAppConnectorUpdateZtnaAppConnectorBwLicenseDocument:      "ztnaAppConnectorUpdateZtnaAppConnectorBwLicense",
 	ZtnaAppConnectorUpdateZtnaAppConnectorsConfigurationDocument: "ztnaAppConnectorUpdateZtnaAppConnectorsConfiguration",
 	ZtnaAppConnectorUpgradeZtnaAppConnectorDocument:              "ztnaAppConnectorUpgradeZtnaAppConnector",
+	QueryAccessDocument:                                          "queryAccess",
 	AccountBySubdomainDocument:                                   "accountBySubdomain",
 	AccountManagementAddAccountDocument:                          "accountManagementAddAccount",
 	AccountManagementDocument:                                    "accountManagement",
@@ -446179,6 +448087,8 @@ var DocumentOperationNames = map[string]string{
 	UserDynamicUserGroupsConfigurationDocument:        "userDynamicUserGroupsConfiguration",
 	UserDocument:                                      "user",
 	UserUserListDocument:                              "userUserList",
+	UserUsersGroupMembersDocument:                     "userUsersGroupMembers",
+	UserUsersGroupListDocument:                        "userUsersGroupList",
 	XdrDocument:                                       "xdr",
 	XdrStoryQueryDocument:                             "xdrStoryQuery",
 	AppConnectorReadConnectorDocument:                 "appConnectorReadConnector",

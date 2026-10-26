@@ -1,0 +1,9 @@
+mutation access ($accessRemoteAccessSetEligibilityListInput: AccessRemoteAccessSetEligibilityListInput!, $accountId: ID!) {
+	access(accountId: $accountId) {
+		remoteAccessEligibility {
+			setEligibilityList(input: $accessRemoteAccessSetEligibilityListInput) {
+				status
+			}
+		}
+	}
+}

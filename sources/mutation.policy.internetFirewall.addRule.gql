@@ -138,6 +138,10 @@ mutation policyInternetFirewallAddRule ($internetFirewallAddRuleInput: InternetF
 									name
 								}
 							}
+							group {
+								id
+								name
+							}
 						}
 						service {
 							standard {
@@ -308,6 +312,10 @@ mutation policyInternetFirewallAddRule ($internetFirewallAddRuleInput: InternetF
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -324,6 +332,7 @@ mutation policyInternetFirewallAddRule ($internetFirewallAddRuleInput: InternetF
 								}
 							}
 							connectionOrigin
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -335,6 +344,7 @@ mutation policyInternetFirewallAddRule ($internetFirewallAddRuleInput: InternetF
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType

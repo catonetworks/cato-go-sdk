@@ -442,6 +442,10 @@ func (AISecurityUsersLicense) IsQuantifiableLicense() {}
 
 func (this AISecurityUsersLicense) GetTotal() int64 { return this.Total }
 
+type AccessMutations struct {
+	RemoteAccessEligibility *AccessRemoteAccessEligibilityMutations `json:"remoteAccessEligibility"`
+}
+
 type AccessPrivateApplicationMutations struct {
 	CreatePrivateApplication *CreatePrivateApplicationPayload `json:"createPrivateApplication,omitempty"`
 	DeletePrivateApplication *DeletePrivateApplicationPayload `json:"deletePrivateApplication,omitempty"`
@@ -451,6 +455,64 @@ type AccessPrivateApplicationMutations struct {
 type AccessPrivateApplicationQueries struct {
 	PrivateApplication     *PrivateApplication            `json:"privateApplication,omitempty"`
 	PrivateApplicationList *PrivateApplicationListPayload `json:"privateApplicationList,omitempty"`
+}
+
+type AccessQueries struct {
+	RemoteAccessEligibility *AccessRemoteAccessEligibility `json:"remoteAccessEligibility,omitempty"`
+}
+
+// Remote access eligibility for an account.
+type AccessRemoteAccessEligibility struct {
+	AllocationType     AccessRemoteAccessAllocationType     `json:"allocationType"`
+	EligibleUsersCount scalars.Long                         `json:"eligibleUsersCount"`
+	EntityList         *AccessRemoteAccessEntityListPayload `json:"entityList"`
+}
+
+// Remote access eligibility mutations.
+type AccessRemoteAccessEligibilityMutations struct {
+	SetEligibilityList *AccessRemoteAccessSetEligibilityListPayload `json:"setEligibilityList,omitempty"`
+}
+
+// A user or user group selected for remote access eligibility.
+type AccessRemoteAccessEntity struct {
+	ID   string                       `json:"id"`
+	Name string                       `json:"name"`
+	Type AccessRemoteAccessEntityType `json:"type"`
+}
+
+// Input for querying users and user groups selected for remote access eligibility.
+type AccessRemoteAccessEntityListInput struct {
+	Paging *PagingInput                       `json:"paging,omitempty"`
+	Sort   *AccessRemoteAccessEntitySortInput `json:"sort"`
+}
+
+// Response payload for users and user groups selected for remote access eligibility.
+type AccessRemoteAccessEntityListPayload struct {
+	Items  []*AccessRemoteAccessEntity `json:"items"`
+	Paging *PageInfo                   `json:"paging"`
+}
+
+// A user or user group reference selected for remote access eligibility. Exactly one field must be provided.
+type AccessRemoteAccessEntityRefInput struct {
+	User      *UserRefInput       `json:"user,omitempty"`
+	UserGroup *UsersGroupRefInput `json:"userGroup,omitempty"`
+}
+
+// Input for sorting users and user groups selected for remote access eligibility.
+type AccessRemoteAccessEntitySortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+	Type *SortOrderInput `json:"type,omitempty"`
+}
+
+// Input for setting remote access eligibility.
+type AccessRemoteAccessSetEligibilityListInput struct {
+	AllocationType AccessRemoteAccessAllocationType    `json:"allocationType"`
+	Items          []*AccessRemoteAccessEntityRefInput `json:"items,omitempty"`
+}
+
+// Response payload for setEligibilityList mutation.
+type AccessRemoteAccessSetEligibilityListPayload struct {
+	Status MutationStatus `json:"status"`
 }
 
 // Sort settings for managed account access requests.
@@ -5637,13 +5699,14 @@ type DownloadIPAddressRangeContainerFilePayload struct {
 }
 
 type DynamicIPAllocationAddRuleDataInput struct {
-	Country     []*CountryRefInput              `json:"country"`
-	Description string                          `json:"description"`
-	Enabled     bool                            `json:"enabled"`
-	Name        string                          `json:"name"`
-	Platform    []OperatingSystem               `json:"platform"`
-	Range       *DynamicIPAllocationRangeInput  `json:"range"`
-	Source      *DynamicIPAllocationSourceInput `json:"source"`
+	Country              []*CountryRefInput              `json:"country"`
+	Description          string                          `json:"description"`
+	DevicePostureProfile []*DeviceProfileRefInput        `json:"devicePostureProfile"`
+	Enabled              bool                            `json:"enabled"`
+	Name                 string                          `json:"name"`
+	Platform             []OperatingSystem               `json:"platform"`
+	Range                *DynamicIPAllocationRangeInput  `json:"range"`
+	Source               *DynamicIPAllocationSourceInput `json:"source"`
 }
 
 type DynamicIPAllocationAddRuleInput struct {
@@ -5755,16 +5818,17 @@ type DynamicIPAllocationRemoveRuleInput struct {
 }
 
 type DynamicIPAllocationRule struct {
-	Country     []*CountryRef              `json:"country"`
-	Description string                     `json:"description"`
-	Enabled     bool                       `json:"enabled"`
-	ID          string                     `json:"id"`
-	Index       int64                      `json:"index"`
-	Name        string                     `json:"name"`
-	Platform    []OperatingSystem          `json:"platform"`
-	Range       *DynamicIPAllocationRange  `json:"range"`
-	Section     *PolicySectionInfo         `json:"section"`
-	Source      *DynamicIPAllocationSource `json:"source"`
+	Country              []*CountryRef              `json:"country"`
+	Description          string                     `json:"description"`
+	DevicePostureProfile []*DeviceProfileRef        `json:"devicePostureProfile"`
+	Enabled              bool                       `json:"enabled"`
+	ID                   string                     `json:"id"`
+	Index                int64                      `json:"index"`
+	Name                 string                     `json:"name"`
+	Platform             []OperatingSystem          `json:"platform"`
+	Range                *DynamicIPAllocationRange  `json:"range"`
+	Section              *PolicySectionInfo         `json:"section"`
+	Source               *DynamicIPAllocationSource `json:"source"`
 }
 
 func (DynamicIPAllocationRule) IsIPolicyRule()                      {}
@@ -5835,13 +5899,14 @@ type DynamicIPAllocationSourceUpdateInput struct {
 }
 
 type DynamicIPAllocationUpdateRuleDataInput struct {
-	Country     []*CountryRefInput                    `json:"country,omitempty"`
-	Description *string                               `json:"description,omitempty"`
-	Enabled     *bool                                 `json:"enabled,omitempty"`
-	Name        *string                               `json:"name,omitempty"`
-	Platform    []OperatingSystem                     `json:"platform,omitempty"`
-	Range       *DynamicIPAllocationRangeUpdateInput  `json:"range,omitempty"`
-	Source      *DynamicIPAllocationSourceUpdateInput `json:"source,omitempty"`
+	Country              []*CountryRefInput                    `json:"country,omitempty"`
+	Description          *string                               `json:"description,omitempty"`
+	DevicePostureProfile []*DeviceProfileRefInput              `json:"devicePostureProfile,omitempty"`
+	Enabled              *bool                                 `json:"enabled,omitempty"`
+	Name                 *string                               `json:"name,omitempty"`
+	Platform             []OperatingSystem                     `json:"platform,omitempty"`
+	Range                *DynamicIPAllocationRangeUpdateInput  `json:"range,omitempty"`
+	Source               *DynamicIPAllocationSourceUpdateInput `json:"source,omitempty"`
 }
 
 type DynamicIPAllocationUpdateRuleInput struct {
@@ -7197,23 +7262,24 @@ type InternetFirewallActionConfigUpdateInput struct {
 }
 
 type InternetFirewallAddRuleDataInput struct {
-	Action           InternetFirewallActionEnum            `json:"action"`
-	ActionConfig     *InternetFirewallActionConfigInput    `json:"actionConfig"`
-	ActivePeriod     *PolicyRuleActivePeriodInput          `json:"activePeriod"`
-	ConnectionOrigin ConnectionOriginEnum                  `json:"connectionOrigin"`
-	Country          []*CountryRefInput                    `json:"country"`
-	Description      string                                `json:"description"`
-	Destination      *InternetFirewallDestinationInput     `json:"destination"`
-	Device           []*DeviceProfileRefInput              `json:"device"`
-	DeviceAttributes *DeviceAttributesInput                `json:"deviceAttributes"`
-	DeviceOs         []OperatingSystem                     `json:"deviceOS"`
-	Enabled          bool                                  `json:"enabled"`
-	Exceptions       []*InternetFirewallRuleExceptionInput `json:"exceptions"`
-	Name             string                                `json:"name"`
-	Schedule         *PolicyScheduleInput                  `json:"schedule"`
-	Service          *InternetFirewallServiceTypeInput     `json:"service"`
-	Source           *InternetFirewallSourceInput          `json:"source"`
-	Tracking         *PolicyTrackingInput                  `json:"tracking"`
+	Action                InternetFirewallActionEnum            `json:"action"`
+	ActionConfig          *InternetFirewallActionConfigInput    `json:"actionConfig"`
+	ActivePeriod          *PolicyRuleActivePeriodInput          `json:"activePeriod"`
+	ConnectionOrigin      ConnectionOriginEnum                  `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum               `json:"connectionsOriginList"`
+	Country               []*CountryRefInput                    `json:"country"`
+	Description           string                                `json:"description"`
+	Destination           *InternetFirewallDestinationInput     `json:"destination"`
+	Device                []*DeviceProfileRefInput              `json:"device"`
+	DeviceAttributes      *DeviceAttributesInput                `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem                     `json:"deviceOS"`
+	Enabled               bool                                  `json:"enabled"`
+	Exceptions            []*InternetFirewallRuleExceptionInput `json:"exceptions"`
+	Name                  string                                `json:"name"`
+	Schedule              *PolicyScheduleInput                  `json:"schedule"`
+	Service               *InternetFirewallServiceTypeInput     `json:"service"`
+	Source                *InternetFirewallSourceInput          `json:"source"`
+	Tracking              *PolicyTrackingInput                  `json:"tracking"`
 }
 
 // Rule parameters and relevant position
@@ -7255,16 +7321,19 @@ func (this InternetFirewallAddSubPolicyMutationPayload) GetStatus() PolicyMutati
 	return this.Status
 }
 
+// Containers to match on an Internet Firewall rule.
 type InternetFirewallContainer struct {
 	FqdnContainer           []*FqdnContainerRef           `json:"fqdnContainer"`
 	IPAddressRangeContainer []*IPAddressRangeContainerRef `json:"ipAddressRangeContainer"`
 }
 
+// Containers to match on an Internet Firewall rule.
 type InternetFirewallContainerInput struct {
 	FqdnContainer           []*FqdnContainerRefInput           `json:"fqdnContainer"`
 	IPAddressRangeContainer []*IPAddressRangeContainerRefInput `json:"ipAddressRangeContainer"`
 }
 
+// Containers to match on an Internet Firewall rule.
 type InternetFirewallContainerUpdateInput struct {
 	FqdnContainer           []*FqdnContainerRefInput           `json:"fqdnContainer,omitempty"`
 	IPAddressRangeContainer []*IPAddressRangeContainerRefInput `json:"ipAddressRangeContainer,omitempty"`
@@ -7281,6 +7350,7 @@ type InternetFirewallDestination struct {
 	Domain                 []string                     `json:"domain"`
 	Fqdn                   []string                     `json:"fqdn"`
 	GlobalIPRange          []*GlobalIPRangeRef          `json:"globalIpRange"`
+	Group                  []*GroupRef                  `json:"group"`
 	IP                     []string                     `json:"ip"`
 	IPRange                []*IPAddressRange            `json:"ipRange"`
 	RemoteAsn              []scalars.Asn32              `json:"remoteAsn"`
@@ -7299,6 +7369,7 @@ type InternetFirewallDestinationInput struct {
 	Domain                 []string                          `json:"domain"`
 	Fqdn                   []string                          `json:"fqdn"`
 	GlobalIPRange          []*GlobalIPRangeRefInput          `json:"globalIpRange"`
+	Group                  []*GroupRefInput                  `json:"group"`
 	IP                     []string                          `json:"ip"`
 	IPRange                []*IPAddressRangeInput            `json:"ipRange"`
 	RemoteAsn              []scalars.Asn32                   `json:"remoteAsn"`
@@ -7317,6 +7388,7 @@ type InternetFirewallDestinationUpdateInput struct {
 	Domain                 []string                              `json:"domain,omitempty"`
 	Fqdn                   []string                              `json:"fqdn,omitempty"`
 	GlobalIPRange          []*GlobalIPRangeRefInput              `json:"globalIpRange,omitempty"`
+	Group                  []*GroupRefInput                      `json:"group,omitempty"`
 	IP                     []string                              `json:"ip,omitempty"`
 	IPRange                []*IPAddressRangeInput                `json:"ipRange,omitempty"`
 	RemoteAsn              []scalars.Asn32                       `json:"remoteAsn,omitempty"`
@@ -7324,6 +7396,7 @@ type InternetFirewallDestinationUpdateInput struct {
 	Subnet                 []string                              `json:"subnet,omitempty"`
 }
 
+// Internet Firewall policy information for a specific revision
 type InternetFirewallPolicy struct {
 	Access      *EntityAccess                       `json:"access"`
 	Audit       *PolicyAudit                        `json:"audit,omitempty"`
@@ -7457,8 +7530,8 @@ type InternetFirewallPolicyMutations struct {
 	PublishPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"publishPolicyRevision"`
 	RemoveRule            *InternetFirewallRuleMutationPayload            `json:"removeRule"`
 	RemoveSection         *PolicySectionMutationPayload                   `json:"removeSection"`
-	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
 	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
+	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
 	UpdatePolicy          *InternetFirewallPolicyMutationPayload          `json:"updatePolicy"`
 	UpdateRule            *InternetFirewallRuleMutationPayload            `json:"updateRule"`
 	UpdateSection         *PolicySectionMutationPayload                   `json:"updateSection"`
@@ -7521,26 +7594,27 @@ func (this InternetFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMut
 }
 
 type InternetFirewallRule struct {
-	Action           InternetFirewallActionEnum       `json:"action"`
-	ActionConfig     *InternetFirewallActionConfig    `json:"actionConfig"`
-	ActivePeriod     *PolicyRuleActivePeriod          `json:"activePeriod"`
-	ConnectionOrigin ConnectionOriginEnum             `json:"connectionOrigin"`
-	Country          []*CountryRef                    `json:"country"`
-	Description      string                           `json:"description"`
-	Destination      *InternetFirewallDestination     `json:"destination"`
-	Device           []*DeviceProfileRef              `json:"device"`
-	DeviceAttributes *DeviceAttributes                `json:"deviceAttributes"`
-	DeviceOs         []OperatingSystem                `json:"deviceOS"`
-	Enabled          bool                             `json:"enabled"`
-	Exceptions       []*InternetFirewallRuleException `json:"exceptions"`
-	ID               string                           `json:"id"`
-	Index            int64                            `json:"index"`
-	Name             string                           `json:"name"`
-	Schedule         *PolicySchedule                  `json:"schedule"`
-	Section          *PolicySectionInfo               `json:"section"`
-	Service          *InternetFirewallServiceType     `json:"service"`
-	Source           *InternetFirewallSource          `json:"source"`
-	Tracking         *PolicyTracking                  `json:"tracking"`
+	Action                InternetFirewallActionEnum       `json:"action"`
+	ActionConfig          *InternetFirewallActionConfig    `json:"actionConfig"`
+	ActivePeriod          *PolicyRuleActivePeriod          `json:"activePeriod"`
+	ConnectionOrigin      ConnectionOriginEnum             `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum          `json:"connectionsOriginList"`
+	Country               []*CountryRef                    `json:"country"`
+	Description           string                           `json:"description"`
+	Destination           *InternetFirewallDestination     `json:"destination"`
+	Device                []*DeviceProfileRef              `json:"device"`
+	DeviceAttributes      *DeviceAttributes                `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem                `json:"deviceOS"`
+	Enabled               bool                             `json:"enabled"`
+	Exceptions            []*InternetFirewallRuleException `json:"exceptions"`
+	ID                    string                           `json:"id"`
+	Index                 int64                            `json:"index"`
+	Name                  string                           `json:"name"`
+	Schedule              *PolicySchedule                  `json:"schedule"`
+	Section               *PolicySectionInfo               `json:"section"`
+	Service               *InternetFirewallServiceType     `json:"service"`
+	Source                *InternetFirewallSource          `json:"source"`
+	Tracking              *PolicyTracking                  `json:"tracking"`
 }
 
 func (InternetFirewallRule) IsIPolicyRule()                      {}
@@ -7553,28 +7627,30 @@ func (this InternetFirewallRule) GetSection() *PolicySectionInfo { return this.S
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type InternetFirewallRuleException struct {
-	ConnectionOrigin ConnectionOriginEnum         `json:"connectionOrigin"`
-	Country          []*CountryRef                `json:"country"`
-	Destination      *InternetFirewallDestination `json:"destination"`
-	Device           []*DeviceProfileRef          `json:"device"`
-	DeviceAttributes *DeviceAttributes            `json:"deviceAttributes"`
-	DeviceOs         []OperatingSystem            `json:"deviceOS"`
-	Name             string                       `json:"name"`
-	Service          *InternetFirewallServiceType `json:"service"`
-	Source           *InternetFirewallSource      `json:"source"`
+	ConnectionOrigin      ConnectionOriginEnum         `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum      `json:"connectionsOriginList"`
+	Country               []*CountryRef                `json:"country"`
+	Destination           *InternetFirewallDestination `json:"destination"`
+	Device                []*DeviceProfileRef          `json:"device"`
+	DeviceAttributes      *DeviceAttributes            `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem            `json:"deviceOS"`
+	Name                  string                       `json:"name"`
+	Service               *InternetFirewallServiceType `json:"service"`
+	Source                *InternetFirewallSource      `json:"source"`
 }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type InternetFirewallRuleExceptionInput struct {
-	ConnectionOrigin ConnectionOriginEnum              `json:"connectionOrigin"`
-	Country          []*CountryRefInput                `json:"country"`
-	Destination      *InternetFirewallDestinationInput `json:"destination"`
-	Device           []*DeviceProfileRefInput          `json:"device"`
-	DeviceAttributes *DeviceAttributesInput            `json:"deviceAttributes"`
-	DeviceOs         []OperatingSystem                 `json:"deviceOS"`
-	Name             string                            `json:"name"`
-	Service          *InternetFirewallServiceTypeInput `json:"service"`
-	Source           *InternetFirewallSourceInput      `json:"source"`
+	ConnectionOrigin      ConnectionOriginEnum              `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum           `json:"connectionsOriginList"`
+	Country               []*CountryRefInput                `json:"country"`
+	Destination           *InternetFirewallDestinationInput `json:"destination"`
+	Device                []*DeviceProfileRefInput          `json:"device"`
+	DeviceAttributes      *DeviceAttributesInput            `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem                 `json:"deviceOS"`
+	Name                  string                            `json:"name"`
+	Service               *InternetFirewallServiceTypeInput `json:"service"`
+	Source                *InternetFirewallSourceInput      `json:"source"`
 }
 
 type InternetFirewallRuleMutationPayload struct {
@@ -7712,23 +7788,24 @@ func (this InternetFirewallSubPolicyPayload) GetProperties() []SubPolicyProperty
 }
 
 type InternetFirewallUpdateRuleDataInput struct {
-	Action           *InternetFirewallActionEnum              `json:"action,omitempty"`
-	ActionConfig     *InternetFirewallActionConfigUpdateInput `json:"actionConfig,omitempty"`
-	ActivePeriod     *PolicyRuleActivePeriodUpdateInput       `json:"activePeriod,omitempty"`
-	ConnectionOrigin *ConnectionOriginEnum                    `json:"connectionOrigin,omitempty"`
-	Country          []*CountryRefInput                       `json:"country,omitempty"`
-	Description      *string                                  `json:"description,omitempty"`
-	Destination      *InternetFirewallDestinationUpdateInput  `json:"destination,omitempty"`
-	Device           []*DeviceProfileRefInput                 `json:"device,omitempty"`
-	DeviceAttributes *DeviceAttributesUpdateInput             `json:"deviceAttributes,omitempty"`
-	DeviceOs         []OperatingSystem                        `json:"deviceOS,omitempty"`
-	Enabled          *bool                                    `json:"enabled,omitempty"`
-	Exceptions       []*InternetFirewallRuleExceptionInput    `json:"exceptions,omitempty"`
-	Name             *string                                  `json:"name,omitempty"`
-	Schedule         *PolicyScheduleUpdateInput               `json:"schedule,omitempty"`
-	Service          *InternetFirewallServiceTypeUpdateInput  `json:"service,omitempty"`
-	Source           *InternetFirewallSourceUpdateInput       `json:"source,omitempty"`
-	Tracking         *PolicyTrackingUpdateInput               `json:"tracking,omitempty"`
+	Action                *InternetFirewallActionEnum              `json:"action,omitempty"`
+	ActionConfig          *InternetFirewallActionConfigUpdateInput `json:"actionConfig,omitempty"`
+	ActivePeriod          *PolicyRuleActivePeriodUpdateInput       `json:"activePeriod,omitempty"`
+	ConnectionOrigin      *ConnectionOriginEnum                    `json:"connectionOrigin,omitempty"`
+	ConnectionsOriginList []ConnectionOriginsEnum                  `json:"connectionsOriginList,omitempty"`
+	Country               []*CountryRefInput                       `json:"country,omitempty"`
+	Description           *string                                  `json:"description,omitempty"`
+	Destination           *InternetFirewallDestinationUpdateInput  `json:"destination,omitempty"`
+	Device                []*DeviceProfileRefInput                 `json:"device,omitempty"`
+	DeviceAttributes      *DeviceAttributesUpdateInput             `json:"deviceAttributes,omitempty"`
+	DeviceOs              []OperatingSystem                        `json:"deviceOS,omitempty"`
+	Enabled               *bool                                    `json:"enabled,omitempty"`
+	Exceptions            []*InternetFirewallRuleExceptionInput    `json:"exceptions,omitempty"`
+	Name                  *string                                  `json:"name,omitempty"`
+	Schedule              *PolicyScheduleUpdateInput               `json:"schedule,omitempty"`
+	Service               *InternetFirewallServiceTypeUpdateInput  `json:"service,omitempty"`
+	Source                *InternetFirewallSourceUpdateInput       `json:"source,omitempty"`
+	Tracking              *PolicyTrackingUpdateInput               `json:"tracking,omitempty"`
 }
 
 type InternetFirewallUpdateRuleInput struct {
@@ -12193,6 +12270,7 @@ type RemotePortFwdAddRuleInput struct {
 	Rule *RemotePortFwdAddRuleDataInput `json:"rule"`
 }
 
+// Remote Port Forwarding policy information for a specific revision
 type RemotePortFwdPolicy struct {
 	Audit    *PolicyAudit                `json:"audit,omitempty"`
 	Enabled  bool                        `json:"enabled"`
@@ -12280,6 +12358,8 @@ type RemotePortFwdPolicyUpdateInput struct {
 	State *PolicyToggleState `json:"state,omitempty"`
 }
 
+// The source addresses for a Remote Port Forwarding rule.
+// The rule's restriction type decides whether these sources are allowed or blocked.
 type RemotePortFwdRemoteIps struct {
 	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
 	IP            []string            `json:"ip"`
@@ -12287,6 +12367,8 @@ type RemotePortFwdRemoteIps struct {
 	Subnet        []string            `json:"subnet"`
 }
 
+// The source addresses for a Remote Port Forwarding rule.
+// The rule's restriction type decides whether these sources are allowed or blocked.
 type RemotePortFwdRemoteIpsInput struct {
 	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
 	IP            []string                 `json:"ip"`
@@ -12294,6 +12376,8 @@ type RemotePortFwdRemoteIpsInput struct {
 	Subnet        []string                 `json:"subnet"`
 }
 
+// The source addresses for a Remote Port Forwarding rule.
+// The rule's restriction type decides whether these sources are allowed or blocked.
 type RemotePortFwdRemoteIpsUpdateInput struct {
 	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
 	IP            []string                 `json:"ip,omitempty"`
@@ -17587,6 +17671,8 @@ type UserNotificationTemplateRefInput struct {
 type UserQueries struct {
 	DynamicUserGroupsConfiguration *DynamicUserGroupsConfigurationPayload `json:"dynamicUserGroupsConfiguration,omitempty"`
 	UserList                       *UserListPayload                       `json:"userList,omitempty"`
+	UsersGroup                     *UsersGroupDetailsWithMembers          `json:"usersGroup,omitempty"`
+	UsersGroupList                 *UsersGroupListPayload                 `json:"usersGroupList,omitempty"`
 }
 
 // A reference identifying the User object. ID: Unique User Identifier, Name: The User Name
@@ -17658,6 +17744,85 @@ type UserStatusFilterInput struct {
 	Nin []UserStatus `json:"nin,omitempty"`
 }
 
+// User-group details returned by list queries.
+type UsersGroupDetails struct {
+	CreationDate *string              `json:"creationDate,omitempty"`
+	Description  *string              `json:"description,omitempty"`
+	DirectoryID  *string              `json:"directoryId,omitempty"`
+	ID           string               `json:"id"`
+	ImportType   UsersGroupImportType `json:"importType"`
+	LastModified *string              `json:"lastModified,omitempty"`
+	MembersCount int64                `json:"membersCount"`
+	Name         string               `json:"name"`
+	ObjectID     *string              `json:"objectId,omitempty"`
+}
+
+// User group details with members.
+type UsersGroupDetailsWithMembers struct {
+	Members   *UsersGroupMembersPayload `json:"members"`
+	UserGroup *UsersGroupDetails        `json:"userGroup"`
+}
+
+// Input for filtering user groups.
+type UsersGroupFilterInput struct {
+	DirectoryID []*StringFilterInput               `json:"directoryId,omitempty"`
+	ID          []*IDFilterInput                   `json:"id,omitempty"`
+	ImportType  []*UsersGroupImportTypeFilterInput `json:"importType,omitempty"`
+	MemberIds   []string                           `json:"memberIds,omitempty"`
+	SearchTerm  *FreeTextFilterInput               `json:"searchTerm,omitempty"`
+}
+
+// Input for filtering user groups by import type.
+type UsersGroupImportTypeFilterInput struct {
+	Eq  *UsersGroupImportType  `json:"eq,omitempty"`
+	In  []UsersGroupImportType `json:"in,omitempty"`
+	Neq *UsersGroupImportType  `json:"neq,omitempty"`
+	Nin []UsersGroupImportType `json:"nin,omitempty"`
+}
+
+// Input for retrieving a user group.
+type UsersGroupInput struct {
+	Group *UsersGroupRefInput `json:"group"`
+}
+
+// Input for filtering, sorting, and paging user groups.
+type UsersGroupListInput struct {
+	Filter *UsersGroupFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput           `json:"paging,omitempty"`
+	Sort   *UsersGroupSortInput   `json:"sort,omitempty"`
+}
+
+// Response payload for user-group list queries.
+type UsersGroupListPayload struct {
+	Items  []*UsersGroupDetails `json:"items"`
+	Paging *PageInfo            `json:"paging"`
+}
+
+// Input for filtering members of a user group.
+type UsersGroupMembersFilterInput struct {
+	SearchTerm *FreeTextFilterInput `json:"searchTerm,omitempty"`
+}
+
+// Input for filtering, sorting, and paging members of a user group.
+type UsersGroupMembersInput struct {
+	Filter *UsersGroupMembersFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                  `json:"paging,omitempty"`
+	Sort   *UsersGroupMembersSortInput   `json:"sort,omitempty"`
+}
+
+// Response payload for members of a user group.
+type UsersGroupMembersPayload struct {
+	Items  []*User   `json:"items"`
+	Paging *PageInfo `json:"paging"`
+}
+
+// Input for sorting members of a user group.
+type UsersGroupMembersSortInput struct {
+	Email      *SortOrderInput `json:"email,omitempty"`
+	ImportType *SortOrderInput `json:"importType,omitempty"`
+	Name       *SortOrderInput `json:"name,omitempty"`
+}
+
 // A reference identifying the UsersGroup object. ID: Unique UsersGroup Identifier, Name: The UsersGroup Name
 type UsersGroupRef struct {
 	ID   string `json:"id"`
@@ -17671,6 +17836,14 @@ func (this UsersGroupRef) GetName() string { return this.Name }
 type UsersGroupRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+// Input for sorting user groups.
+type UsersGroupSortInput struct {
+	CreationDate *SortOrderInput `json:"creationDate,omitempty"`
+	ImportType   *SortOrderInput `json:"importType,omitempty"`
+	LastModified *SortOrderInput `json:"lastModified,omitempty"`
+	Name         *SortOrderInput `json:"name,omitempty"`
 }
 
 type ValidWifiBandSettings struct {
@@ -17736,25 +17909,26 @@ type WanFirewallActionConfigUpdateInput struct {
 }
 
 type WanFirewallAddRuleDataInput struct {
-	Action           WanFirewallActionEnum            `json:"action"`
-	ActionConfig     *WanFirewallActionConfigInput    `json:"actionConfig"`
-	ActivePeriod     *PolicyRuleActivePeriodInput     `json:"activePeriod"`
-	Application      *WanFirewallApplicationInput     `json:"application"`
-	ConnectionOrigin ConnectionOriginEnum             `json:"connectionOrigin"`
-	Country          []*CountryRefInput               `json:"country"`
-	Description      string                           `json:"description"`
-	Destination      *WanFirewallDestinationInput     `json:"destination"`
-	Device           []*DeviceProfileRefInput         `json:"device"`
-	DeviceAttributes *DeviceAttributesInput           `json:"deviceAttributes"`
-	DeviceOs         []OperatingSystem                `json:"deviceOS"`
-	Direction        WanFirewallDirectionEnum         `json:"direction"`
-	Enabled          bool                             `json:"enabled"`
-	Exceptions       []*WanFirewallRuleExceptionInput `json:"exceptions"`
-	Name             string                           `json:"name"`
-	Schedule         *PolicyScheduleInput             `json:"schedule"`
-	Service          *WanFirewallServiceTypeInput     `json:"service"`
-	Source           *WanFirewallSourceInput          `json:"source"`
-	Tracking         *PolicyTrackingInput             `json:"tracking"`
+	Action                WanFirewallActionEnum            `json:"action"`
+	ActionConfig          *WanFirewallActionConfigInput    `json:"actionConfig"`
+	ActivePeriod          *PolicyRuleActivePeriodInput     `json:"activePeriod"`
+	Application           *WanFirewallApplicationInput     `json:"application"`
+	ConnectionOrigin      ConnectionOriginEnum             `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum          `json:"connectionsOriginList"`
+	Country               []*CountryRefInput               `json:"country"`
+	Description           string                           `json:"description"`
+	Destination           *WanFirewallDestinationInput     `json:"destination"`
+	Device                []*DeviceProfileRefInput         `json:"device"`
+	DeviceAttributes      *DeviceAttributesInput           `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem                `json:"deviceOS"`
+	Direction             WanFirewallDirectionEnum         `json:"direction"`
+	Enabled               bool                             `json:"enabled"`
+	Exceptions            []*WanFirewallRuleExceptionInput `json:"exceptions"`
+	Name                  string                           `json:"name"`
+	Schedule              *PolicyScheduleInput             `json:"schedule"`
+	Service               *WanFirewallServiceTypeInput     `json:"service"`
+	Source                *WanFirewallSourceInput          `json:"source"`
+	Tracking              *PolicyTrackingInput             `json:"tracking"`
 }
 
 // Rule parameters and relevant position
@@ -17892,6 +18066,7 @@ type WanFirewallDestinationUpdateInput struct {
 	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
 }
 
+// Wan Firewall policy information for a specific revision
 type WanFirewallPolicy struct {
 	Access      *EntityAccess                  `json:"access"`
 	Audit       *PolicyAudit                   `json:"audit,omitempty"`
@@ -18087,28 +18262,29 @@ func (this WanFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutation
 }
 
 type WanFirewallRule struct {
-	Action           WanFirewallActionEnum       `json:"action"`
-	ActionConfig     *WanFirewallActionConfig    `json:"actionConfig"`
-	ActivePeriod     *PolicyRuleActivePeriod     `json:"activePeriod"`
-	Application      *WanFirewallApplication     `json:"application"`
-	ConnectionOrigin ConnectionOriginEnum        `json:"connectionOrigin"`
-	Country          []*CountryRef               `json:"country"`
-	Description      string                      `json:"description"`
-	Destination      *WanFirewallDestination     `json:"destination"`
-	Device           []*DeviceProfileRef         `json:"device"`
-	DeviceAttributes *DeviceAttributes           `json:"deviceAttributes"`
-	DeviceOs         []OperatingSystem           `json:"deviceOS"`
-	Direction        WanFirewallDirectionEnum    `json:"direction"`
-	Enabled          bool                        `json:"enabled"`
-	Exceptions       []*WanFirewallRuleException `json:"exceptions"`
-	ID               string                      `json:"id"`
-	Index            int64                       `json:"index"`
-	Name             string                      `json:"name"`
-	Schedule         *PolicySchedule             `json:"schedule"`
-	Section          *PolicySectionInfo          `json:"section"`
-	Service          *WanFirewallServiceType     `json:"service"`
-	Source           *WanFirewallSource          `json:"source"`
-	Tracking         *PolicyTracking             `json:"tracking"`
+	Action                WanFirewallActionEnum       `json:"action"`
+	ActionConfig          *WanFirewallActionConfig    `json:"actionConfig"`
+	ActivePeriod          *PolicyRuleActivePeriod     `json:"activePeriod"`
+	Application           *WanFirewallApplication     `json:"application"`
+	ConnectionOrigin      ConnectionOriginEnum        `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum     `json:"connectionsOriginList"`
+	Country               []*CountryRef               `json:"country"`
+	Description           string                      `json:"description"`
+	Destination           *WanFirewallDestination     `json:"destination"`
+	Device                []*DeviceProfileRef         `json:"device"`
+	DeviceAttributes      *DeviceAttributes           `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem           `json:"deviceOS"`
+	Direction             WanFirewallDirectionEnum    `json:"direction"`
+	Enabled               bool                        `json:"enabled"`
+	Exceptions            []*WanFirewallRuleException `json:"exceptions"`
+	ID                    string                      `json:"id"`
+	Index                 int64                       `json:"index"`
+	Name                  string                      `json:"name"`
+	Schedule              *PolicySchedule             `json:"schedule"`
+	Section               *PolicySectionInfo          `json:"section"`
+	Service               *WanFirewallServiceType     `json:"service"`
+	Source                *WanFirewallSource          `json:"source"`
+	Tracking              *PolicyTracking             `json:"tracking"`
 }
 
 func (WanFirewallRule) IsIPolicyRule()                      {}
@@ -18121,32 +18297,34 @@ func (this WanFirewallRule) GetSection() *PolicySectionInfo { return this.Sectio
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type WanFirewallRuleException struct {
-	Application      *WanFirewallApplication  `json:"application"`
-	ConnectionOrigin ConnectionOriginEnum     `json:"connectionOrigin"`
-	Country          []*CountryRef            `json:"country"`
-	Destination      *WanFirewallDestination  `json:"destination"`
-	Device           []*DeviceProfileRef      `json:"device"`
-	DeviceAttributes *DeviceAttributes        `json:"deviceAttributes"`
-	DeviceOs         []OperatingSystem        `json:"deviceOS"`
-	Direction        WanFirewallDirectionEnum `json:"direction"`
-	Name             string                   `json:"name"`
-	Service          *WanFirewallServiceType  `json:"service"`
-	Source           *WanFirewallSource       `json:"source"`
+	Application           *WanFirewallApplication  `json:"application"`
+	ConnectionOrigin      ConnectionOriginEnum     `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum  `json:"connectionsOriginList"`
+	Country               []*CountryRef            `json:"country"`
+	Destination           *WanFirewallDestination  `json:"destination"`
+	Device                []*DeviceProfileRef      `json:"device"`
+	DeviceAttributes      *DeviceAttributes        `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem        `json:"deviceOS"`
+	Direction             WanFirewallDirectionEnum `json:"direction"`
+	Name                  string                   `json:"name"`
+	Service               *WanFirewallServiceType  `json:"service"`
+	Source                *WanFirewallSource       `json:"source"`
 }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type WanFirewallRuleExceptionInput struct {
-	Application      *WanFirewallApplicationInput `json:"application"`
-	ConnectionOrigin ConnectionOriginEnum         `json:"connectionOrigin"`
-	Country          []*CountryRefInput           `json:"country"`
-	Destination      *WanFirewallDestinationInput `json:"destination"`
-	Device           []*DeviceProfileRefInput     `json:"device"`
-	DeviceAttributes *DeviceAttributesInput       `json:"deviceAttributes"`
-	DeviceOs         []OperatingSystem            `json:"deviceOS"`
-	Direction        WanFirewallDirectionEnum     `json:"direction"`
-	Name             string                       `json:"name"`
-	Service          *WanFirewallServiceTypeInput `json:"service"`
-	Source           *WanFirewallSourceInput      `json:"source"`
+	Application           *WanFirewallApplicationInput `json:"application"`
+	ConnectionOrigin      ConnectionOriginEnum         `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum      `json:"connectionsOriginList"`
+	Country               []*CountryRefInput           `json:"country"`
+	Destination           *WanFirewallDestinationInput `json:"destination"`
+	Device                []*DeviceProfileRefInput     `json:"device"`
+	DeviceAttributes      *DeviceAttributesInput       `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem            `json:"deviceOS"`
+	Direction             WanFirewallDirectionEnum     `json:"direction"`
+	Name                  string                       `json:"name"`
+	Service               *WanFirewallServiceTypeInput `json:"service"`
+	Source                *WanFirewallSourceInput      `json:"source"`
 }
 
 type WanFirewallRuleMutationPayload struct {
@@ -18284,25 +18462,26 @@ func (this WanFirewallSubPolicyPayload) GetProperties() []SubPolicyProperty {
 }
 
 type WanFirewallUpdateRuleDataInput struct {
-	Action           *WanFirewallActionEnum              `json:"action,omitempty"`
-	ActionConfig     *WanFirewallActionConfigUpdateInput `json:"actionConfig,omitempty"`
-	ActivePeriod     *PolicyRuleActivePeriodUpdateInput  `json:"activePeriod,omitempty"`
-	Application      *WanFirewallApplicationUpdateInput  `json:"application,omitempty"`
-	ConnectionOrigin *ConnectionOriginEnum               `json:"connectionOrigin,omitempty"`
-	Country          []*CountryRefInput                  `json:"country,omitempty"`
-	Description      *string                             `json:"description,omitempty"`
-	Destination      *WanFirewallDestinationUpdateInput  `json:"destination,omitempty"`
-	Device           []*DeviceProfileRefInput            `json:"device,omitempty"`
-	DeviceAttributes *DeviceAttributesUpdateInput        `json:"deviceAttributes,omitempty"`
-	DeviceOs         []OperatingSystem                   `json:"deviceOS,omitempty"`
-	Direction        *WanFirewallDirectionEnum           `json:"direction,omitempty"`
-	Enabled          *bool                               `json:"enabled,omitempty"`
-	Exceptions       []*WanFirewallRuleExceptionInput    `json:"exceptions,omitempty"`
-	Name             *string                             `json:"name,omitempty"`
-	Schedule         *PolicyScheduleUpdateInput          `json:"schedule,omitempty"`
-	Service          *WanFirewallServiceTypeUpdateInput  `json:"service,omitempty"`
-	Source           *WanFirewallSourceUpdateInput       `json:"source,omitempty"`
-	Tracking         *PolicyTrackingUpdateInput          `json:"tracking,omitempty"`
+	Action                *WanFirewallActionEnum              `json:"action,omitempty"`
+	ActionConfig          *WanFirewallActionConfigUpdateInput `json:"actionConfig,omitempty"`
+	ActivePeriod          *PolicyRuleActivePeriodUpdateInput  `json:"activePeriod,omitempty"`
+	Application           *WanFirewallApplicationUpdateInput  `json:"application,omitempty"`
+	ConnectionOrigin      *ConnectionOriginEnum               `json:"connectionOrigin,omitempty"`
+	ConnectionsOriginList []ConnectionOriginsEnum             `json:"connectionsOriginList,omitempty"`
+	Country               []*CountryRefInput                  `json:"country,omitempty"`
+	Description           *string                             `json:"description,omitempty"`
+	Destination           *WanFirewallDestinationUpdateInput  `json:"destination,omitempty"`
+	Device                []*DeviceProfileRefInput            `json:"device,omitempty"`
+	DeviceAttributes      *DeviceAttributesUpdateInput        `json:"deviceAttributes,omitempty"`
+	DeviceOs              []OperatingSystem                   `json:"deviceOS,omitempty"`
+	Direction             *WanFirewallDirectionEnum           `json:"direction,omitempty"`
+	Enabled               *bool                               `json:"enabled,omitempty"`
+	Exceptions            []*WanFirewallRuleExceptionInput    `json:"exceptions,omitempty"`
+	Name                  *string                             `json:"name,omitempty"`
+	Schedule              *PolicyScheduleUpdateInput          `json:"schedule,omitempty"`
+	Service               *WanFirewallServiceTypeUpdateInput  `json:"service,omitempty"`
+	Source                *WanFirewallSourceUpdateInput       `json:"source,omitempty"`
+	Tracking              *PolicyTrackingUpdateInput          `json:"tracking,omitempty"`
 }
 
 type WanFirewallUpdateRuleInput struct {
@@ -19605,6 +19784,116 @@ type ZtnaUsersLicenseAllocations struct {
 	Allocated int64 `json:"allocated"`
 	Available int64 `json:"available"`
 	Total     int64 `json:"total"`
+}
+
+// How remote access eligibility is assigned to users.
+type AccessRemoteAccessAllocationType string
+
+const (
+	//  All eligible users receive remote access.
+	AccessRemoteAccessAllocationTypeAll AccessRemoteAccessAllocationType = "ALL"
+	//  Only eligible users from the selected users and user groups receive remote access.
+	AccessRemoteAccessAllocationTypeCustom AccessRemoteAccessAllocationType = "CUSTOM"
+)
+
+var AllAccessRemoteAccessAllocationType = []AccessRemoteAccessAllocationType{
+	AccessRemoteAccessAllocationTypeAll,
+	AccessRemoteAccessAllocationTypeCustom,
+}
+
+func (e AccessRemoteAccessAllocationType) IsValid() bool {
+	switch e {
+	case AccessRemoteAccessAllocationTypeAll, AccessRemoteAccessAllocationTypeCustom:
+		return true
+	}
+	return false
+}
+
+func (e AccessRemoteAccessAllocationType) String() string {
+	return string(e)
+}
+
+func (e *AccessRemoteAccessAllocationType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AccessRemoteAccessAllocationType(str)
+	return nil
+}
+
+func (e AccessRemoteAccessAllocationType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AccessRemoteAccessAllocationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccessRemoteAccessAllocationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Types of entities that can be selected for remote access eligibility.
+type AccessRemoteAccessEntityType string
+
+const (
+	//  A selected user.
+	AccessRemoteAccessEntityTypeUser AccessRemoteAccessEntityType = "USER"
+	//  A selected user group.
+	AccessRemoteAccessEntityTypeUserGroup AccessRemoteAccessEntityType = "USER_GROUP"
+)
+
+var AllAccessRemoteAccessEntityType = []AccessRemoteAccessEntityType{
+	AccessRemoteAccessEntityTypeUser,
+	AccessRemoteAccessEntityTypeUserGroup,
+}
+
+func (e AccessRemoteAccessEntityType) IsValid() bool {
+	switch e {
+	case AccessRemoteAccessEntityTypeUser, AccessRemoteAccessEntityTypeUserGroup:
+		return true
+	}
+	return false
+}
+
+func (e AccessRemoteAccessEntityType) String() string {
+	return string(e)
+}
+
+func (e *AccessRemoteAccessEntityType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AccessRemoteAccessEntityType(str)
+	return nil
+}
+
+func (e AccessRemoteAccessEntityType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AccessRemoteAccessEntityType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccessRemoteAccessEntityType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AccessRequestStatus string
@@ -27966,7 +28255,7 @@ const (
 	LicenseSkuCatoAdsp LicenseSku = "CATO_ADSP"
 	//  Cato App & Data Security Package BW SKU
 	LicenseSkuCatoAdspB LicenseSku = "CATO_ADSP_B"
-	//  Cato Advanced Security Package quantity-based SKU
+	//  Cato App & Data Security quantity-based SKU
 	LicenseSkuCatoAdspQ LicenseSku = "CATO_ADSP_Q"
 	//  Cato App & Data Security Package Users SKU
 	LicenseSkuCatoAdspU LicenseSku = "CATO_ADSP_U"
@@ -28949,6 +29238,58 @@ func (e *MsResourceVerdictEnum) UnmarshalJSON(b []byte) error {
 }
 
 func (e MsResourceVerdictEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type MutationStatus string
+
+const (
+	MutationStatusFailure MutationStatus = "FAILURE"
+	MutationStatusSuccess MutationStatus = "SUCCESS"
+)
+
+var AllMutationStatus = []MutationStatus{
+	MutationStatusFailure,
+	MutationStatusSuccess,
+}
+
+func (e MutationStatus) IsValid() bool {
+	switch e {
+	case MutationStatusFailure, MutationStatusSuccess:
+		return true
+	}
+	return false
+}
+
+func (e MutationStatus) String() string {
+	return string(e)
+}
+
+func (e *MutationStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = MutationStatus(str)
+	return nil
+}
+
+func (e MutationStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *MutationStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e MutationStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -31471,10 +31812,13 @@ func (e RemediationStatusEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// How the rule's remote IPs and countries are used.
 type RemotePortFwdRestrictionType string
 
 const (
+	//  Blocks all sources except the configured remote IPs and countries.
 	RemotePortFwdRestrictionTypeAllowList RemotePortFwdRestrictionType = "ALLOW_LIST"
+	//  Allows all sources except the configured remote IPs and countries.
 	RemotePortFwdRestrictionTypeBlockList RemotePortFwdRestrictionType = "BLOCK_LIST"
 )
 
@@ -36015,6 +36359,70 @@ func (e UserStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Shows if user group was created, imported from an IdP, or computed dynamically.
+type UsersGroupImportType string
+
+const (
+	//  User group is computed dynamically from user attributes.
+	UsersGroupImportTypeDynamic UsersGroupImportType = "DYNAMIC"
+	//  User group was imported from an integration.
+	UsersGroupImportTypeIntegration UsersGroupImportType = "INTEGRATION"
+	//  User group was imported from LDAP.
+	UsersGroupImportTypeLdap UsersGroupImportType = "LDAP"
+	//  User group was created manually.
+	UsersGroupImportTypeManual UsersGroupImportType = "MANUAL"
+	//  User group was imported from SCIM.
+	UsersGroupImportTypeScim UsersGroupImportType = "SCIM"
+)
+
+var AllUsersGroupImportType = []UsersGroupImportType{
+	UsersGroupImportTypeDynamic,
+	UsersGroupImportTypeIntegration,
+	UsersGroupImportTypeLdap,
+	UsersGroupImportTypeManual,
+	UsersGroupImportTypeScim,
+}
+
+func (e UsersGroupImportType) IsValid() bool {
+	switch e {
+	case UsersGroupImportTypeDynamic, UsersGroupImportTypeIntegration, UsersGroupImportTypeLdap, UsersGroupImportTypeManual, UsersGroupImportTypeScim:
+		return true
+	}
+	return false
+}
+
+func (e UsersGroupImportType) String() string {
+	return string(e)
+}
+
+func (e *UsersGroupImportType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UsersGroupImportType(str)
+	return nil
+}
+
+func (e UsersGroupImportType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *UsersGroupImportType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UsersGroupImportType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type VendorEnum string
 
 const (
@@ -36119,6 +36527,7 @@ func (e VrrpType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// The action applied by the WAN Firewall if the rule is matched.
 type WanFirewallActionEnum string
 
 const (
@@ -36179,11 +36588,14 @@ func (e WanFirewallActionEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// The direction in which a WAN Firewall rule applies.
 type WanFirewallDirectionEnum string
 
 const (
+	//  The rule applies in both directions, from the source to the destination and from the destination to the source.
 	WanFirewallDirectionEnumBoth WanFirewallDirectionEnum = "BOTH"
-	WanFirewallDirectionEnumTo   WanFirewallDirectionEnum = "TO"
+	//  The rule applies only to connections from the source to the destination (default).
+	WanFirewallDirectionEnumTo WanFirewallDirectionEnum = "TO"
 )
 
 var AllWanFirewallDirectionEnum = []WanFirewallDirectionEnum{

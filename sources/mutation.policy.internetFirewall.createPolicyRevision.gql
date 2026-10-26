@@ -143,6 +143,10 @@ mutation policyInternetFirewallCreatePolicyRevision ($internetFirewallPolicyMuta
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -313,6 +317,10 @@ mutation policyInternetFirewallCreatePolicyRevision ($internetFirewallPolicyMuta
 											name
 										}
 									}
+									group {
+										id
+										name
+									}
 								}
 								service {
 									standard {
@@ -329,6 +337,7 @@ mutation policyInternetFirewallCreatePolicyRevision ($internetFirewallPolicyMuta
 									}
 								}
 								connectionOrigin
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -340,6 +349,7 @@ mutation policyInternetFirewallCreatePolicyRevision ($internetFirewallPolicyMuta
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType

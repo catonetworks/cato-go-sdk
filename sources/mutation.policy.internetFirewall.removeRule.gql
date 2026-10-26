@@ -138,6 +138,10 @@ mutation policyInternetFirewallRemoveRule ($internetFirewallPolicyMutationInput:
 									name
 								}
 							}
+							group {
+								id
+								name
+							}
 						}
 						service {
 							standard {
@@ -308,6 +312,10 @@ mutation policyInternetFirewallRemoveRule ($internetFirewallPolicyMutationInput:
 										name
 									}
 								}
+								group {
+									id
+									name
+								}
 							}
 							service {
 								standard {
@@ -324,6 +332,7 @@ mutation policyInternetFirewallRemoveRule ($internetFirewallPolicyMutationInput:
 								}
 							}
 							connectionOrigin
+							connectionsOriginList
 						}
 						actionConfig {
 							userNotification {
@@ -335,6 +344,7 @@ mutation policyInternetFirewallRemoveRule ($internetFirewallPolicyMutationInput:
 								name
 							}
 						}
+						connectionsOriginList
 					}
 					properties
 					ruleType

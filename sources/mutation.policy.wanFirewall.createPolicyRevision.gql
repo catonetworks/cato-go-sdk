@@ -397,6 +397,7 @@ mutation policyWanFirewallCreatePolicyRevision ($policyCreateRevisionInput: Poli
 								}
 								connectionOrigin
 								direction
+								connectionsOriginList
 							}
 							actionConfig {
 								userNotification {
@@ -404,6 +405,7 @@ mutation policyWanFirewallCreatePolicyRevision ($policyCreateRevisionInput: Poli
 									name
 								}
 							}
+							connectionsOriginList
 						}
 						properties
 						ruleType

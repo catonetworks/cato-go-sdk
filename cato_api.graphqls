@@ -24,6 +24,7 @@ directive @rollout on ENUM_VALUE | FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 ##### Queries ##########################
 type Query {
+  access(accountId: ID!): AccessQueries!
   accountBySubdomain(accountID: ID!, subdomains: [String!]!): [AccountDataPayload!] @ga
   accountManagement(accountId: ID!): AccountManagementQueries
   accountMetrics(accountID: ID, id: ID @deprecated(reason: "by accountID"), timeFrame: TimeFrame!, groupInterfaces: Boolean, groupDevices: Boolean): AccountMetrics @ga
@@ -74,6 +75,7 @@ type Query {
 
 ##### Mutations ##########################
 type Mutation {
+  access(accountId: ID!): AccessMutations!
   accountManagement(accountId: ID!): AccountManagementMutations
   admin(accountId: ID!): AdminMutations!
   businessPlatform(accountId: ID!): BusinessPlatformMutations @rollout
@@ -129,6 +131,10 @@ type AISecurityUsersLicense implements License & QuantifiableLicense {
   total: Int!
 }
 
+type AccessMutations {
+  remoteAccessEligibility: AccessRemoteAccessEligibilityMutations!
+}
+
 type AccessPrivateApplicationMutations {
   createPrivateApplication(input: CreatePrivateApplicationInput!): CreatePrivateApplicationPayload @beta
   deletePrivateApplication(input: DeletePrivateApplicationInput!): DeletePrivateApplicationPayload @beta
@@ -138,6 +144,40 @@ type AccessPrivateApplicationMutations {
 type AccessPrivateApplicationQueries {
   privateApplication(input: PrivateApplicationRefInput!): PrivateApplication @beta
   privateApplicationList(input: PrivateApplicationListInput): PrivateApplicationListPayload @beta
+}
+
+type AccessQueries {
+  remoteAccessEligibility: AccessRemoteAccessEligibility @rollout @beta
+}
+
+""" Remote access eligibility for an account. """
+type AccessRemoteAccessEligibility {
+  allocationType: AccessRemoteAccessAllocationType!
+  eligibleUsersCount: Long!
+  entityList(input: AccessRemoteAccessEntityListInput! = {sort:{type:{direction:ASC,priority:1},name:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): AccessRemoteAccessEntityListPayload!
+}
+
+""" Remote access eligibility mutations. """
+type AccessRemoteAccessEligibilityMutations {
+  setEligibilityList(input: AccessRemoteAccessSetEligibilityListInput!): AccessRemoteAccessSetEligibilityListPayload @rollout @beta
+}
+
+""" A user or user group selected for remote access eligibility. """
+type AccessRemoteAccessEntity {
+  id: ID!
+  name: String!
+  type: AccessRemoteAccessEntityType!
+}
+
+""" Response payload for users and user groups selected for remote access eligibility. """
+type AccessRemoteAccessEntityListPayload {
+  items: [AccessRemoteAccessEntity!]!
+  paging: PageInfo!
+}
+
+""" Response payload for setEligibilityList mutation. """
+type AccessRemoteAccessSetEligibilityListPayload {
+  status: MutationStatus!
 }
 
 type AccountAuditData {
@@ -720,23 +760,23 @@ type AntiMalwareFileHashPolicyMutationPayload implements IPolicyMutationPayload 
 }
 
 type AntiMalwareFileHashPolicyMutations {
-  addRule(input: AntiMalwareFileHashAddRuleInput!): AntiMalwareFileHashRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): AntiMalwareFileHashPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): AntiMalwareFileHashPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): AntiMalwareFileHashRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): AntiMalwareFileHashPolicyMutationPayload!
-  removeRule(input: AntiMalwareFileHashRemoveRuleInput!): AntiMalwareFileHashRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: AntiMalwareFileHashPolicyUpdateInput!): AntiMalwareFileHashPolicyMutationPayload!
-  updateRule(input: AntiMalwareFileHashUpdateRuleInput!): AntiMalwareFileHashRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: AntiMalwareFileHashAddRuleInput!): AntiMalwareFileHashRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): AntiMalwareFileHashPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): AntiMalwareFileHashPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): AntiMalwareFileHashRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): AntiMalwareFileHashPolicyMutationPayload! @beta
+  removeRule(input: AntiMalwareFileHashRemoveRuleInput!): AntiMalwareFileHashRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: AntiMalwareFileHashPolicyUpdateInput!): AntiMalwareFileHashPolicyMutationPayload! @beta
+  updateRule(input: AntiMalwareFileHashUpdateRuleInput!): AntiMalwareFileHashRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type AntiMalwareFileHashPolicyQueries {
-  policy(input: AntiMalwareFileHashPolicyInput): AntiMalwareFileHashPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: AntiMalwareFileHashPolicyInput): AntiMalwareFileHashPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type AntiMalwareFileHashRule implements IPolicyRule {
@@ -823,23 +863,23 @@ type AppTenantRestrictionPolicyMutationPayload implements IPolicyMutationPayload
 }
 
 type AppTenantRestrictionPolicyMutations {
-  addRule(input: AppTenantRestrictionAddRuleInput!): AppTenantRestrictionRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): AppTenantRestrictionPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): AppTenantRestrictionPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): AppTenantRestrictionRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): AppTenantRestrictionPolicyMutationPayload!
-  removeRule(input: AppTenantRestrictionRemoveRuleInput!): AppTenantRestrictionRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: AppTenantRestrictionPolicyUpdateInput!): AppTenantRestrictionPolicyMutationPayload!
-  updateRule(input: AppTenantRestrictionUpdateRuleInput!): AppTenantRestrictionRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: AppTenantRestrictionAddRuleInput!): AppTenantRestrictionRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): AppTenantRestrictionPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): AppTenantRestrictionPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): AppTenantRestrictionRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): AppTenantRestrictionPolicyMutationPayload! @beta
+  removeRule(input: AppTenantRestrictionRemoveRuleInput!): AppTenantRestrictionRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: AppTenantRestrictionPolicyUpdateInput!): AppTenantRestrictionPolicyMutationPayload! @beta
+  updateRule(input: AppTenantRestrictionUpdateRuleInput!): AppTenantRestrictionRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type AppTenantRestrictionPolicyQueries {
-  policy(input: AppTenantRestrictionPolicyInput): AppTenantRestrictionPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: AppTenantRestrictionPolicyInput): AppTenantRestrictionPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type AppTenantRestrictionRule implements IPolicyRule {
@@ -1082,23 +1122,23 @@ type ApplicationControlPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type ApplicationControlPolicyMutations {
-  addRule(input: ApplicationControlAddRuleInput!): ApplicationControlRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): ApplicationControlPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): ApplicationControlPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): ApplicationControlRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): ApplicationControlPolicyMutationPayload!
-  removeRule(input: ApplicationControlRemoveRuleInput!): ApplicationControlRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: ApplicationControlPolicyUpdateInput!): ApplicationControlPolicyMutationPayload!
-  updateRule(input: ApplicationControlUpdateRuleInput!): ApplicationControlRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: ApplicationControlAddRuleInput!): ApplicationControlRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): ApplicationControlPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): ApplicationControlPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): ApplicationControlRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): ApplicationControlPolicyMutationPayload! @beta
+  removeRule(input: ApplicationControlRemoveRuleInput!): ApplicationControlRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: ApplicationControlPolicyUpdateInput!): ApplicationControlPolicyMutationPayload! @beta
+  updateRule(input: ApplicationControlUpdateRuleInput!): ApplicationControlRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type ApplicationControlPolicyQueries {
-  policy(input: ApplicationControlPolicyInput): ApplicationControlPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: ApplicationControlPolicyInput): ApplicationControlPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 """ Application risk """
@@ -1783,23 +1823,23 @@ type ClientConnectivityPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type ClientConnectivityPolicyMutations {
-  addRule(input: ClientConnectivityAddRuleInput!): ClientConnectivityRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): ClientConnectivityPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): ClientConnectivityPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): ClientConnectivityRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): ClientConnectivityPolicyMutationPayload!
-  removeRule(input: ClientConnectivityRemoveRuleInput!): ClientConnectivityRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: ClientConnectivityPolicyUpdateInput!): ClientConnectivityPolicyMutationPayload!
-  updateRule(input: ClientConnectivityUpdateRuleInput!): ClientConnectivityRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: ClientConnectivityAddRuleInput!): ClientConnectivityRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): ClientConnectivityPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): ClientConnectivityPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): ClientConnectivityRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): ClientConnectivityPolicyMutationPayload! @beta
+  removeRule(input: ClientConnectivityRemoveRuleInput!): ClientConnectivityRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: ClientConnectivityPolicyUpdateInput!): ClientConnectivityPolicyMutationPayload! @beta
+  updateRule(input: ClientConnectivityUpdateRuleInput!): ClientConnectivityRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type ClientConnectivityPolicyQueries {
-  policy(input: ClientConnectivityPolicyInput): ClientConnectivityPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: ClientConnectivityPolicyInput): ClientConnectivityPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type ClientConnectivityRule implements IPolicyRule {
@@ -2502,23 +2542,23 @@ type DynamicIpAllocationPolicyMutationPayload implements IPolicyMutationPayload 
 }
 
 type DynamicIpAllocationPolicyMutations {
-  addRule(input: DynamicIpAllocationAddRuleInput!): DynamicIpAllocationRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): DynamicIpAllocationPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): DynamicIpAllocationPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): DynamicIpAllocationRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): DynamicIpAllocationPolicyMutationPayload!
-  removeRule(input: DynamicIpAllocationRemoveRuleInput!): DynamicIpAllocationRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: DynamicIpAllocationPolicyUpdateInput!): DynamicIpAllocationPolicyMutationPayload!
-  updateRule(input: DynamicIpAllocationUpdateRuleInput!): DynamicIpAllocationRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: DynamicIpAllocationAddRuleInput!): DynamicIpAllocationRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): DynamicIpAllocationPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): DynamicIpAllocationPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): DynamicIpAllocationRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): DynamicIpAllocationPolicyMutationPayload! @beta
+  removeRule(input: DynamicIpAllocationRemoveRuleInput!): DynamicIpAllocationRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: DynamicIpAllocationPolicyUpdateInput!): DynamicIpAllocationPolicyMutationPayload! @beta
+  updateRule(input: DynamicIpAllocationUpdateRuleInput!): DynamicIpAllocationRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type DynamicIpAllocationPolicyQueries {
-  policy(input: DynamicIpAllocationPolicyInput): DynamicIpAllocationPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: DynamicIpAllocationPolicyInput): DynamicIpAllocationPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type DynamicIpAllocationRange {
@@ -2528,6 +2568,7 @@ type DynamicIpAllocationRange {
 type DynamicIpAllocationRule implements IPolicyRule {
   country: [CountryRef!]!
   description: String!
+  devicePostureProfile: [DeviceProfileRef!]!
   enabled: Boolean!
   id: ID!
   index: Int!
@@ -3438,6 +3479,7 @@ type InternetFirewallAddSubPolicyMutationPayload implements IPolicyMutationPaylo
   status: PolicyMutationStatus!
 }
 
+""" Containers to match on an Internet Firewall rule. """
 type InternetFirewallContainer {
   fqdnContainer: [FqdnContainerRef!]!
   ipAddressRangeContainer: [IpAddressRangeContainerRef!]!
@@ -3454,6 +3496,7 @@ type InternetFirewallDestination {
   domain: [CustomDomain!]!
   fqdn: [Fqdn!]!
   globalIpRange: [GlobalIpRangeRef!]!
+  group: [GroupRef!]!
   ip: [IPAddress!]!
   ipRange: [IpAddressRange!]!
   remoteAsn: [Asn32!]!
@@ -3461,6 +3504,7 @@ type InternetFirewallDestination {
   subnet: [NetworkSubnet!]!
 }
 
+""" Internet Firewall policy information for a specific revision """
 type InternetFirewallPolicy implements IPolicy {
   access: EntityAccess!
   audit: PolicyAudit
@@ -3497,27 +3541,27 @@ type InternetFirewallPolicyMutationPayload implements IPolicyMutationPayload {
 
 """ The Internet firewall Policy information returned to the caller in the API response. """
 type InternetFirewallPolicyMutations {
-  addRule(input: InternetFirewallAddRuleInput!): InternetFirewallRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  addSubPolicy(input: InternetFirewallAddSubPolicyInput!): InternetFirewallAddSubPolicyMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): InternetFirewallPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): InternetFirewallPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): InternetFirewallRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload!
-  removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+  addRule(input: InternetFirewallAddRuleInput!): InternetFirewallRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  addSubPolicy(input: InternetFirewallAddSubPolicyInput!): InternetFirewallAddSubPolicyMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): InternetFirewallPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): InternetFirewallPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload! @beta
+  removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload! @beta
   reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
-  removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload!
-  updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload!
-  updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload! @beta
+  updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type InternetFirewallPolicyQueries {
-  policy(input: InternetFirewallPolicyInput): InternetFirewallPolicy!
-  policyList(input: InternetFirewallPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): InternetFirewallPolicyListPayload!
-  revisions: PolicyRevisionsPayload
+  policy(input: InternetFirewallPolicyInput): InternetFirewallPolicy! @beta
+  policyList(input: InternetFirewallPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): InternetFirewallPolicyListPayload! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type InternetFirewallPolicyRef implements ObjectRef & PolicyRef {
@@ -3536,6 +3580,7 @@ type InternetFirewallRule implements IPolicyRule {
   actionConfig: InternetFirewallActionConfig!
   activePeriod: PolicyRuleActivePeriod!
   connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
   description: String!
   destination: InternetFirewallDestination!
@@ -3557,6 +3602,7 @@ type InternetFirewallRule implements IPolicyRule {
 """ Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules. """
 type InternetFirewallRuleException {
   connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
   destination: InternetFirewallDestination!
   device: [DeviceProfileRef!]!
@@ -4916,46 +4962,46 @@ type PolicyMutationError {
 }
 
 type PolicyMutations {
-  antiMalwareFileHash(input: AntiMalwareFileHashPolicyMutationInput): AntiMalwareFileHashPolicyMutations @beta
-  appTenantRestriction(input: AppTenantRestrictionPolicyMutationInput): AppTenantRestrictionPolicyMutations @beta
-  applicationControl(input: ApplicationControlPolicyMutationInput): ApplicationControlPolicyMutations @beta
-  clientConnectivity(input: ClientConnectivityPolicyMutationInput): ClientConnectivityPolicyMutations @beta
-  dynamicIpAllocation(input: DynamicIpAllocationPolicyMutationInput): DynamicIpAllocationPolicyMutations @beta
-  internetFirewall(input: InternetFirewallPolicyMutationInput): InternetFirewallPolicyMutations @beta
-  privateAccess(input: PrivateAccessPolicyMutationInput): PrivateAccessPolicyMutations @beta
-  remotePortFwd(input: RemotePortFwdPolicyMutationInput): RemotePortFwdPolicyMutations @beta
-  sdpStaticIpAllocation(input: SdpStaticIpAllocationPolicyMutationInput): SdpStaticIpAllocationPolicyMutations @beta
-  siteWebProxy(input: SiteWebProxyPolicyMutationInput): SiteWebProxyPolicyMutations @beta
-  socketBypass(input: SocketBypassPolicyMutationInput): SocketBypassPolicyMutations @beta
-  socketLan(input: SocketLanPolicyMutationInput): SocketLanPolicyMutations @beta
-  splitTunnel(input: SplitTunnelPolicyMutationInput): SplitTunnelPolicyMutations @beta
-  terminalServer(input: TerminalServerPolicyMutationInput): TerminalServerPolicyMutations @beta
-  tlsInspect(input: TlsInspectPolicyMutationInput): TlsInspectPolicyMutations @beta
-  wanFirewall(input: WanFirewallPolicyMutationInput): WanFirewallPolicyMutations @beta
-  wanNetwork(input: WanNetworkPolicyMutationInput): WanNetworkPolicyMutations @beta
-  ztnaAlwaysOn(input: ZtnaAlwaysOnPolicyMutationInput): ZtnaAlwaysOnPolicyMutations @beta
+  antiMalwareFileHash(input: AntiMalwareFileHashPolicyMutationInput): AntiMalwareFileHashPolicyMutations
+  appTenantRestriction(input: AppTenantRestrictionPolicyMutationInput): AppTenantRestrictionPolicyMutations
+  applicationControl(input: ApplicationControlPolicyMutationInput): ApplicationControlPolicyMutations
+  clientConnectivity(input: ClientConnectivityPolicyMutationInput): ClientConnectivityPolicyMutations
+  dynamicIpAllocation(input: DynamicIpAllocationPolicyMutationInput): DynamicIpAllocationPolicyMutations
+  internetFirewall(input: InternetFirewallPolicyMutationInput): InternetFirewallPolicyMutations
+  privateAccess(input: PrivateAccessPolicyMutationInput): PrivateAccessPolicyMutations
+  remotePortFwd(input: RemotePortFwdPolicyMutationInput): RemotePortFwdPolicyMutations
+  sdpStaticIpAllocation(input: SdpStaticIpAllocationPolicyMutationInput): SdpStaticIpAllocationPolicyMutations
+  siteWebProxy(input: SiteWebProxyPolicyMutationInput): SiteWebProxyPolicyMutations
+  socketBypass(input: SocketBypassPolicyMutationInput): SocketBypassPolicyMutations
+  socketLan(input: SocketLanPolicyMutationInput): SocketLanPolicyMutations
+  splitTunnel(input: SplitTunnelPolicyMutationInput): SplitTunnelPolicyMutations
+  terminalServer(input: TerminalServerPolicyMutationInput): TerminalServerPolicyMutations
+  tlsInspect(input: TlsInspectPolicyMutationInput): TlsInspectPolicyMutations
+  wanFirewall(input: WanFirewallPolicyMutationInput): WanFirewallPolicyMutations
+  wanNetwork(input: WanNetworkPolicyMutationInput): WanNetworkPolicyMutations
+  ztnaAlwaysOn(input: ZtnaAlwaysOnPolicyMutationInput): ZtnaAlwaysOnPolicyMutations
 }
 
 """ policies which configuration can be read with query APIs. """
 type PolicyQueries {
-  antiMalwareFileHash: AntiMalwareFileHashPolicyQueries @beta
-  appTenantRestriction: AppTenantRestrictionPolicyQueries @beta
-  applicationControl: ApplicationControlPolicyQueries @beta
-  clientConnectivity: ClientConnectivityPolicyQueries @beta
-  dynamicIpAllocation: DynamicIpAllocationPolicyQueries @beta
-  internetFirewall: InternetFirewallPolicyQueries @beta
-  privateAccess: PrivateAccessPolicyQueries @beta
-  remotePortFwd: RemotePortFwdPolicyQueries @beta
-  sdpStaticIpAllocation: SdpStaticIpAllocationPolicyQueries @beta
-  siteWebProxy: SiteWebProxyPolicyQueries @beta
-  socketBypass: SocketBypassPolicyQueries @beta
-  socketLan: SocketLanPolicyQueries @beta
-  splitTunnel: SplitTunnelPolicyQueries @beta
-  terminalServer: TerminalServerPolicyQueries @beta
-  tlsInspect: TlsInspectPolicyQueries @beta
-  wanFirewall: WanFirewallPolicyQueries @beta
-  wanNetwork: WanNetworkPolicyQueries @beta
-  ztnaAlwaysOn: ZtnaAlwaysOnPolicyQueries @beta
+  antiMalwareFileHash: AntiMalwareFileHashPolicyQueries
+  appTenantRestriction: AppTenantRestrictionPolicyQueries
+  applicationControl: ApplicationControlPolicyQueries
+  clientConnectivity: ClientConnectivityPolicyQueries
+  dynamicIpAllocation: DynamicIpAllocationPolicyQueries
+  internetFirewall: InternetFirewallPolicyQueries
+  privateAccess: PrivateAccessPolicyQueries
+  remotePortFwd: RemotePortFwdPolicyQueries
+  sdpStaticIpAllocation: SdpStaticIpAllocationPolicyQueries
+  siteWebProxy: SiteWebProxyPolicyQueries
+  socketBypass: SocketBypassPolicyQueries
+  socketLan: SocketLanPolicyQueries
+  splitTunnel: SplitTunnelPolicyQueries
+  terminalServer: TerminalServerPolicyQueries
+  tlsInspect: TlsInspectPolicyQueries
+  wanFirewall: WanFirewallPolicyQueries
+  wanNetwork: WanNetworkPolicyQueries
+  ztnaAlwaysOn: ZtnaAlwaysOnPolicyQueries
 }
 
 """ Returns data about the policy revision, such as when the change was made, how many rules were changed, etc. """
@@ -5726,23 +5772,23 @@ type PrivateAccessPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type PrivateAccessPolicyMutations {
-  addRule(input: PrivateAccessAddRuleInput!): PrivateAccessRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): PrivateAccessPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): PrivateAccessPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): PrivateAccessRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): PrivateAccessPolicyMutationPayload!
-  removeRule(input: PrivateAccessRemoveRuleInput!): PrivateAccessRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: PrivateAccessPolicyUpdateInput!): PrivateAccessPolicyMutationPayload!
-  updateRule(input: PrivateAccessUpdateRuleInput!): PrivateAccessRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: PrivateAccessAddRuleInput!): PrivateAccessRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): PrivateAccessPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): PrivateAccessPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): PrivateAccessRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): PrivateAccessPolicyMutationPayload! @beta
+  removeRule(input: PrivateAccessRemoveRuleInput!): PrivateAccessRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: PrivateAccessPolicyUpdateInput!): PrivateAccessPolicyMutationPayload! @beta
+  updateRule(input: PrivateAccessUpdateRuleInput!): PrivateAccessRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type PrivateAccessPolicyQueries {
-  policy(input: PrivateAccessPolicyInput): PrivateAccessPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: PrivateAccessPolicyInput): PrivateAccessPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type PrivateAccessPolicySource {
@@ -5874,12 +5920,12 @@ type RBACMutations {
   addRbacAssignments(input: AddRbacAssignmentsInput!): AddRbacAssignmentsPayload! @beta
   updateRbacAssignment(input: UpdateRbacAssignmentInput!): UpdateRbacAssignmentPayload! @beta
   removeRbacAssignment(input: RemoveRbacAssignmentInput!): RemoveRbacAssignmentPayload! @beta
-  roleManagement: RoleManagementMutations! @beta
+  roleManagement: RoleManagementMutations!
 }
 
 type RBACQueries {
   rbacAssignmentList(input: RBACAssignmentListInput!): RBACAssignmentListPayload @beta
-  roleManagement: RoleManagementQueries! @beta
+  roleManagement: RoleManagementQueries!
 }
 
 type RBACRole {
@@ -5938,6 +5984,7 @@ type RecentConnection {
   remoteIPInfo: IPInfo
 }
 
+""" Remote Port Forwarding policy information for a specific revision """
 type RemotePortFwdPolicy implements IPolicy {
   audit: PolicyAudit
   enabled: Boolean!
@@ -5955,25 +6002,29 @@ type RemotePortFwdPolicyMutationPayload implements IPolicyMutationPayload {
 
 """ The Remote Port Forwarding Policy information returned to the caller in the API response. """
 type RemotePortFwdPolicyMutations {
-  addRule(input: RemotePortFwdAddRuleInput!): RemotePortFwdRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): RemotePortFwdPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): RemotePortFwdPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): RemotePortFwdRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): RemotePortFwdPolicyMutationPayload!
-  removeRule(input: RemotePortFwdRemoveRuleInput!): RemotePortFwdRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: RemotePortFwdPolicyUpdateInput!): RemotePortFwdPolicyMutationPayload!
-  updateRule(input: RemotePortFwdUpdateRuleInput!): RemotePortFwdRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: RemotePortFwdAddRuleInput!): RemotePortFwdRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): RemotePortFwdPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): RemotePortFwdPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): RemotePortFwdRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): RemotePortFwdPolicyMutationPayload! @beta
+  removeRule(input: RemotePortFwdRemoveRuleInput!): RemotePortFwdRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: RemotePortFwdPolicyUpdateInput!): RemotePortFwdPolicyMutationPayload! @beta
+  updateRule(input: RemotePortFwdUpdateRuleInput!): RemotePortFwdRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type RemotePortFwdPolicyQueries {
-  policy(input: RemotePortFwdPolicyInput): RemotePortFwdPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: RemotePortFwdPolicyInput): RemotePortFwdPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
+"""
+The source addresses for a Remote Port Forwarding rule.
+The rule's restriction type decides whether these sources are allowed or blocked.
+"""
 type RemotePortFwdRemoteIps {
   globalIpRange: [GlobalIpRangeRef!]!
   ip: [IPAddress!]!
@@ -6171,9 +6222,9 @@ type RoleManagementDeleteRolePayload {
 
 """ Create, update, and delete custom roles. """
 type RoleManagementMutations {
-  createRole(input: RoleManagementCreateRoleInput!): RoleManagementCreateRolePayload
-  deleteRole(input: RoleManagementDeleteRoleInput!): RoleManagementDeleteRolePayload
-  updateRole(input: RoleManagementUpdateRoleInput!): RoleManagementUpdateRolePayload
+  createRole(input: RoleManagementCreateRoleInput!): RoleManagementCreateRolePayload @beta
+  deleteRole(input: RoleManagementDeleteRoleInput!): RoleManagementDeleteRolePayload @beta
+  updateRole(input: RoleManagementUpdateRoleInput!): RoleManagementUpdateRolePayload @beta
 }
 
 """ A resource and action granted by a predefined or custom role. """
@@ -6189,9 +6240,9 @@ type RoleManagementPermissionCatalog {
 
 """ Queries for predefined roles, custom roles, and available permissions. """
 type RoleManagementQueries {
-  permissionCatalog: RoleManagementPermissionCatalog
-  role(id: ID!): RoleManagementRole
-  roleList(input: RoleManagementRoleListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): RoleManagementRoleListPayload
+  permissionCatalog: RoleManagementPermissionCatalog @beta
+  role(id: ID!): RoleManagementRole @beta
+  roleList(input: RoleManagementRoleListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): RoleManagementRoleListPayload @beta
 }
 
 """
@@ -6280,23 +6331,23 @@ type SdpStaticIpAllocationPolicyMutationPayload implements IPolicyMutationPayloa
 }
 
 type SdpStaticIpAllocationPolicyMutations {
-  addRule(input: SdpStaticIpAllocationAddRuleInput!): SdpStaticIpAllocationRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): SdpStaticIpAllocationPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): SdpStaticIpAllocationPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): SdpStaticIpAllocationRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): SdpStaticIpAllocationPolicyMutationPayload!
-  removeRule(input: SdpStaticIpAllocationRemoveRuleInput!): SdpStaticIpAllocationRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: SdpStaticIpAllocationPolicyUpdateInput!): SdpStaticIpAllocationPolicyMutationPayload!
-  updateRule(input: SdpStaticIpAllocationUpdateRuleInput!): SdpStaticIpAllocationRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: SdpStaticIpAllocationAddRuleInput!): SdpStaticIpAllocationRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): SdpStaticIpAllocationPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): SdpStaticIpAllocationPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): SdpStaticIpAllocationRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): SdpStaticIpAllocationPolicyMutationPayload! @beta
+  removeRule(input: SdpStaticIpAllocationRemoveRuleInput!): SdpStaticIpAllocationRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: SdpStaticIpAllocationPolicyUpdateInput!): SdpStaticIpAllocationPolicyMutationPayload! @beta
+  updateRule(input: SdpStaticIpAllocationUpdateRuleInput!): SdpStaticIpAllocationRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type SdpStaticIpAllocationPolicyQueries {
-  policy(input: SdpStaticIpAllocationPolicyInput): SdpStaticIpAllocationPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: SdpStaticIpAllocationPolicyInput): SdpStaticIpAllocationPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type SdpStaticIpAllocationRule implements IPolicyRule {
@@ -6700,24 +6751,24 @@ type SiteWebProxyPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type SiteWebProxyPolicyMutations {
-  addRule(input: SiteWebProxyAddRuleInput!): SiteWebProxyRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): SiteWebProxyPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): SiteWebProxyPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): SiteWebProxyRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): SiteWebProxyPolicyMutationPayload!
-  removeRule(input: SiteWebProxyRemoveRuleInput!): SiteWebProxyRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: SiteWebProxyPolicyUpdateInput!): SiteWebProxyPolicyMutationPayload!
-  updateRule(input: SiteWebProxyUpdateRuleInput!): SiteWebProxyRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: SiteWebProxyAddRuleInput!): SiteWebProxyRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): SiteWebProxyPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): SiteWebProxyPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): SiteWebProxyRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): SiteWebProxyPolicyMutationPayload! @beta
+  removeRule(input: SiteWebProxyRemoveRuleInput!): SiteWebProxyRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: SiteWebProxyPolicyUpdateInput!): SiteWebProxyPolicyMutationPayload! @beta
+  updateRule(input: SiteWebProxyUpdateRuleInput!): SiteWebProxyRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
   webProxyTraffic: SiteWebProxyTrafficPolicyMutations!
 }
 
 type SiteWebProxyPolicyQueries {
-  policy(input: SiteWebProxyPolicyInput): SiteWebProxyPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: SiteWebProxyPolicyInput): SiteWebProxyPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type SiteWebProxyRule implements IPolicyRule {
@@ -6763,10 +6814,10 @@ type SiteWebProxySource {
 }
 
 type SiteWebProxyTrafficPolicyMutations {
-  addRule(input: SiteWebProxyTrafficAddRuleInput!): SiteWebProxyTrafficRuleMutationPayload!
-  moveRule(input: PolicyMoveSubRuleInput!): SiteWebProxyTrafficRuleMutationPayload!
-  removeRule(input: SiteWebProxyTrafficRemoveRuleInput!): SiteWebProxyTrafficRuleMutationPayload!
-  updateRule(input: SiteWebProxyTrafficUpdateRuleInput!): SiteWebProxyTrafficRuleMutationPayload!
+  addRule(input: SiteWebProxyTrafficAddRuleInput!): SiteWebProxyTrafficRuleMutationPayload! @beta
+  moveRule(input: PolicyMoveSubRuleInput!): SiteWebProxyTrafficRuleMutationPayload! @beta
+  removeRule(input: SiteWebProxyTrafficRemoveRuleInput!): SiteWebProxyTrafficRuleMutationPayload! @beta
+  updateRule(input: SiteWebProxyTrafficUpdateRuleInput!): SiteWebProxyTrafficRuleMutationPayload! @beta
 }
 
 type SiteWebProxyTrafficRule implements IPolicyRule {
@@ -6847,24 +6898,24 @@ type SocketBypassPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type SocketBypassPolicyMutations {
-  addRule(input: SocketBypassAddRuleInput!): SocketBypassRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): SocketBypassPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): SocketBypassPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): SocketBypassRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): SocketBypassPolicyMutationPayload!
-  removeRule(input: SocketBypassRemoveRuleInput!): SocketBypassRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+  addRule(input: SocketBypassAddRuleInput!): SocketBypassRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): SocketBypassPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): SocketBypassPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): SocketBypassRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): SocketBypassPolicyMutationPayload! @beta
+  removeRule(input: SocketBypassRemoveRuleInput!): SocketBypassRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
   reorderPolicy(input: PolicyReorderInput!): SocketBypassPolicyMutationPayload! @beta
-  updatePolicy(input: SocketBypassPolicyUpdateInput!): SocketBypassPolicyMutationPayload!
-  updateRule(input: SocketBypassUpdateRuleInput!): SocketBypassRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  updatePolicy(input: SocketBypassPolicyUpdateInput!): SocketBypassPolicyMutationPayload! @beta
+  updateRule(input: SocketBypassUpdateRuleInput!): SocketBypassRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type SocketBypassPolicyQueries {
-  policy(input: SocketBypassPolicyInput): SocketBypassPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: SocketBypassPolicyInput): SocketBypassPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type SocketBypassRule implements IPolicyRule {
@@ -7029,10 +7080,10 @@ type SocketLanFirewallDestination {
 }
 
 type SocketLanFirewallPolicyMutations {
-  addRule(input: SocketLanFirewallAddRuleInput!): SocketLanFirewallRuleMutationPayload!
-  moveRule(input: PolicyMoveSubRuleInput!): SocketLanFirewallRuleMutationPayload!
-  removeRule(input: SocketLanFirewallRemoveRuleInput!): SocketLanFirewallRuleMutationPayload!
-  updateRule(input: SocketLanFirewallUpdateRuleInput!): SocketLanFirewallRuleMutationPayload!
+  addRule(input: SocketLanFirewallAddRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
+  moveRule(input: PolicyMoveSubRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
+  removeRule(input: SocketLanFirewallRemoveRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
+  updateRule(input: SocketLanFirewallUpdateRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
 }
 
 """ A reference to a SocketLAN Firewall sub-policy. Sub-model rules are always POLICY_RULE type; this field is present for PPS RBAC field compatibility. """
@@ -7138,28 +7189,28 @@ type SocketLanPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type SocketLanPolicyMutations {
-  addRule(input: SocketLanAddRuleInput!): SocketLanRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  addSubPolicy(input: SocketLanAddSubPolicyInput!): SocketLanAddSubPolicyMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): SocketLanPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): SocketLanPolicyMutationPayload!
+  addRule(input: SocketLanAddRuleInput!): SocketLanRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  addSubPolicy(input: SocketLanAddSubPolicyInput!): SocketLanAddSubPolicyMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): SocketLanPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): SocketLanPolicyMutationPayload! @beta
   firewall: SocketLanFirewallPolicyMutations!
-  moveRule(input: PolicyMoveRuleInput!): SocketLanRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): SocketLanPolicyMutationPayload!
-  removeRule(input: SocketLanRemoveRuleInput!): SocketLanRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  removeSubPolicy(input: SocketLanRemoveSubPolicyInput!): SocketLanRemoveSubPolicyMutationPayload!
+  moveRule(input: PolicyMoveRuleInput!): SocketLanRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): SocketLanPolicyMutationPayload! @beta
+  removeRule(input: SocketLanRemoveRuleInput!): SocketLanRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  removeSubPolicy(input: SocketLanRemoveSubPolicyInput!): SocketLanRemoveSubPolicyMutationPayload! @beta
   reorderPolicy(input: PolicyReorderInput!): SocketLanPolicyMutationPayload! @beta
-  updatePolicy(input: SocketLanPolicyUpdateInput!): SocketLanPolicyMutationPayload!
-  updateRule(input: SocketLanUpdateRuleInput!): SocketLanRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  updatePolicy(input: SocketLanPolicyUpdateInput!): SocketLanPolicyMutationPayload! @beta
+  updateRule(input: SocketLanUpdateRuleInput!): SocketLanRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type SocketLanPolicyQueries {
-  policy(input: SocketLanPolicyInput): SocketLanPolicy!
-  policyList(input: SocketLanPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): SocketLanPolicyListPayload!
-  revisions: PolicyRevisionsPayload
+  policy(input: SocketLanPolicyInput): SocketLanPolicy! @beta
+  policyList(input: SocketLanPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): SocketLanPolicyListPayload! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type SocketLanPolicyRef implements ObjectRef & PolicyRef {
@@ -7310,23 +7361,23 @@ type SplitTunnelPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type SplitTunnelPolicyMutations {
-  addRule(input: SplitTunnelAddRuleInput!): SplitTunnelRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): SplitTunnelPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): SplitTunnelPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): SplitTunnelRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): SplitTunnelPolicyMutationPayload!
-  removeRule(input: SplitTunnelRemoveRuleInput!): SplitTunnelRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: SplitTunnelPolicyUpdateInput!): SplitTunnelPolicyMutationPayload!
-  updateRule(input: SplitTunnelUpdateRuleInput!): SplitTunnelRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: SplitTunnelAddRuleInput!): SplitTunnelRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): SplitTunnelPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): SplitTunnelPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): SplitTunnelRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): SplitTunnelPolicyMutationPayload! @beta
+  removeRule(input: SplitTunnelRemoveRuleInput!): SplitTunnelRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: SplitTunnelPolicyUpdateInput!): SplitTunnelPolicyMutationPayload! @beta
+  updateRule(input: SplitTunnelUpdateRuleInput!): SplitTunnelRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type SplitTunnelPolicyQueries {
-  policy(input: SplitTunnelPolicyInput): SplitTunnelPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: SplitTunnelPolicyInput): SplitTunnelPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type SplitTunnelRule implements IPolicyRule {
@@ -7504,23 +7555,23 @@ type TerminalServerPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type TerminalServerPolicyMutations {
-  addRule(input: TerminalServerAddRuleInput!): TerminalServerRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): TerminalServerPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): TerminalServerPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): TerminalServerRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): TerminalServerPolicyMutationPayload!
-  removeRule(input: TerminalServerRemoveRuleInput!): TerminalServerRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: TerminalServerPolicyUpdateInput!): TerminalServerPolicyMutationPayload!
-  updateRule(input: TerminalServerUpdateRuleInput!): TerminalServerRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: TerminalServerAddRuleInput!): TerminalServerRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): TerminalServerPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): TerminalServerPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): TerminalServerRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): TerminalServerPolicyMutationPayload! @beta
+  removeRule(input: TerminalServerRemoveRuleInput!): TerminalServerRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: TerminalServerPolicyUpdateInput!): TerminalServerPolicyMutationPayload! @beta
+  updateRule(input: TerminalServerUpdateRuleInput!): TerminalServerRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type TerminalServerPolicyQueries {
-  policy(input: TerminalServerPolicyInput): TerminalServerPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: TerminalServerPolicyInput): TerminalServerPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type TerminalServerRule implements IPolicyRule {
@@ -7797,23 +7848,23 @@ type TlsInspectPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type TlsInspectPolicyMutations {
-  addRule(input: TlsInspectAddRuleInput!): TlsInspectRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): TlsInspectPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): TlsInspectPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): TlsInspectRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): TlsInspectPolicyMutationPayload!
-  removeRule(input: TlsInspectRemoveRuleInput!): TlsInspectRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: TlsInspectPolicyUpdateInput!): TlsInspectPolicyMutationPayload!
-  updateRule(input: TlsInspectUpdateRuleInput!): TlsInspectRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: TlsInspectAddRuleInput!): TlsInspectRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): TlsInspectPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): TlsInspectPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): TlsInspectRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): TlsInspectPolicyMutationPayload! @beta
+  removeRule(input: TlsInspectRemoveRuleInput!): TlsInspectRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: TlsInspectPolicyUpdateInput!): TlsInspectPolicyMutationPayload! @beta
+  updateRule(input: TlsInspectUpdateRuleInput!): TlsInspectRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type TlsInspectPolicyQueries {
-  policy(input: TlsInspectPolicyInput): TlsInspectPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: TlsInspectPolicyInput): TlsInspectPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type TlsInspectPolicyRef implements ObjectRef & PolicyRef {
@@ -8184,6 +8235,8 @@ type UserNotificationTemplateRef implements ObjectRef {
 type UserQueries {
   dynamicUserGroupsConfiguration: DynamicUserGroupsConfigurationPayload @beta
   userList(input: UserListInput!): UserListPayload @ga
+  usersGroup(input: UsersGroupInput!): UsersGroupDetailsWithMembers @beta
+  usersGroupList(input: UsersGroupListInput!): UsersGroupListPayload @beta
 }
 
 """ A reference identifying the User object. ID: Unique User Identifier, Name: The User Name """
@@ -8213,6 +8266,37 @@ type UserSnapshot {
   uptime: Int
   version: String
   versionNumber: Int
+}
+
+""" User-group details returned by list queries. """
+type UsersGroupDetails {
+  creationDate: DateTime
+  description: String
+  directoryId: String
+  id: ID!
+  importType: UsersGroupImportType!
+  lastModified: DateTime
+  membersCount: Int!
+  name: String!
+  objectId: String
+}
+
+""" User group details with members. """
+type UsersGroupDetailsWithMembers {
+  members(input: UsersGroupMembersInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:50,from:0}}): UsersGroupMembersPayload!
+  userGroup: UsersGroupDetails!
+}
+
+""" Response payload for user-group list queries. """
+type UsersGroupListPayload {
+  items: [UsersGroupDetails!]!
+  paging: PageInfo!
+}
+
+""" Response payload for members of a user group. """
+type UsersGroupMembersPayload {
+  items: [User!]!
+  paging: PageInfo!
 }
 
 """ A reference identifying the UsersGroup object. ID: Unique UsersGroup Identifier, Name: The UsersGroup Name """
@@ -8284,6 +8368,7 @@ type WanFirewallDestination {
   usersGroup: [UsersGroupRef!]!
 }
 
+""" Wan Firewall policy information for a specific revision """
 type WanFirewallPolicy implements IPolicy {
   access: EntityAccess!
   audit: PolicyAudit
@@ -8320,27 +8405,27 @@ type WanFirewallPolicyMutationPayload implements IPolicyMutationPayload {
 
 """ The Wan Firewall Policy information returned to the caller in the API response. """
 type WanFirewallPolicyMutations {
-  addRule(input: WanFirewallAddRuleInput!): WanFirewallRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  addSubPolicy(input: WanFirewallAddSubPolicyInput!): WanFirewallAddSubPolicyMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): WanFirewallPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): WanFirewallPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): WanFirewallRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): WanFirewallPolicyMutationPayload!
-  removeRule(input: WanFirewallRemoveRuleInput!): WanFirewallRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  removeSubPolicy(input: WanFirewallRemoveSubPolicyInput!): WanFirewallRemoveSubPolicyMutationPayload!
+  addRule(input: WanFirewallAddRuleInput!): WanFirewallRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  addSubPolicy(input: WanFirewallAddSubPolicyInput!): WanFirewallAddSubPolicyMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): WanFirewallPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): WanFirewallPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): WanFirewallRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): WanFirewallPolicyMutationPayload! @beta
+  removeRule(input: WanFirewallRemoveRuleInput!): WanFirewallRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  removeSubPolicy(input: WanFirewallRemoveSubPolicyInput!): WanFirewallRemoveSubPolicyMutationPayload! @beta
   reorderPolicy(input: PolicyReorderInput!): WanFirewallPolicyMutationPayload! @beta
-  updatePolicy(input: WanFirewallPolicyUpdateInput!): WanFirewallPolicyMutationPayload!
-  updateRule(input: WanFirewallUpdateRuleInput!): WanFirewallRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  updatePolicy(input: WanFirewallPolicyUpdateInput!): WanFirewallPolicyMutationPayload! @beta
+  updateRule(input: WanFirewallUpdateRuleInput!): WanFirewallRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type WanFirewallPolicyQueries {
-  policy(input: WanFirewallPolicyInput): WanFirewallPolicy!
-  policyList(input: WanFirewallPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): WanFirewallPolicyListPayload!
-  revisions: PolicyRevisionsPayload
+  policy(input: WanFirewallPolicyInput): WanFirewallPolicy! @beta
+  policyList(input: WanFirewallPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): WanFirewallPolicyListPayload! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type WanFirewallPolicyRef implements ObjectRef & PolicyRef {
@@ -8360,6 +8445,7 @@ type WanFirewallRule implements IPolicyRule {
   activePeriod: PolicyRuleActivePeriod!
   application: WanFirewallApplication!
   connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
   description: String!
   destination: WanFirewallDestination!
@@ -8383,6 +8469,7 @@ type WanFirewallRule implements IPolicyRule {
 type WanFirewallRuleException {
   application: WanFirewallApplication!
   connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
   destination: WanFirewallDestination!
   device: [DeviceProfileRef!]!
@@ -8456,24 +8543,24 @@ type WanNetworkPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type WanNetworkPolicyMutations {
-  addRule(input: WanNetworkAddRuleInput!): WanNetworkRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): WanNetworkPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): WanNetworkPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): WanNetworkRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): WanNetworkPolicyMutationPayload!
-  removeRule(input: WanNetworkRemoveRuleInput!): WanNetworkRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+  addRule(input: WanNetworkAddRuleInput!): WanNetworkRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): WanNetworkPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): WanNetworkPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): WanNetworkRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): WanNetworkPolicyMutationPayload! @beta
+  removeRule(input: WanNetworkRemoveRuleInput!): WanNetworkRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
   reorderPolicy(input: PolicyReorderInput!): WanNetworkPolicyMutationPayload! @beta
-  updatePolicy(input: WanNetworkPolicyUpdateInput!): WanNetworkPolicyMutationPayload!
-  updateRule(input: WanNetworkUpdateRuleInput!): WanNetworkRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  updatePolicy(input: WanNetworkPolicyUpdateInput!): WanNetworkPolicyMutationPayload! @beta
+  updateRule(input: WanNetworkUpdateRuleInput!): WanNetworkRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type WanNetworkPolicyQueries {
-  policy(input: WanNetworkPolicyInput): WanNetworkPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: WanNetworkPolicyInput): WanNetworkPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type WanNetworkPolicyRef implements ObjectRef & PolicyRef {
@@ -8761,23 +8848,23 @@ type ZtnaAlwaysOnPolicyMutationPayload implements IPolicyMutationPayload {
 }
 
 type ZtnaAlwaysOnPolicyMutations {
-  addRule(input: ZtnaAlwaysOnAddRuleInput!): ZtnaAlwaysOnRuleMutationPayload!
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
-  createPolicyRevision(input: PolicyCreateRevisionInput!): ZtnaAlwaysOnPolicyMutationPayload!
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): ZtnaAlwaysOnPolicyMutationPayload!
-  moveRule(input: PolicyMoveRuleInput!): ZtnaAlwaysOnRuleMutationPayload!
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
-  publishPolicyRevision(input: PolicyPublishRevisionInput): ZtnaAlwaysOnPolicyMutationPayload!
-  removeRule(input: ZtnaAlwaysOnRemoveRuleInput!): ZtnaAlwaysOnRuleMutationPayload!
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  updatePolicy(input: ZtnaAlwaysOnPolicyUpdateInput!): ZtnaAlwaysOnPolicyMutationPayload!
-  updateRule(input: ZtnaAlwaysOnUpdateRuleInput!): ZtnaAlwaysOnRuleMutationPayload!
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  addRule(input: ZtnaAlwaysOnAddRuleInput!): ZtnaAlwaysOnRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): ZtnaAlwaysOnPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): ZtnaAlwaysOnPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): ZtnaAlwaysOnRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): ZtnaAlwaysOnPolicyMutationPayload! @beta
+  removeRule(input: ZtnaAlwaysOnRemoveRuleInput!): ZtnaAlwaysOnRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: ZtnaAlwaysOnPolicyUpdateInput!): ZtnaAlwaysOnPolicyMutationPayload! @beta
+  updateRule(input: ZtnaAlwaysOnUpdateRuleInput!): ZtnaAlwaysOnRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type ZtnaAlwaysOnPolicyQueries {
-  policy(input: ZtnaAlwaysOnPolicyInput): ZtnaAlwaysOnPolicy!
-  revisions: PolicyRevisionsPayload
+  policy(input: ZtnaAlwaysOnPolicyInput): ZtnaAlwaysOnPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
 }
 
 type ZtnaAlwaysOnRule implements IPolicyRule {
@@ -9072,6 +9159,30 @@ type ZtnaUsersLicenseAllocations {
 }
 
 ##### Inputs ##########################
+""" Input for querying users and user groups selected for remote access eligibility. """
+input AccessRemoteAccessEntityListInput {
+  paging: PagingInput = {limit:100,from:0}
+  sort: AccessRemoteAccessEntitySortInput! = {type:{direction:ASC,priority:1},name:{direction:ASC,priority:2}}
+}
+
+""" A user or user group reference selected for remote access eligibility. Exactly one field must be provided. """
+input AccessRemoteAccessEntityRefInput {
+  user: UserRefInput
+  userGroup: UsersGroupRefInput
+}
+
+""" Input for sorting users and user groups selected for remote access eligibility. """
+input AccessRemoteAccessEntitySortInput {
+  name: SortOrderInput
+  type: SortOrderInput
+}
+
+""" Input for setting remote access eligibility. """
+input AccessRemoteAccessSetEligibilityListInput {
+  allocationType: AccessRemoteAccessAllocationType!
+  items: [AccessRemoteAccessEntityRefInput!]
+}
+
 """ Sort settings for managed account access requests. """
 input AccessRequestSortInput {
   activeDate: SortOrderInput
@@ -10966,6 +11077,7 @@ input DownloadIpAddressRangeContainerFileInput {
 input DynamicIpAllocationAddRuleDataInput {
   country: [CountryRefInput!]! = []
   description: String! = ""
+  devicePostureProfile: [DeviceProfileRefInput!]! = []
   enabled: Boolean!
   name: String!
   platform: [OperatingSystem!]! = []
@@ -11015,6 +11127,7 @@ input DynamicIpAllocationSourceUpdateInput {
 input DynamicIpAllocationUpdateRuleDataInput {
   country: [CountryRefInput!]
   description: String
+  devicePostureProfile: [DeviceProfileRefInput!]
   enabled: Boolean
   name: String
   platform: [OperatingSystem!]
@@ -11391,9 +11504,10 @@ input InternetFirewallAddRuleDataInput {
   actionConfig: InternetFirewallActionConfigInput! = {userNotification:[],rbiProfile:[]}
   activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
   connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
   description: String! = ""
-  destination: InternetFirewallDestinationInput! = {application:[],customApp:[],appCategory:[],customCategory:[],sanctionedAppsCategory:[],country:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[],remoteAsn:[],containers:{fqdnContainer:[],ipAddressRangeContainer:[]}}
+  destination: InternetFirewallDestinationInput! = {application:[],customApp:[],appCategory:[],customCategory:[],sanctionedAppsCategory:[],country:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[],remoteAsn:[],containers:{fqdnContainer:[],ipAddressRangeContainer:[]},group:[]}
   device: [DeviceProfileRefInput!]! = []
   deviceAttributes: DeviceAttributesInput! = {category:[],type:[],model:[],manufacturer:[],os:[],osVersion:[]}
   deviceOS: [OperatingSystem!]! = []
@@ -11423,11 +11537,13 @@ input InternetFirewallAddSubPolicyInput {
   scope: InternetFirewallAddRuleDataInput!
 }
 
+""" Containers to match on an Internet Firewall rule. """
 input InternetFirewallContainerInput {
   fqdnContainer: [FqdnContainerRefInput!]! = []
   ipAddressRangeContainer: [IpAddressRangeContainerRefInput!]! = []
 }
 
+""" Containers to match on an Internet Firewall rule. """
 input InternetFirewallContainerUpdateInput {
   fqdnContainer: [FqdnContainerRefInput!]
   ipAddressRangeContainer: [IpAddressRangeContainerRefInput!]
@@ -11444,6 +11560,7 @@ input InternetFirewallDestinationInput {
   domain: [CustomDomain!]! = []
   fqdn: [Fqdn!]! = []
   globalIpRange: [GlobalIpRangeRefInput!]! = []
+  group: [GroupRefInput!]! = []
   ip: [IPAddress!]! = []
   ipRange: [IpAddressRangeInput!]! = []
   remoteAsn: [Asn32!]! = []
@@ -11462,6 +11579,7 @@ input InternetFirewallDestinationUpdateInput {
   domain: [CustomDomain!]
   fqdn: [Fqdn!]
   globalIpRange: [GlobalIpRangeRefInput!]
+  group: [GroupRefInput!]
   ip: [IPAddress!]
   ipRange: [IpAddressRangeInput!]
   remoteAsn: [Asn32!]
@@ -11514,8 +11632,9 @@ input InternetFirewallRemoveSubPolicyInput {
 """ Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules. """
 input InternetFirewallRuleExceptionInput {
   connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
-  destination: InternetFirewallDestinationInput! = {application:[],customApp:[],appCategory:[],customCategory:[],sanctionedAppsCategory:[],country:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[],remoteAsn:[],containers:{fqdnContainer:[],ipAddressRangeContainer:[]}}
+  destination: InternetFirewallDestinationInput! = {application:[],customApp:[],appCategory:[],customCategory:[],sanctionedAppsCategory:[],country:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[],remoteAsn:[],containers:{fqdnContainer:[],ipAddressRangeContainer:[]},group:[]}
   device: [DeviceProfileRefInput!]! = []
   deviceAttributes: DeviceAttributesInput! = {category:[],type:[],model:[],manufacturer:[],os:[],osVersion:[]}
   deviceOS: [OperatingSystem!]! = []
@@ -11575,6 +11694,7 @@ input InternetFirewallUpdateRuleDataInput {
   actionConfig: InternetFirewallActionConfigUpdateInput
   activePeriod: PolicyRuleActivePeriodUpdateInput
   connectionOrigin: ConnectionOriginEnum @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]
   country: [CountryRefInput!]
   description: String
   destination: InternetFirewallDestinationUpdateInput
@@ -12918,6 +13038,10 @@ input RemotePortFwdPolicyUpdateInput {
   state: PolicyToggleState
 }
 
+"""
+The source addresses for a Remote Port Forwarding rule.
+The rule's restriction type decides whether these sources are allowed or blocked.
+"""
 input RemotePortFwdRemoteIpsInput {
   globalIpRange: [GlobalIpRangeRefInput!]! = []
   ip: [IPAddress!]! = []
@@ -12925,6 +13049,10 @@ input RemotePortFwdRemoteIpsInput {
   subnet: [NetworkSubnet!]! = []
 }
 
+"""
+The source addresses for a Remote Port Forwarding rule.
+The rule's restriction type decides whether these sources are allowed or blocked.
+"""
 input RemotePortFwdRemoteIpsUpdateInput {
   globalIpRange: [GlobalIpRangeRefInput!]
   ip: [IPAddress!]
@@ -15124,9 +15252,65 @@ input UserStatusFilterInput {
   nin: [UserStatus!]
 }
 
+""" Input for filtering user groups. """
+input UsersGroupFilterInput {
+  directoryId: [StringFilterInput!]
+  id: [IdFilterInput!]
+  importType: [UsersGroupImportTypeFilterInput!]
+  memberIds: [ID!]
+  searchTerm: FreeTextFilterInput
+}
+
+""" Input for filtering user groups by import type. """
+input UsersGroupImportTypeFilterInput {
+  eq: UsersGroupImportType
+  in: [UsersGroupImportType!]
+  neq: UsersGroupImportType
+  nin: [UsersGroupImportType!]
+}
+
+""" Input for retrieving a user group. """
+input UsersGroupInput {
+  group: UsersGroupRefInput!
+}
+
+""" Input for filtering, sorting, and paging user groups. """
+input UsersGroupListInput {
+  filter: UsersGroupFilterInput
+  paging: PagingInput = {limit:50,from:0}
+  sort: UsersGroupSortInput = {name:{direction:ASC,priority:1}}
+}
+
+""" Input for filtering members of a user group. """
+input UsersGroupMembersFilterInput {
+  searchTerm: FreeTextFilterInput
+}
+
+""" Input for filtering, sorting, and paging members of a user group. """
+input UsersGroupMembersInput {
+  filter: UsersGroupMembersFilterInput
+  paging: PagingInput = {limit:50,from:0}
+  sort: UsersGroupMembersSortInput = {name:{direction:ASC,priority:1}}
+}
+
+""" Input for sorting members of a user group. """
+input UsersGroupMembersSortInput {
+  email: SortOrderInput
+  importType: SortOrderInput
+  name: SortOrderInput
+}
+
 input UsersGroupRefInput {
   by: ObjectRefBy! = ID
   input: String!
+}
+
+""" Input for sorting user groups. """
+input UsersGroupSortInput {
+  creationDate: SortOrderInput
+  importType: SortOrderInput
+  lastModified: SortOrderInput
+  name: SortOrderInput
 }
 
 input ValidWifiRadioSettingsByCountryInput {
@@ -15172,6 +15356,7 @@ input WanFirewallAddRuleDataInput {
   activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
   application: WanFirewallApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],sanctionedAppsCategory:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[]}
   connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
   description: String! = ""
   destination: WanFirewallDestinationInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
@@ -15315,6 +15500,7 @@ input WanFirewallRemoveSubPolicyInput {
 input WanFirewallRuleExceptionInput {
   application: WanFirewallApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],sanctionedAppsCategory:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[]}
   connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
   destination: WanFirewallDestinationInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
   device: [DeviceProfileRefInput!]! = []
@@ -15378,6 +15564,7 @@ input WanFirewallUpdateRuleDataInput {
   activePeriod: PolicyRuleActivePeriodUpdateInput
   application: WanFirewallApplicationUpdateInput
   connectionOrigin: ConnectionOriginEnum @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]
   country: [CountryRefInput!]
   description: String
   destination: WanFirewallDestinationUpdateInput
@@ -15995,6 +16182,22 @@ scalar Url
 scalar Vlan
 
 ##### Enums ##########################
+""" How remote access eligibility is assigned to users. """
+enum AccessRemoteAccessAllocationType {
+  """ All eligible users receive remote access. """
+  ALL
+  """ Only eligible users from the selected users and user groups receive remote access. """
+  CUSTOM
+}
+
+""" Types of entities that can be selected for remote access eligibility. """
+enum AccessRemoteAccessEntityType {
+  """ A selected user. """
+  USER
+  """ A selected user group. """
+  USER_GROUP
+}
+
 enum AccessRequestStatus {
   ACTIVE
   EXPIRED
@@ -18128,7 +18331,7 @@ enum LicenseSku {
   CATO_ADSP
   """ Cato App & Data Security Package BW SKU """
   CATO_ADSP_B
-  """ Cato Advanced Security Package quantity-based SKU """
+  """ Cato App & Data Security quantity-based SKU """
   CATO_ADSP_Q
   """ Cato App & Data Security Package Users SKU """
   CATO_ADSP_U
@@ -18443,6 +18646,11 @@ enum MsResourceVerdictEnum {
   Informational
   Malicious
   Suspicious
+}
+
+enum MutationStatus {
+  FAILURE
+  SUCCESS
 }
 
 """ The type of a DHCP option value. """
@@ -18920,8 +19128,11 @@ enum RemediationStatusEnum {
   UNKNOWN
 }
 
+""" How the rule's remote IPs and countries are used. """
 enum RemotePortFwdRestrictionType {
+  """ Blocks all sources except the configured remote IPs and countries. """
   ALLOW_LIST
+  """ Allows all sources except the configured remote IPs and countries. """
   BLOCK_LIST
 }
 
@@ -19740,6 +19951,20 @@ enum UserStatus {
   LOCKED
 }
 
+""" Shows if user group was created, imported from an IdP, or computed dynamically. """
+enum UsersGroupImportType {
+  """ User group is computed dynamically from user attributes. """
+  DYNAMIC
+  """ User group was imported from an integration. """
+  INTEGRATION
+  """ User group was imported from LDAP. """
+  LDAP
+  """ User group was created manually. """
+  MANUAL
+  """ User group was imported from SCIM. """
+  SCIM
+}
+
 enum VendorEnum {
   CATO
   MICROSOFT
@@ -19750,6 +19975,7 @@ enum VrrpType {
   VIA_SWITCH
 }
 
+""" The action applied by the WAN Firewall if the rule is matched. """
 enum WanFirewallActionEnum {
   """ Allow the network traffic to pass through the firewall. """
   ALLOW
@@ -19761,8 +19987,11 @@ enum WanFirewallActionEnum {
   SUB_POLICY
 }
 
+""" The direction in which a WAN Firewall rule applies. """
 enum WanFirewallDirectionEnum {
+  """ The rule applies in both directions, from the source to the destination and from the destination to the source. """
   BOTH
+  """ The rule applies only to connections from the source to the destination (default). """
   TO
 }
 
