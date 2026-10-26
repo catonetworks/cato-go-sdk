@@ -1,7 +1,6 @@
-diff --git a/cato_api.graphqls b/cato_api.graphqls
 --- a/cato_api.graphqls
 +++ b/cato_api.graphqls
-@@ -15050,6 +15050,8 @@ enum InternetFirewallActionEnum {
+@@ -18172,6 +18172,8 @@
    PROMPT
    """ Apply Remote Browser Isolation (RBI) to the network traffic """
    RBI
@@ -10,7 +9,7 @@ diff --git a/cato_api.graphqls b/cato_api.graphqls
  }
  
  enum IpProtocol {
-@@ -16486,6 +16488,8 @@ enum WanFirewallActionEnum {
+@@ -19885,6 +19887,8 @@
    BLOCK
    """ Requests user confirmation to allow or block network traffic. """
    PROMPT
@@ -18,4 +17,4 @@ diff --git a/cato_api.graphqls b/cato_api.graphqls
 +  SUB_POLICY
  }
  
- enum WanFirewallDirectionEnum {
+ """ The direction in which a WAN Firewall rule applies. """
