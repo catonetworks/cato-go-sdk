@@ -35,6 +35,10 @@ mutation policyDynamicIpAllocationUpdateRule ($accountId: ID!, $dynamicIpAllocat
 							}
 						}
 						platform
+						devicePostureProfile {
+							id
+							name
+						}
 						country {
 							id
 							name

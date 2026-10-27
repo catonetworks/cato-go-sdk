@@ -37,6 +37,10 @@ mutation policyDynamicIpAllocationDiscardPolicyRevision ($accountId: ID!, $dynam
 								}
 							}
 							platform
+							devicePostureProfile {
+								id
+								name
+							}
 							country {
 								id
 								name
