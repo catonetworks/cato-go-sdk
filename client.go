@@ -378,6 +378,7 @@ type CatoClient interface {
 	SiteAddSocketSite(ctx context.Context, addSocketSiteInput cato_models.AddSocketSiteInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddSocketSite, error)
 	SiteAddStaticHost(ctx context.Context, siteID string, addStaticHostInput cato_models.AddStaticHostInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddStaticHost, error)
 	AssignSiteBwLicense(ctx context.Context, accountID string, input cato_models.AssignSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*AssignSiteBwLicense, error)
+	SiteAssignSocket(ctx context.Context, accountID string, siteAssignSocketInput cato_models.SiteAssignSocketInput, interceptors ...clientv2.RequestInterceptor) (*SiteAssignSocket, error)
 	SiteCreateBgpPeerBulk(ctx context.Context, accountID string, createBgpPeerBulkInput cato_models.CreateBgpPeerBulkInput, interceptors ...clientv2.RequestInterceptor) (*SiteCreateBgpPeerBulk, error)
 	SiteCreateNetworkRangeBulk(ctx context.Context, accountID string, createNetworkRangeBulkInput cato_models.CreateNetworkRangeBulkInput, interceptors ...clientv2.RequestInterceptor) (*SiteCreateNetworkRangeBulk, error)
 	SiteCreateStaticHostBulk(ctx context.Context, accountID string, createStaticHostBulkInput cato_models.CreateStaticHostBulkInput, interceptors ...clientv2.RequestInterceptor) (*SiteCreateStaticHostBulk, error)
@@ -402,6 +403,7 @@ type CatoClient interface {
 	SiteRemoveWifiSsid(ctx context.Context, accountID string, removeWifiSsidInput cato_models.RemoveWifiSsidInput, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveWifiSsid, error)
 	ReplaceSiteBwLicense(ctx context.Context, accountID string, input cato_models.ReplaceSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ReplaceSiteBwLicense, error)
 	SiteStartSiteUpgrade(ctx context.Context, accountID string, startSiteUpgradeInput cato_models.StartSiteUpgradeInput, interceptors ...clientv2.RequestInterceptor) (*SiteStartSiteUpgrade, error)
+	SiteUnassignSocket(ctx context.Context, accountID string, siteUnassignSocketInput cato_models.SiteUnassignSocketInput, interceptors ...clientv2.RequestInterceptor) (*SiteUnassignSocket, error)
 	SiteUpdateBgpPeer(ctx context.Context, updateBgpPeerInput cato_models.UpdateBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateBgpPeer, error)
 	SiteUpdateBgpPeerBulk(ctx context.Context, accountID string, updateBgpPeerBulkInput cato_models.UpdateBgpPeerBulkInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateBgpPeerBulk, error)
 	SiteUpdateBgpPeers(ctx context.Context, accountID string, updateBgpPeersInput cato_models.UpdateBgpPeersInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateBgpPeers, error)
@@ -440,6 +442,7 @@ type CatoClient interface {
 	SitesAddSocketSite(ctx context.Context, accountID string, addSocketSiteInput cato_models.AddSocketSiteInput, interceptors ...clientv2.RequestInterceptor) (*SitesAddSocketSite, error)
 	SitesAddStaticHost(ctx context.Context, accountID string, siteID string, addStaticHostInput cato_models.AddStaticHostInput, interceptors ...clientv2.RequestInterceptor) (*SitesAddStaticHost, error)
 	SitesAssignSiteBwLicense(ctx context.Context, accountID string, assignSiteBwLicenseInput cato_models.AssignSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*SitesAssignSiteBwLicense, error)
+	SitesAssignSocket(ctx context.Context, accountID string, siteAssignSocketInput cato_models.SiteAssignSocketInput, interceptors ...clientv2.RequestInterceptor) (*SitesAssignSocket, error)
 	SitesCreateBgpPeerBulk(ctx context.Context, accountID string, createBgpPeerBulkInput cato_models.CreateBgpPeerBulkInput, interceptors ...clientv2.RequestInterceptor) (*SitesCreateBgpPeerBulk, error)
 	SitesCreateNetworkRangeBulk(ctx context.Context, accountID string, createNetworkRangeBulkInput cato_models.CreateNetworkRangeBulkInput, interceptors ...clientv2.RequestInterceptor) (*SitesCreateNetworkRangeBulk, error)
 	SitesCreateStaticHostBulk(ctx context.Context, accountID string, createStaticHostBulkInput cato_models.CreateStaticHostBulkInput, interceptors ...clientv2.RequestInterceptor) (*SitesCreateStaticHostBulk, error)
@@ -464,6 +467,7 @@ type CatoClient interface {
 	SitesRemoveWifiSsid(ctx context.Context, accountID string, removeWifiSsidInput cato_models.RemoveWifiSsidInput, interceptors ...clientv2.RequestInterceptor) (*SitesRemoveWifiSsid, error)
 	SitesReplaceSiteBwLicense(ctx context.Context, accountID string, replaceSiteBwLicenseInput cato_models.ReplaceSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*SitesReplaceSiteBwLicense, error)
 	SitesStartSiteUpgrade(ctx context.Context, accountID string, startSiteUpgradeInput cato_models.StartSiteUpgradeInput, interceptors ...clientv2.RequestInterceptor) (*SitesStartSiteUpgrade, error)
+	SitesUnassignSocket(ctx context.Context, accountID string, siteUnassignSocketInput cato_models.SiteUnassignSocketInput, interceptors ...clientv2.RequestInterceptor) (*SitesUnassignSocket, error)
 	SitesUpdateBgpPeer(ctx context.Context, updateBgpPeerInput cato_models.UpdateBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SitesUpdateBgpPeer, error)
 	SitesUpdateBgpPeerBulk(ctx context.Context, accountID string, updateBgpPeerBulkInput cato_models.UpdateBgpPeerBulkInput, interceptors ...clientv2.RequestInterceptor) (*SitesUpdateBgpPeerBulk, error)
 	SitesUpdateBgpPeers(ctx context.Context, accountID string, updateBgpPeersInput cato_models.UpdateBgpPeersInput, interceptors ...clientv2.RequestInterceptor) (*SitesUpdateBgpPeers, error)
@@ -533,7 +537,7 @@ type CatoClient interface {
 	AppStats(ctx context.Context, limit *int64, from *int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, sort []*cato_models.AppStatsSort, appStatsPostAggFilter []*cato_models.AppStatsPostAggFilter, includeEmptyDimension *bool, interceptors ...clientv2.RequestInterceptor) (*AppStats, error)
 	AppStatsTimeSeries(ctx context.Context, perSecond *bool, withMissingData *bool, buckets int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, includeEmptyDimension *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AppStatsTimeSeries, error)
 	AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFieldName, accountIDs []string, ids []string, timeFrame string, filters []*cato_models.AuditFieldFilterInput, marker *string, interceptors ...clientv2.RequestInterceptor) (*AuditFeed, error)
-	BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, businessPlatformPartnerListInput *cato_models.BusinessPlatformPartnerListInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error)
+	BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, businessPlatformPartnerListInput *cato_models.BusinessPlatformPartnerListInput, businessPlatformCountAccountByPlanInput *cato_models.BusinessPlatformCountAccountByPlanInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error)
 	CatalogsCatalogApplicationFqdn(ctx context.Context, accountID string, applicationRefInput cato_models.ApplicationRefInput, interceptors ...clientv2.RequestInterceptor) (*CatalogsCatalogApplicationFqdn, error)
 	CatalogsCatalogApplicationList(ctx context.Context, accountID string, catalogApplicationListInput cato_models.CatalogApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*CatalogsCatalogApplicationList, error)
 	CatalogsContentTypeGroupList(ctx context.Context, accountID string, catalogApplicationContentTypeGroupListInput cato_models.CatalogApplicationContentTypeGroupListInput, interceptors ...clientv2.RequestInterceptor) (*CatalogsContentTypeGroupList, error)
@@ -564,6 +568,7 @@ type CatoClient interface {
 	EventsFeed(ctx context.Context, fieldNames []cato_models.EventFieldName, accountIDs []string, filters []*cato_models.EventFeedFieldFilterInput, marker *string, interceptors ...clientv2.RequestInterceptor) (*EventsFeed, error)
 	EventsTimeSeries(ctx context.Context, perSecond *bool, withMissingData *bool, buckets int64, accountID string, timeFrame string, measures []*cato_models.EventsMeasure, dimensions []*cato_models.EventsDimension, filters []*cato_models.EventsFilter, includeEmptyDimension *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*EventsTimeSeries, error)
 	ExternalAccess(ctx context.Context, accountID string, partnerAccessRequestListInput *cato_models.PartnerAccessRequestListInput, incomingAccessRequestListInput *cato_models.IncomingAccessRequestListInput, interceptors ...clientv2.RequestInterceptor) (*ExternalAccess, error)
+	FinancialDocuments(ctx context.Context, accountID string, invoiceAccountListInput cato_models.InvoiceAccountListInput, invoiceChargeItemListInput cato_models.InvoiceChargeItemListInput, invoiceSummaryListInput cato_models.InvoiceSummaryListInput, interceptors ...clientv2.RequestInterceptor) (*FinancialDocuments, error)
 	GroupsGroup(ctx context.Context, input cato_models.GroupRefInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsGroup, error)
 	GroupsGroupMembers(ctx context.Context, accountID string, groupRefInput cato_models.GroupRefInput, groupMembersListInput cato_models.GroupMembersListInput, interceptors ...clientv2.RequestInterceptor) (*GroupsGroupMembers, error)
 	GroupsGroupList(ctx context.Context, accountID string, groupListInput *cato_models.GroupListInput, groupMembersListInput cato_models.GroupMembersListInput, interceptors ...clientv2.RequestInterceptor) (*GroupsGroupList, error)
@@ -668,6 +673,8 @@ type CatoClient interface {
 	SiteSiteBgpStatus(ctx context.Context, accountID string, siteBgpStatusInput cato_models.SiteBgpStatusInput, interceptors ...clientv2.RequestInterceptor) (*SiteSiteBgpStatus, error)
 	SiteGeneralDetails(ctx context.Context, siteRefInput cato_models.SiteRefInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteGeneralDetails, error)
 	SiteSocketConfiguration(ctx context.Context, siteSocketConfigurationInput cato_models.SiteSocketConfigurationInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteSocketConfiguration, error)
+	SiteSocketInterface(ctx context.Context, accountID string, siteSocketInterfaceInput cato_models.SiteSocketInterfaceInput, interceptors ...clientv2.RequestInterceptor) (*SiteSocketInterface, error)
+	SiteSocketInterfaceList(ctx context.Context, accountID string, socketInterfaceListInput cato_models.SocketInterfaceListInput, interceptors ...clientv2.RequestInterceptor) (*SiteSocketInterfaceList, error)
 	SiteStaticHost(ctx context.Context, accountID string, siteRefInput cato_models.SiteRefInput, hostID string, interceptors ...clientv2.RequestInterceptor) (*SiteStaticHost, error)
 	SiteStaticHostList(ctx context.Context, accountID string, siteRefInput cato_models.SiteRefInput, interceptors ...clientv2.RequestInterceptor) (*SiteStaticHostList, error)
 	SiteValidWifiRadioSettings(ctx context.Context, accountID string, validWifiRadioSettingsInput cato_models.ValidWifiRadioSettingsInput, interceptors ...clientv2.RequestInterceptor) (*SiteValidWifiRadioSettings, error)
@@ -1036,6 +1043,7 @@ type BusinessPlatformCreateTrialAccount_BusinessPlatform_CreateTrialAccount_Acco
 	ExternalID          *string                                                                                 "json:\"externalId,omitempty\" graphql:\"externalId\""
 	ExternalName        string                                                                                  "json:\"externalName\" graphql:\"externalName\""
 	ID                  string                                                                                  "json:\"id\" graphql:\"id\""
+	IsMsp               bool                                                                                    "json:\"isMSP\" graphql:\"isMSP\""
 	Partner             BusinessPlatformCreateTrialAccount_BusinessPlatform_CreateTrialAccount_Account_Partner  "json:\"partner\" graphql:\"partner\""
 	Plan                cato_models.BusinessPlatformAccountPlan                                                 "json:\"plan\" graphql:\"plan\""
 	PostalCode          *string                                                                                 "json:\"postalCode,omitempty\" graphql:\"postalCode\""
@@ -1138,6 +1146,12 @@ func (t *BusinessPlatformCreateTrialAccount_BusinessPlatform_CreateTrialAccount_
 		t = &BusinessPlatformCreateTrialAccount_BusinessPlatform_CreateTrialAccount_Account{}
 	}
 	return t.ID
+}
+func (t *BusinessPlatformCreateTrialAccount_BusinessPlatform_CreateTrialAccount_Account) GetIsMsp() bool {
+	if t == nil {
+		t = &BusinessPlatformCreateTrialAccount_BusinessPlatform_CreateTrialAccount_Account{}
+	}
+	return t.IsMsp
 }
 func (t *BusinessPlatformCreateTrialAccount_BusinessPlatform_CreateTrialAccount_Account) GetPartner() *BusinessPlatformCreateTrialAccount_BusinessPlatform_CreateTrialAccount_Account_Partner {
 	if t == nil {
@@ -1245,6 +1259,7 @@ type BusinessPlatformLinkToTrialAccount_BusinessPlatform_LinkToTrialAccount_Acco
 	ExternalID          *string                                                                                 "json:\"externalId,omitempty\" graphql:\"externalId\""
 	ExternalName        string                                                                                  "json:\"externalName\" graphql:\"externalName\""
 	ID                  string                                                                                  "json:\"id\" graphql:\"id\""
+	IsMsp               bool                                                                                    "json:\"isMSP\" graphql:\"isMSP\""
 	Partner             BusinessPlatformLinkToTrialAccount_BusinessPlatform_LinkToTrialAccount_Account_Partner  "json:\"partner\" graphql:\"partner\""
 	Plan                cato_models.BusinessPlatformAccountPlan                                                 "json:\"plan\" graphql:\"plan\""
 	PostalCode          *string                                                                                 "json:\"postalCode,omitempty\" graphql:\"postalCode\""
@@ -1347,6 +1362,12 @@ func (t *BusinessPlatformLinkToTrialAccount_BusinessPlatform_LinkToTrialAccount_
 		t = &BusinessPlatformLinkToTrialAccount_BusinessPlatform_LinkToTrialAccount_Account{}
 	}
 	return t.ID
+}
+func (t *BusinessPlatformLinkToTrialAccount_BusinessPlatform_LinkToTrialAccount_Account) GetIsMsp() bool {
+	if t == nil {
+		t = &BusinessPlatformLinkToTrialAccount_BusinessPlatform_LinkToTrialAccount_Account{}
+	}
+	return t.IsMsp
 }
 func (t *BusinessPlatformLinkToTrialAccount_BusinessPlatform_LinkToTrialAccount_Account) GetPartner() *BusinessPlatformLinkToTrialAccount_BusinessPlatform_LinkToTrialAccount_Account_Partner {
 	if t == nil {
@@ -28143,11 +28164,18 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 }
 
 type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                           "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_ApplicationCriteria{}
@@ -29468,11 +29496,18 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 }
 
 type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                    "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_ApplicationCriteria{}
@@ -30760,11 +30795,18 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 }
 
 type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                    "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_ApplicationCriteria{}
@@ -32488,11 +32530,18 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 }
 
 type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                             "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
@@ -33813,11 +33862,18 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 }
 
 type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                      "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
@@ -35105,11 +35161,18 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 }
 
 type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                      "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
@@ -36783,11 +36846,18 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 }
 
 type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                               "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
@@ -38108,11 +38178,18 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 }
 
 type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                        "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
@@ -39400,11 +39477,18 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 }
 
 type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                        "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
@@ -41078,11 +41162,18 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 }
 
 type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                             "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria{}
@@ -42403,11 +42494,18 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 }
 
 type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                      "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_ApplicationCriteria{}
@@ -43695,11 +43793,18 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 }
 
 type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                      "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_ApplicationCriteria{}
@@ -45423,11 +45528,18 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 }
 
 type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                               "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
@@ -46748,11 +46860,18 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 }
 
 type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                        "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
@@ -48040,11 +48159,18 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 }
 
 type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                                        "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
@@ -49718,11 +49844,18 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 }
 
 type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                 "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_ApplicationCriteria{}
@@ -51043,11 +51176,18 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 }
 
 type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                          "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_ApplicationCriteria{}
@@ -52335,11 +52475,18 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 }
 
 type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                          "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_ApplicationCriteria{}
@@ -54063,11 +54210,18 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 }
 
 type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                             "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
@@ -55388,11 +55542,18 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 }
 
 type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                      "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
@@ -56680,11 +56841,18 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 }
 
 type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                      "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
@@ -58358,11 +58526,18 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 }
 
 type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                                 "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_ApplicationCriteria{}
@@ -59683,11 +59858,18 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 }
 
 type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                          "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_ApplicationCriteria{}
@@ -60975,11 +61157,18 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 }
 
 type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                          "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria) GetAttributes() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_ApplicationCriteria{}
@@ -218436,6 +218625,42 @@ func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application
 	return t.Name
 }
 
+type PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application struct {
 	AppCategory     []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -218445,6 +218670,8 @@ type PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application str
 	CustomServiceIP []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                   "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                   "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -218495,6 +218722,18 @@ func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application
 		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application) GetGlobalIPRange() []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application) GetGroup() []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application) GetService() []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Application_Service {
 	if t == nil {
@@ -219447,6 +219686,42 @@ func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_
 	return t.Name
 }
 
+type PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application struct {
 	AppCategory     []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -219456,6 +219731,8 @@ type PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Appl
 	CustomServiceIP []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                              "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                              "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -219506,6 +219783,18 @@ func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_
 		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application) GetGroup() []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application) GetService() []*PolicyWanNetworkAddRule_Policy_WanNetwork_AddRule_Rule_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -220854,6 +221143,42 @@ func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevi
 	return t.Name
 }
 
+type PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application struct {
 	AppCategory     []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -220863,6 +221188,8 @@ type PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision
 	CustomServiceIP []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                                     "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                                     "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -220913,6 +221240,18 @@ func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevi
 		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application) GetGlobalIPRange() []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application) GetGroup() []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application) GetService() []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Application_Service {
 	if t == nil {
@@ -221865,6 +222204,42 @@ func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevi
 	return t.Name
 }
 
+type PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application struct {
 	AppCategory     []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -221874,6 +222249,8 @@ type PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision
 	CustomServiceIP []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                                                "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                                                "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -221924,6 +222301,18 @@ func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevi
 		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetGroup() []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetService() []*PolicyWanNetworkCreatePolicyRevision_Policy_WanNetwork_CreatePolicyRevision_Policy_Rules_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -223204,6 +223593,42 @@ func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRe
 	return t.Name
 }
 
+type PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application struct {
 	AppCategory     []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -223213,6 +223638,8 @@ type PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevisi
 	CustomServiceIP []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                                       "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                                       "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -223263,6 +223690,18 @@ func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRe
 		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application) GetGlobalIPRange() []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application) GetGroup() []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application) GetService() []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Application_Service {
 	if t == nil {
@@ -224215,6 +224654,42 @@ func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRe
 	return t.Name
 }
 
+type PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application struct {
 	AppCategory     []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -224224,6 +224699,8 @@ type PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevisi
 	CustomServiceIP []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                                                  "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                                                  "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -224274,6 +224751,18 @@ func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRe
 		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetGroup() []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetService() []*PolicyWanNetworkDiscardPolicyRevision_Policy_WanNetwork_DiscardPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -225554,6 +226043,42 @@ func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Applicati
 	return t.Name
 }
 
+type PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application struct {
 	AppCategory     []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -225563,6 +226088,8 @@ type PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application s
 	CustomServiceIP []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                     "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                     "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -225613,6 +226140,18 @@ func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Applicati
 		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application) GetGlobalIPRange() []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application) GetGroup() []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application) GetService() []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Application_Service {
 	if t == nil {
@@ -226565,6 +227104,42 @@ func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exception
 	return t.Name
 }
 
+type PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application struct {
 	AppCategory     []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -226574,6 +227149,8 @@ type PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Ap
 	CustomServiceIP []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -226624,6 +227201,18 @@ func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exception
 		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application) GetGroup() []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application) GetService() []*PolicyWanNetworkMoveRule_Policy_WanNetwork_MoveRule_Rule_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -227972,6 +228561,42 @@ func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRe
 	return t.Name
 }
 
+type PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application struct {
 	AppCategory     []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -227981,6 +228606,8 @@ type PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevisi
 	CustomServiceIP []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                                       "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                                       "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -228031,6 +228658,18 @@ func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRe
 		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application) GetGlobalIPRange() []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application) GetGroup() []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application) GetService() []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Application_Service {
 	if t == nil {
@@ -228983,6 +229622,42 @@ func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRe
 	return t.Name
 }
 
+type PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application struct {
 	AppCategory     []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -228992,6 +229667,8 @@ type PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevisi
 	CustomServiceIP []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                                                  "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                                                  "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -229042,6 +229719,18 @@ func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRe
 		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetGroup() []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application) GetService() []*PolicyWanNetworkPublishPolicyRevision_Policy_WanNetwork_PublishPolicyRevision_Policy_Rules_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -230322,6 +231011,42 @@ func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Appli
 	return t.Name
 }
 
+type PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application struct {
 	AppCategory     []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -230331,6 +231056,8 @@ type PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Applicati
 	CustomServiceIP []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                         "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                         "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -230381,6 +231108,18 @@ func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Appli
 		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application) GetGlobalIPRange() []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application) GetGroup() []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application) GetService() []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Application_Service {
 	if t == nil {
@@ -231333,6 +232072,42 @@ func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Excep
 	return t.Name
 }
 
+type PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application struct {
 	AppCategory     []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -231342,6 +232117,8 @@ type PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exception
 	CustomServiceIP []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                    "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                    "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -231392,6 +232169,18 @@ func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Excep
 		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application) GetGroup() []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application) GetService() []*PolicyWanNetworkRemoveRule_Policy_WanNetwork_RemoveRule_Rule_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -235090,6 +235879,42 @@ func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rule
 	return t.Name
 }
 
+type PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application struct {
 	AppCategory     []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -235099,6 +235924,8 @@ type PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Ru
 	CustomServiceIP []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                     "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                     "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -235149,6 +235976,18 @@ func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rule
 		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application) GetGlobalIPRange() []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application) GetGroup() []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application) GetService() []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Application_Service {
 	if t == nil {
@@ -236101,6 +236940,42 @@ func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rule
 	return t.Name
 }
 
+type PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application struct {
 	AppCategory     []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -236110,6 +236985,8 @@ type PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Ru
 	CustomServiceIP []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                                "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                                "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -236160,6 +237037,18 @@ func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rule
 		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application) GetGroup() []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application) GetService() []*PolicyWanNetworkUpdatePolicy_Policy_WanNetwork_UpdatePolicy_Policy_Rules_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -237440,6 +238329,42 @@ func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Appli
 	return t.Name
 }
 
+type PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application struct {
 	AppCategory     []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -237449,6 +238374,8 @@ type PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Applicati
 	CustomServiceIP []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                         "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                         "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -237499,6 +238426,18 @@ func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Appli
 		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application) GetGlobalIPRange() []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application) GetGroup() []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application) GetService() []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Application_Service {
 	if t == nil {
@@ -238451,6 +239390,42 @@ func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Excep
 	return t.Name
 }
 
+type PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application struct {
 	AppCategory     []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -238460,6 +239435,8 @@ type PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exception
 	CustomServiceIP []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                                    "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                                    "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -238510,6 +239487,18 @@ func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Excep
 		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application) GetGroup() []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application) GetService() []*PolicyWanNetworkUpdateRule_Policy_WanNetwork_UpdateRule_Rule_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -252033,6 +253022,92 @@ func (t *AssignSiteBwLicense_Sites) GetAssignSiteBwLicense() *AssignSiteBwLicens
 	return t.AssignSiteBwLicense
 }
 
+type SiteAssignSocket_Site_AssignSocket_Socket_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *SiteAssignSocket_Site_AssignSocket_Socket_Site) GetID() string {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket_Socket_Site{}
+	}
+	return t.ID
+}
+func (t *SiteAssignSocket_Site_AssignSocket_Socket_Site) GetName() string {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket_Socket_Site{}
+	}
+	return t.Name
+}
+
+type SiteAssignSocket_Site_AssignSocket_Socket struct {
+	Description        *string                                        "json:\"description,omitempty\" graphql:\"description\""
+	ID                 string                                         "json:\"id\" graphql:\"id\""
+	Primary            bool                                           "json:\"primary\" graphql:\"primary\""
+	RegistrationStatus cato_models.SocketRegistrationStatus           "json:\"registrationStatus\" graphql:\"registrationStatus\""
+	Serial             string                                         "json:\"serial\" graphql:\"serial\""
+	Site               SiteAssignSocket_Site_AssignSocket_Socket_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteAssignSocket_Site_AssignSocket_Socket) GetDescription() *string {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket_Socket{}
+	}
+	return t.Description
+}
+func (t *SiteAssignSocket_Site_AssignSocket_Socket) GetID() string {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket_Socket{}
+	}
+	return t.ID
+}
+func (t *SiteAssignSocket_Site_AssignSocket_Socket) GetPrimary() bool {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket_Socket{}
+	}
+	return t.Primary
+}
+func (t *SiteAssignSocket_Site_AssignSocket_Socket) GetRegistrationStatus() *cato_models.SocketRegistrationStatus {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket_Socket{}
+	}
+	return &t.RegistrationStatus
+}
+func (t *SiteAssignSocket_Site_AssignSocket_Socket) GetSerial() string {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket_Socket{}
+	}
+	return t.Serial
+}
+func (t *SiteAssignSocket_Site_AssignSocket_Socket) GetSite() *SiteAssignSocket_Site_AssignSocket_Socket_Site {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket_Socket{}
+	}
+	return &t.Site
+}
+
+type SiteAssignSocket_Site_AssignSocket struct {
+	Socket SiteAssignSocket_Site_AssignSocket_Socket "json:\"socket\" graphql:\"socket\""
+}
+
+func (t *SiteAssignSocket_Site_AssignSocket) GetSocket() *SiteAssignSocket_Site_AssignSocket_Socket {
+	if t == nil {
+		t = &SiteAssignSocket_Site_AssignSocket{}
+	}
+	return &t.Socket
+}
+
+type SiteAssignSocket_Site struct {
+	AssignSocket *SiteAssignSocket_Site_AssignSocket "json:\"assignSocket,omitempty\" graphql:\"assignSocket\""
+}
+
+func (t *SiteAssignSocket_Site) GetAssignSocket() *SiteAssignSocket_Site_AssignSocket {
+	if t == nil {
+		t = &SiteAssignSocket_Site{}
+	}
+	return t.AssignSocket
+}
+
 type SiteCreateBgpPeerBulk_Site_CreateBgpPeerBulk_BgpPeer_Site struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -256716,6 +257791,46 @@ func (t *SiteStartSiteUpgrade_Site) GetStartSiteUpgrade() *SiteStartSiteUpgrade_
 		t = &SiteStartSiteUpgrade_Site{}
 	}
 	return t.StartSiteUpgrade
+}
+
+type SiteUnassignSocket_Site_UnassignSocket_Socket struct {
+	ID     string "json:\"id\" graphql:\"id\""
+	Serial string "json:\"serial\" graphql:\"serial\""
+}
+
+func (t *SiteUnassignSocket_Site_UnassignSocket_Socket) GetID() string {
+	if t == nil {
+		t = &SiteUnassignSocket_Site_UnassignSocket_Socket{}
+	}
+	return t.ID
+}
+func (t *SiteUnassignSocket_Site_UnassignSocket_Socket) GetSerial() string {
+	if t == nil {
+		t = &SiteUnassignSocket_Site_UnassignSocket_Socket{}
+	}
+	return t.Serial
+}
+
+type SiteUnassignSocket_Site_UnassignSocket struct {
+	Socket SiteUnassignSocket_Site_UnassignSocket_Socket "json:\"socket\" graphql:\"socket\""
+}
+
+func (t *SiteUnassignSocket_Site_UnassignSocket) GetSocket() *SiteUnassignSocket_Site_UnassignSocket_Socket {
+	if t == nil {
+		t = &SiteUnassignSocket_Site_UnassignSocket{}
+	}
+	return &t.Socket
+}
+
+type SiteUnassignSocket_Site struct {
+	UnassignSocket *SiteUnassignSocket_Site_UnassignSocket "json:\"unassignSocket,omitempty\" graphql:\"unassignSocket\""
+}
+
+func (t *SiteUnassignSocket_Site) GetUnassignSocket() *SiteUnassignSocket_Site_UnassignSocket {
+	if t == nil {
+		t = &SiteUnassignSocket_Site{}
+	}
+	return t.UnassignSocket
 }
 
 type SiteUpdateBgpPeer_Site_UpdateBgpPeer_BgpPeer_SiteRefSite struct {
@@ -262351,6 +263466,92 @@ func (t *SitesAssignSiteBwLicense_Sites) GetAssignSiteBwLicense() *SitesAssignSi
 	return t.AssignSiteBwLicense
 }
 
+type SitesAssignSocket_Sites_AssignSocket_Socket_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *SitesAssignSocket_Sites_AssignSocket_Socket_Site) GetID() string {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket_Socket_Site{}
+	}
+	return t.ID
+}
+func (t *SitesAssignSocket_Sites_AssignSocket_Socket_Site) GetName() string {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket_Socket_Site{}
+	}
+	return t.Name
+}
+
+type SitesAssignSocket_Sites_AssignSocket_Socket struct {
+	Description        *string                                          "json:\"description,omitempty\" graphql:\"description\""
+	ID                 string                                           "json:\"id\" graphql:\"id\""
+	Primary            bool                                             "json:\"primary\" graphql:\"primary\""
+	RegistrationStatus cato_models.SocketRegistrationStatus             "json:\"registrationStatus\" graphql:\"registrationStatus\""
+	Serial             string                                           "json:\"serial\" graphql:\"serial\""
+	Site               SitesAssignSocket_Sites_AssignSocket_Socket_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SitesAssignSocket_Sites_AssignSocket_Socket) GetDescription() *string {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket_Socket{}
+	}
+	return t.Description
+}
+func (t *SitesAssignSocket_Sites_AssignSocket_Socket) GetID() string {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket_Socket{}
+	}
+	return t.ID
+}
+func (t *SitesAssignSocket_Sites_AssignSocket_Socket) GetPrimary() bool {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket_Socket{}
+	}
+	return t.Primary
+}
+func (t *SitesAssignSocket_Sites_AssignSocket_Socket) GetRegistrationStatus() *cato_models.SocketRegistrationStatus {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket_Socket{}
+	}
+	return &t.RegistrationStatus
+}
+func (t *SitesAssignSocket_Sites_AssignSocket_Socket) GetSerial() string {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket_Socket{}
+	}
+	return t.Serial
+}
+func (t *SitesAssignSocket_Sites_AssignSocket_Socket) GetSite() *SitesAssignSocket_Sites_AssignSocket_Socket_Site {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket_Socket{}
+	}
+	return &t.Site
+}
+
+type SitesAssignSocket_Sites_AssignSocket struct {
+	Socket SitesAssignSocket_Sites_AssignSocket_Socket "json:\"socket\" graphql:\"socket\""
+}
+
+func (t *SitesAssignSocket_Sites_AssignSocket) GetSocket() *SitesAssignSocket_Sites_AssignSocket_Socket {
+	if t == nil {
+		t = &SitesAssignSocket_Sites_AssignSocket{}
+	}
+	return &t.Socket
+}
+
+type SitesAssignSocket_Sites struct {
+	AssignSocket *SitesAssignSocket_Sites_AssignSocket "json:\"assignSocket,omitempty\" graphql:\"assignSocket\""
+}
+
+func (t *SitesAssignSocket_Sites) GetAssignSocket() *SitesAssignSocket_Sites_AssignSocket {
+	if t == nil {
+		t = &SitesAssignSocket_Sites{}
+	}
+	return t.AssignSocket
+}
+
 type SitesCreateBgpPeerBulk_Sites_CreateBgpPeerBulk_BgpPeer_Site struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -267034,6 +268235,46 @@ func (t *SitesStartSiteUpgrade_Sites) GetStartSiteUpgrade() *SitesStartSiteUpgra
 		t = &SitesStartSiteUpgrade_Sites{}
 	}
 	return t.StartSiteUpgrade
+}
+
+type SitesUnassignSocket_Sites_UnassignSocket_Socket struct {
+	ID     string "json:\"id\" graphql:\"id\""
+	Serial string "json:\"serial\" graphql:\"serial\""
+}
+
+func (t *SitesUnassignSocket_Sites_UnassignSocket_Socket) GetID() string {
+	if t == nil {
+		t = &SitesUnassignSocket_Sites_UnassignSocket_Socket{}
+	}
+	return t.ID
+}
+func (t *SitesUnassignSocket_Sites_UnassignSocket_Socket) GetSerial() string {
+	if t == nil {
+		t = &SitesUnassignSocket_Sites_UnassignSocket_Socket{}
+	}
+	return t.Serial
+}
+
+type SitesUnassignSocket_Sites_UnassignSocket struct {
+	Socket SitesUnassignSocket_Sites_UnassignSocket_Socket "json:\"socket\" graphql:\"socket\""
+}
+
+func (t *SitesUnassignSocket_Sites_UnassignSocket) GetSocket() *SitesUnassignSocket_Sites_UnassignSocket_Socket {
+	if t == nil {
+		t = &SitesUnassignSocket_Sites_UnassignSocket{}
+	}
+	return &t.Socket
+}
+
+type SitesUnassignSocket_Sites struct {
+	UnassignSocket *SitesUnassignSocket_Sites_UnassignSocket "json:\"unassignSocket,omitempty\" graphql:\"unassignSocket\""
+}
+
+func (t *SitesUnassignSocket_Sites) GetUnassignSocket() *SitesUnassignSocket_Sites_UnassignSocket {
+	if t == nil {
+		t = &SitesUnassignSocket_Sites{}
+	}
+	return t.UnassignSocket
 }
 
 type SitesUpdateBgpPeer_Sites_UpdateBgpPeer_BgpPeer_SiteRefSite struct {
@@ -289242,6 +290483,7 @@ type BusinessPlatform_BusinessPlatform_AccountList_Items struct {
 	ExternalID          *string                                                      "json:\"externalId,omitempty\" graphql:\"externalId\""
 	ExternalName        string                                                       "json:\"externalName\" graphql:\"externalName\""
 	ID                  string                                                       "json:\"id\" graphql:\"id\""
+	IsMsp               bool                                                         "json:\"isMSP\" graphql:\"isMSP\""
 	Partner             BusinessPlatform_BusinessPlatform_AccountList_Items_Partner  "json:\"partner\" graphql:\"partner\""
 	Plan                cato_models.BusinessPlatformAccountPlan                      "json:\"plan\" graphql:\"plan\""
 	PostalCode          *string                                                      "json:\"postalCode,omitempty\" graphql:\"postalCode\""
@@ -289344,6 +290586,12 @@ func (t *BusinessPlatform_BusinessPlatform_AccountList_Items) GetID() string {
 		t = &BusinessPlatform_BusinessPlatform_AccountList_Items{}
 	}
 	return t.ID
+}
+func (t *BusinessPlatform_BusinessPlatform_AccountList_Items) GetIsMsp() bool {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_AccountList_Items{}
+	}
+	return t.IsMsp
 }
 func (t *BusinessPlatform_BusinessPlatform_AccountList_Items) GetPartner() *BusinessPlatform_BusinessPlatform_AccountList_Items_Partner {
 	if t == nil {
@@ -298628,6 +299876,381 @@ func (t *ExternalAccess_ExternalAccess) GetPartnerAccessRequestList() *ExternalA
 		t = &ExternalAccess_ExternalAccess{}
 	}
 	return t.PartnerAccessRequestList
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Invoice struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Invoice) GetID() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Invoice{}
+	}
+	return t.ID
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Invoice) GetName() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Invoice{}
+	}
+	return t.Name
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account_Account struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account_Account) GetID() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account_Account{}
+	}
+	return t.ID
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account_Account) GetName() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account_Account{}
+	}
+	return t.Name
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account struct {
+	Account   FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account_Account "json:\"account\" graphql:\"account\""
+	Amount    float64                                                                        "json:\"amount\" graphql:\"amount\""
+	EndDate   time.Time                                                                      "json:\"endDate\" graphql:\"endDate\""
+	StartDate time.Time                                                                      "json:\"startDate\" graphql:\"startDate\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account) GetAccount() *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account_Account {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account{}
+	}
+	return &t.Account
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account) GetAmount() float64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account{}
+	}
+	return t.Amount
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account) GetEndDate() *time.Time {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account{}
+	}
+	return &t.EndDate
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account) GetStartDate() *time.Time {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account{}
+	}
+	return &t.StartDate
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items struct {
+	Account      []*FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account "json:\"account\" graphql:\"account\""
+	Currency     string                                                                    "json:\"currency\" graphql:\"currency\""
+	DownloadPath string                                                                    "json:\"downloadPath\" graphql:\"downloadPath\""
+	DueDate      time.Time                                                                 "json:\"dueDate\" graphql:\"dueDate\""
+	Invoice      FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Invoice    "json:\"invoice\" graphql:\"invoice\""
+	IssuedDate   time.Time                                                                 "json:\"issuedDate\" graphql:\"issuedDate\""
+	Subtotal     float64                                                                   "json:\"subtotal\" graphql:\"subtotal\""
+	TaxTotal     float64                                                                   "json:\"taxTotal\" graphql:\"taxTotal\""
+	Total        float64                                                                   "json:\"total\" graphql:\"total\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetAccount() []*FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Account {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return t.Account
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetCurrency() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return t.Currency
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetDownloadPath() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return t.DownloadPath
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetDueDate() *time.Time {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return &t.DueDate
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetInvoice() *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items_Invoice {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return &t.Invoice
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetIssuedDate() *time.Time {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return &t.IssuedDate
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetSubtotal() float64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return t.Subtotal
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetTaxTotal() float64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return t.TaxTotal
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items) GetTotal() float64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items{}
+	}
+	return t.Total
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceSummaryList_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList_PageInfo{}
+	}
+	return t.Total
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceSummaryList struct {
+	Items    []*FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items "json:\"items\" graphql:\"items\""
+	PageInfo FinancialDocuments_FinancialDocuments_InvoiceSummaryList_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList) GetItems() []*FinancialDocuments_FinancialDocuments_InvoiceSummaryList_Items {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList{}
+	}
+	return t.Items
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceSummaryList) GetPageInfo() *FinancialDocuments_FinancialDocuments_InvoiceSummaryList_PageInfo {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceSummaryList{}
+	}
+	return &t.PageInfo
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items_Account struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items_Account) GetID() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items_Account{}
+	}
+	return t.ID
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items_Account) GetName() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items_Account{}
+	}
+	return t.Name
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items struct {
+	Account   FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items_Account "json:\"account\" graphql:\"account\""
+	Amount    float64                                                                "json:\"amount\" graphql:\"amount\""
+	EndDate   time.Time                                                              "json:\"endDate\" graphql:\"endDate\""
+	StartDate time.Time                                                              "json:\"startDate\" graphql:\"startDate\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items) GetAccount() *FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items_Account {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items{}
+	}
+	return &t.Account
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items) GetAmount() float64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items{}
+	}
+	return t.Amount
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items) GetEndDate() *time.Time {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items{}
+	}
+	return &t.EndDate
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items) GetStartDate() *time.Time {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items{}
+	}
+	return &t.StartDate
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceAccountList_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList_PageInfo{}
+	}
+	return t.Total
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceAccountList struct {
+	Items    []*FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items "json:\"items\" graphql:\"items\""
+	PageInfo FinancialDocuments_FinancialDocuments_InvoiceAccountList_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList) GetItems() []*FinancialDocuments_FinancialDocuments_InvoiceAccountList_Items {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList{}
+	}
+	return t.Items
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceAccountList) GetPageInfo() *FinancialDocuments_FinancialDocuments_InvoiceAccountList_PageInfo {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceAccountList{}
+	}
+	return &t.PageInfo
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items_Account struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items_Account) GetID() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items_Account{}
+	}
+	return t.ID
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items_Account) GetName() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items_Account{}
+	}
+	return t.Name
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items struct {
+	Account     FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items_Account "json:\"account\" graphql:\"account\""
+	Amount      float64                                                                   "json:\"amount\" graphql:\"amount\""
+	Description string                                                                    "json:\"description\" graphql:\"description\""
+	EndDate     time.Time                                                                 "json:\"endDate\" graphql:\"endDate\""
+	Name        string                                                                    "json:\"name\" graphql:\"name\""
+	Position    int64                                                                     "json:\"position\" graphql:\"position\""
+	Quantity    int64                                                                     "json:\"quantity\" graphql:\"quantity\""
+	StartDate   time.Time                                                                 "json:\"startDate\" graphql:\"startDate\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items) GetAccount() *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items_Account {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items{}
+	}
+	return &t.Account
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items) GetAmount() float64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items{}
+	}
+	return t.Amount
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items) GetDescription() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items{}
+	}
+	return t.Description
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items) GetEndDate() *time.Time {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items{}
+	}
+	return &t.EndDate
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items) GetName() string {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items{}
+	}
+	return t.Name
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items) GetPosition() int64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items{}
+	}
+	return t.Position
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items) GetQuantity() int64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items{}
+	}
+	return t.Quantity
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items) GetStartDate() *time.Time {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items{}
+	}
+	return &t.StartDate
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_PageInfo{}
+	}
+	return t.Total
+}
+
+type FinancialDocuments_FinancialDocuments_InvoiceChargeItemList struct {
+	Items    []*FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items "json:\"items\" graphql:\"items\""
+	PageInfo FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList) GetItems() []*FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_Items {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList{}
+	}
+	return t.Items
+}
+func (t *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList) GetPageInfo() *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList_PageInfo {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments_InvoiceChargeItemList{}
+	}
+	return &t.PageInfo
+}
+
+type FinancialDocuments_FinancialDocuments struct {
+	InvoiceAccountList    FinancialDocuments_FinancialDocuments_InvoiceAccountList    "json:\"invoiceAccountList\" graphql:\"invoiceAccountList\""
+	InvoiceChargeItemList FinancialDocuments_FinancialDocuments_InvoiceChargeItemList "json:\"invoiceChargeItemList\" graphql:\"invoiceChargeItemList\""
+	InvoiceSummaryList    FinancialDocuments_FinancialDocuments_InvoiceSummaryList    "json:\"invoiceSummaryList\" graphql:\"invoiceSummaryList\""
+}
+
+func (t *FinancialDocuments_FinancialDocuments) GetInvoiceAccountList() *FinancialDocuments_FinancialDocuments_InvoiceAccountList {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments{}
+	}
+	return &t.InvoiceAccountList
+}
+func (t *FinancialDocuments_FinancialDocuments) GetInvoiceChargeItemList() *FinancialDocuments_FinancialDocuments_InvoiceChargeItemList {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments{}
+	}
+	return &t.InvoiceChargeItemList
+}
+func (t *FinancialDocuments_FinancialDocuments) GetInvoiceSummaryList() *FinancialDocuments_FinancialDocuments_InvoiceSummaryList {
+	if t == nil {
+		t = &FinancialDocuments_FinancialDocuments{}
+	}
+	return &t.InvoiceSummaryList
 }
 
 type GroupsGroup_Groups_Group_Audit struct {
@@ -310747,11 +312370,18 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Ap
 }
 
 type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                                    "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
@@ -312072,11 +313702,18 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Da
 }
 
 type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                             "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria) GetAttributes() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationCriteria{}
@@ -313364,11 +315001,18 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Fi
 }
 
 type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria struct {
+	AiRisk        []cato_models.ApplicationControlAiRisk                                                                             "json:\"aiRisk\" graphql:\"aiRisk\""
 	Attributes    ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
 	OriginCountry []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
 	Risk          []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
 }
 
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAiRisk() []cato_models.ApplicationControlAiRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
+	}
+	return t.AiRisk
+}
 func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria) GetAttributes() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria_Attributes {
 	if t == nil {
 		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationCriteria{}
@@ -335929,6 +337573,42 @@ func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Servic
 	return t.Name
 }
 
+type WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Group) GetID() string {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Group) GetName() string {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Group{}
+	}
+	return t.Name
+}
+
 type WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application struct {
 	AppCategory     []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Application     "json:\"application\" graphql:\"application\""
@@ -335938,6 +337618,8 @@ type WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application struct {
 	CustomServiceIP []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                            "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                            "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -335988,6 +337670,18 @@ func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application) GetFq
 		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application{}
 	}
 	return t.Fqdn
+}
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application) GetGlobalIPRange() []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_GlobalIPRange {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application) GetGroup() []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Group {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application{}
+	}
+	return t.Group
 }
 func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application) GetService() []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Application_Service {
 	if t == nil {
@@ -336940,6 +338634,42 @@ func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Applica
 	return t.Name
 }
 
+type WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Group) GetID() string {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.ID
+}
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Group) GetName() string {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Group{}
+	}
+	return t.Name
+}
+
 type WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application struct {
 	AppCategory     []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_AppCategory     "json:\"appCategory\" graphql:\"appCategory\""
 	Application     []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Application     "json:\"application\" graphql:\"application\""
@@ -336949,6 +338679,8 @@ type WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application
 	CustomServiceIP []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_CustomServiceIP "json:\"customServiceIp\" graphql:\"customServiceIp\""
 	Domain          []string                                                                                       "json:\"domain\" graphql:\"domain\""
 	Fqdn            []string                                                                                       "json:\"fqdn\" graphql:\"fqdn\""
+	GlobalIPRange   []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange   "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group           []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Group           "json:\"group\" graphql:\"group\""
 	Service         []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Service         "json:\"service\" graphql:\"service\""
 }
 
@@ -336999,6 +338731,18 @@ func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Applica
 		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application{}
 	}
 	return t.Fqdn
+}
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application) GetGlobalIPRange() []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.GlobalIPRange
+}
+func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application) GetGroup() []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Group {
+	if t == nil {
+		t = &WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application{}
+	}
+	return t.Group
 }
 func (t *WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application) GetService() []*WanNetworkPolicy_Policy_WanNetwork_Policy_Rules_Rule_Exceptions_Application_Service {
 	if t == nil {
@@ -348531,6 +350275,31 @@ func (t *SiteGeneralDetails_Site_SiteGeneralDetails_PreferredPopLocationSiteGene
 	return t.Secondary
 }
 
+type SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit struct {
+	DownstreamMaxBandwidthMbps int64 "json:\"downstreamMaxBandwidthMbps\" graphql:\"downstreamMaxBandwidthMbps\""
+	Override                   bool  "json:\"override\" graphql:\"override\""
+	UpstreamMaxBandwidthMbps   int64 "json:\"upstreamMaxBandwidthMbps\" graphql:\"upstreamMaxBandwidthMbps\""
+}
+
+func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetDownstreamMaxBandwidthMbps() int64 {
+	if t == nil {
+		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
+	}
+	return t.DownstreamMaxBandwidthMbps
+}
+func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetOverride() bool {
+	if t == nil {
+		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
+	}
+	return t.Override
+}
+func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetUpstreamMaxBandwidthMbps() int64 {
+	if t == nil {
+		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
+	}
+	return t.UpstreamMaxBandwidthMbps
+}
+
 type SiteGeneralDetails_Site_SiteGeneralDetails_WorkingHours struct {
 	FromTimeMinuteOffset *int64                  "json:\"fromTimeMinuteOffset,omitempty\" graphql:\"fromTimeMinuteOffset\""
 	Override             bool                    "json:\"override\" graphql:\"override\""
@@ -348568,6 +350337,7 @@ type SiteGeneralDetails_Site_SiteGeneralDetails struct {
 	DisableACLForSip                              bool                                                                                      "json:\"disableAclForSip\" graphql:\"disableAclForSip\""
 	PreferredPopLocationSiteGeneralDetailsPayload *SiteGeneralDetails_Site_SiteGeneralDetails_PreferredPopLocationSiteGeneralDetailsPayload "json:\"preferredPopLocationSiteGeneralDetailsPayload,omitempty\" graphql:\"preferredPopLocationSiteGeneralDetailsPayload\""
 	Site                                          SiteGeneralDetails_Site_SiteGeneralDetails_Site                                           "json:\"site\" graphql:\"site\""
+	SiteBandwidthLimit                            *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit                            "json:\"siteBandwidthLimit,omitempty\" graphql:\"siteBandwidthLimit\""
 	SiteLocation                                  SiteGeneralDetails_Site_SiteGeneralDetails_SiteLocation                                   "json:\"siteLocation\" graphql:\"siteLocation\""
 	SiteType                                      cato_models.SiteType                                                                      "json:\"siteType\" graphql:\"siteType\""
 	WorkingHours                                  *SiteGeneralDetails_Site_SiteGeneralDetails_WorkingHours                                  "json:\"workingHours,omitempty\" graphql:\"workingHours\""
@@ -348596,6 +350366,12 @@ func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSite() *SiteGeneralDetai
 		t = &SiteGeneralDetails_Site_SiteGeneralDetails{}
 	}
 	return &t.Site
+}
+func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSiteBandwidthLimit() *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit {
+	if t == nil {
+		t = &SiteGeneralDetails_Site_SiteGeneralDetails{}
+	}
+	return t.SiteBandwidthLimit
 }
 func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSiteLocation() *SiteGeneralDetails_Site_SiteGeneralDetails_SiteLocation {
 	if t == nil {
@@ -348810,6 +350586,583 @@ func (t *SiteSocketConfiguration_Site) GetSiteSocketConfiguration() *SiteSocketC
 		t = &SiteSocketConfiguration_Site{}
 	}
 	return t.SiteSocketConfiguration
+}
+
+type SiteSocketInterface_Site_SocketInterface_Lan struct {
+	LocalIP          *string "json:\"localIp,omitempty\" graphql:\"localIp\""
+	Subnet           string  "json:\"subnet\" graphql:\"subnet\""
+	TranslatedSubnet *string "json:\"translatedSubnet,omitempty\" graphql:\"translatedSubnet\""
+}
+
+func (t *SiteSocketInterface_Site_SocketInterface_Lan) GetLocalIP() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Lan{}
+	}
+	return t.LocalIP
+}
+func (t *SiteSocketInterface_Site_SocketInterface_Lan) GetSubnet() string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Lan{}
+	}
+	return t.Subnet
+}
+func (t *SiteSocketInterface_Site_SocketInterface_Lan) GetTranslatedSubnet() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Lan{}
+	}
+	return t.TranslatedSubnet
+}
+
+type SiteSocketInterface_Site_SocketInterface_Bandwidth struct {
+	DownstreamBandwidth              *int64   "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64 "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	UpstreamBandwidth                *int64   "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64 "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
+}
+
+func (t *SiteSocketInterface_Site_SocketInterface_Bandwidth) GetDownstreamBandwidth() *int64 {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Bandwidth{}
+	}
+	return t.DownstreamBandwidth
+}
+func (t *SiteSocketInterface_Site_SocketInterface_Bandwidth) GetDownstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Bandwidth{}
+	}
+	return t.DownstreamBandwidthMbpsPrecision
+}
+func (t *SiteSocketInterface_Site_SocketInterface_Bandwidth) GetUpstreamBandwidth() *int64 {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Bandwidth{}
+	}
+	return t.UpstreamBandwidth
+}
+func (t *SiteSocketInterface_Site_SocketInterface_Bandwidth) GetUpstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Bandwidth{}
+	}
+	return t.UpstreamBandwidthMbpsPrecision
+}
+
+type SiteSocketInterface_Site_SocketInterface_Wan struct {
+	Precedence cato_models.SocketInterfacePrecedenceEnum "json:\"precedence\" graphql:\"precedence\""
+	Role       *cato_models.SocketInterfaceRole          "json:\"role,omitempty\" graphql:\"role\""
+}
+
+func (t *SiteSocketInterface_Site_SocketInterface_Wan) GetPrecedence() *cato_models.SocketInterfacePrecedenceEnum {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Wan{}
+	}
+	return &t.Precedence
+}
+func (t *SiteSocketInterface_Site_SocketInterface_Wan) GetRole() *cato_models.SocketInterfaceRole {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Wan{}
+	}
+	return t.Role
+}
+
+type SiteSocketInterface_Site_SocketInterface_OffCloud struct {
+	Enabled          bool    "json:\"enabled\" graphql:\"enabled\""
+	PublicIP         *string "json:\"publicIp,omitempty\" graphql:\"publicIp\""
+	PublicStaticPort *int64  "json:\"publicStaticPort,omitempty\" graphql:\"publicStaticPort\""
+}
+
+func (t *SiteSocketInterface_Site_SocketInterface_OffCloud) GetEnabled() bool {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_OffCloud{}
+	}
+	return t.Enabled
+}
+func (t *SiteSocketInterface_Site_SocketInterface_OffCloud) GetPublicIP() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_OffCloud{}
+	}
+	return t.PublicIP
+}
+func (t *SiteSocketInterface_Site_SocketInterface_OffCloud) GetPublicStaticPort() *int64 {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_OffCloud{}
+	}
+	return t.PublicStaticPort
+}
+
+type SiteSocketInterface_Site_SocketInterface_AltWan struct {
+	PrivateGatewayIP   *string "json:\"privateGatewayIp,omitempty\" graphql:\"privateGatewayIp\""
+	PrivateInterfaceIP *string "json:\"privateInterfaceIp,omitempty\" graphql:\"privateInterfaceIp\""
+	PrivateNetwork     *string "json:\"privateNetwork,omitempty\" graphql:\"privateNetwork\""
+	PrivateVlanTag     *int64  "json:\"privateVlanTag,omitempty\" graphql:\"privateVlanTag\""
+	PublicGatewayIP    *string "json:\"publicGatewayIp,omitempty\" graphql:\"publicGatewayIp\""
+	PublicInterfaceIP  *string "json:\"publicInterfaceIp,omitempty\" graphql:\"publicInterfaceIp\""
+	PublicNetwork      *string "json:\"publicNetwork,omitempty\" graphql:\"publicNetwork\""
+	PublicVlanTag      *int64  "json:\"publicVlanTag,omitempty\" graphql:\"publicVlanTag\""
+}
+
+func (t *SiteSocketInterface_Site_SocketInterface_AltWan) GetPrivateGatewayIP() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_AltWan{}
+	}
+	return t.PrivateGatewayIP
+}
+func (t *SiteSocketInterface_Site_SocketInterface_AltWan) GetPrivateInterfaceIP() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_AltWan{}
+	}
+	return t.PrivateInterfaceIP
+}
+func (t *SiteSocketInterface_Site_SocketInterface_AltWan) GetPrivateNetwork() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_AltWan{}
+	}
+	return t.PrivateNetwork
+}
+func (t *SiteSocketInterface_Site_SocketInterface_AltWan) GetPrivateVlanTag() *int64 {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_AltWan{}
+	}
+	return t.PrivateVlanTag
+}
+func (t *SiteSocketInterface_Site_SocketInterface_AltWan) GetPublicGatewayIP() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_AltWan{}
+	}
+	return t.PublicGatewayIP
+}
+func (t *SiteSocketInterface_Site_SocketInterface_AltWan) GetPublicInterfaceIP() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_AltWan{}
+	}
+	return t.PublicInterfaceIP
+}
+func (t *SiteSocketInterface_Site_SocketInterface_AltWan) GetPublicNetwork() *string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_AltWan{}
+	}
+	return t.PublicNetwork
+}
+func (t *SiteSocketInterface_Site_SocketInterface_AltWan) GetPublicVlanTag() *int64 {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_AltWan{}
+	}
+	return t.PublicVlanTag
+}
+
+type SiteSocketInterface_Site_SocketInterface_Lag struct {
+	MinLinks int64 "json:\"minLinks\" graphql:\"minLinks\""
+}
+
+func (t *SiteSocketInterface_Site_SocketInterface_Lag) GetMinLinks() int64 {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Lag{}
+	}
+	return t.MinLinks
+}
+
+type SiteSocketInterface_Site_SocketInterface_Vrrp struct {
+	VrrpType *cato_models.VrrpType "json:\"vrrpType,omitempty\" graphql:\"vrrpType\""
+}
+
+func (t *SiteSocketInterface_Site_SocketInterface_Vrrp) GetVrrpType() *cato_models.VrrpType {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface_Vrrp{}
+	}
+	return t.VrrpType
+}
+
+type SiteSocketInterface_Site_SocketInterface struct {
+	AltWan                *SiteSocketInterface_Site_SocketInterface_AltWan    "json:\"altWan,omitempty\" graphql:\"altWan\""
+	Bandwidth             *SiteSocketInterface_Site_SocketInterface_Bandwidth "json:\"bandwidth,omitempty\" graphql:\"bandwidth\""
+	DestType              cato_models.SocketInterfaceDestType                 "json:\"destType\" graphql:\"destType\""
+	Lag                   *SiteSocketInterface_Site_SocketInterface_Lag       "json:\"lag,omitempty\" graphql:\"lag\""
+	Lan                   *SiteSocketInterface_Site_SocketInterface_Lan       "json:\"lan,omitempty\" graphql:\"lan\""
+	Name                  string                                              "json:\"name\" graphql:\"name\""
+	OffCloud              *SiteSocketInterface_Site_SocketInterface_OffCloud  "json:\"offCloud,omitempty\" graphql:\"offCloud\""
+	SocketInterfaceID     cato_models.SocketInterfaceIDEnum                   "json:\"socketInterfaceId\" graphql:\"socketInterfaceId\""
+	SupportedDestinations []cato_models.SocketInterfaceDestType               "json:\"supportedDestinations\" graphql:\"supportedDestinations\""
+	Vrrp                  *SiteSocketInterface_Site_SocketInterface_Vrrp      "json:\"vrrp,omitempty\" graphql:\"vrrp\""
+	Wan                   *SiteSocketInterface_Site_SocketInterface_Wan       "json:\"wan,omitempty\" graphql:\"wan\""
+}
+
+func (t *SiteSocketInterface_Site_SocketInterface) GetAltWan() *SiteSocketInterface_Site_SocketInterface_AltWan {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.AltWan
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetBandwidth() *SiteSocketInterface_Site_SocketInterface_Bandwidth {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.Bandwidth
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetDestType() *cato_models.SocketInterfaceDestType {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return &t.DestType
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetLag() *SiteSocketInterface_Site_SocketInterface_Lag {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.Lag
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetLan() *SiteSocketInterface_Site_SocketInterface_Lan {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.Lan
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetName() string {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.Name
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetOffCloud() *SiteSocketInterface_Site_SocketInterface_OffCloud {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.OffCloud
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetSocketInterfaceID() *cato_models.SocketInterfaceIDEnum {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return &t.SocketInterfaceID
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetSupportedDestinations() []cato_models.SocketInterfaceDestType {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.SupportedDestinations
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetVrrp() *SiteSocketInterface_Site_SocketInterface_Vrrp {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.Vrrp
+}
+func (t *SiteSocketInterface_Site_SocketInterface) GetWan() *SiteSocketInterface_Site_SocketInterface_Wan {
+	if t == nil {
+		t = &SiteSocketInterface_Site_SocketInterface{}
+	}
+	return t.Wan
+}
+
+type SiteSocketInterface_Site struct {
+	SocketInterface *SiteSocketInterface_Site_SocketInterface "json:\"socketInterface,omitempty\" graphql:\"socketInterface\""
+}
+
+func (t *SiteSocketInterface_Site) GetSocketInterface() *SiteSocketInterface_Site_SocketInterface {
+	if t == nil {
+		t = &SiteSocketInterface_Site{}
+	}
+	return t.SocketInterface
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan struct {
+	LocalIP          *string "json:\"localIp,omitempty\" graphql:\"localIp\""
+	Subnet           string  "json:\"subnet\" graphql:\"subnet\""
+	TranslatedSubnet *string "json:\"translatedSubnet,omitempty\" graphql:\"translatedSubnet\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan) GetLocalIP() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan{}
+	}
+	return t.LocalIP
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan) GetSubnet() string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan{}
+	}
+	return t.Subnet
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan) GetTranslatedSubnet() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan{}
+	}
+	return t.TranslatedSubnet
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth struct {
+	DownstreamBandwidth              *int64   "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64 "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	UpstreamBandwidth                *int64   "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64 "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth) GetDownstreamBandwidth() *int64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth{}
+	}
+	return t.DownstreamBandwidth
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth) GetDownstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth{}
+	}
+	return t.DownstreamBandwidthMbpsPrecision
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth) GetUpstreamBandwidth() *int64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth{}
+	}
+	return t.UpstreamBandwidth
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth) GetUpstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth{}
+	}
+	return t.UpstreamBandwidthMbpsPrecision
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Wan struct {
+	Precedence cato_models.SocketInterfacePrecedenceEnum "json:\"precedence\" graphql:\"precedence\""
+	Role       *cato_models.SocketInterfaceRole          "json:\"role,omitempty\" graphql:\"role\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Wan) GetPrecedence() *cato_models.SocketInterfacePrecedenceEnum {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Wan{}
+	}
+	return &t.Precedence
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Wan) GetRole() *cato_models.SocketInterfaceRole {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Wan{}
+	}
+	return t.Role
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud struct {
+	Enabled          bool    "json:\"enabled\" graphql:\"enabled\""
+	PublicIP         *string "json:\"publicIp,omitempty\" graphql:\"publicIp\""
+	PublicStaticPort *int64  "json:\"publicStaticPort,omitempty\" graphql:\"publicStaticPort\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud) GetEnabled() bool {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud{}
+	}
+	return t.Enabled
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud) GetPublicIP() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud{}
+	}
+	return t.PublicIP
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud) GetPublicStaticPort() *int64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud{}
+	}
+	return t.PublicStaticPort
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan struct {
+	PrivateGatewayIP   *string "json:\"privateGatewayIp,omitempty\" graphql:\"privateGatewayIp\""
+	PrivateInterfaceIP *string "json:\"privateInterfaceIp,omitempty\" graphql:\"privateInterfaceIp\""
+	PrivateNetwork     *string "json:\"privateNetwork,omitempty\" graphql:\"privateNetwork\""
+	PrivateVlanTag     *int64  "json:\"privateVlanTag,omitempty\" graphql:\"privateVlanTag\""
+	PublicGatewayIP    *string "json:\"publicGatewayIp,omitempty\" graphql:\"publicGatewayIp\""
+	PublicInterfaceIP  *string "json:\"publicInterfaceIp,omitempty\" graphql:\"publicInterfaceIp\""
+	PublicNetwork      *string "json:\"publicNetwork,omitempty\" graphql:\"publicNetwork\""
+	PublicVlanTag      *int64  "json:\"publicVlanTag,omitempty\" graphql:\"publicVlanTag\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan) GetPrivateGatewayIP() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan{}
+	}
+	return t.PrivateGatewayIP
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan) GetPrivateInterfaceIP() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan{}
+	}
+	return t.PrivateInterfaceIP
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan) GetPrivateNetwork() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan{}
+	}
+	return t.PrivateNetwork
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan) GetPrivateVlanTag() *int64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan{}
+	}
+	return t.PrivateVlanTag
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan) GetPublicGatewayIP() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan{}
+	}
+	return t.PublicGatewayIP
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan) GetPublicInterfaceIP() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan{}
+	}
+	return t.PublicInterfaceIP
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan) GetPublicNetwork() *string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan{}
+	}
+	return t.PublicNetwork
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan) GetPublicVlanTag() *int64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan{}
+	}
+	return t.PublicVlanTag
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lag struct {
+	MinLinks int64 "json:\"minLinks\" graphql:\"minLinks\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lag) GetMinLinks() int64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lag{}
+	}
+	return t.MinLinks
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Vrrp struct {
+	VrrpType *cato_models.VrrpType "json:\"vrrpType,omitempty\" graphql:\"vrrpType\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Vrrp) GetVrrpType() *cato_models.VrrpType {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Vrrp{}
+	}
+	return t.VrrpType
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Items struct {
+	AltWan                *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan    "json:\"altWan,omitempty\" graphql:\"altWan\""
+	Bandwidth             *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth "json:\"bandwidth,omitempty\" graphql:\"bandwidth\""
+	DestType              cato_models.SocketInterfaceDestType                               "json:\"destType\" graphql:\"destType\""
+	Lag                   *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lag       "json:\"lag,omitempty\" graphql:\"lag\""
+	Lan                   *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan       "json:\"lan,omitempty\" graphql:\"lan\""
+	Name                  string                                                            "json:\"name\" graphql:\"name\""
+	OffCloud              *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud  "json:\"offCloud,omitempty\" graphql:\"offCloud\""
+	SocketInterfaceID     cato_models.SocketInterfaceIDEnum                                 "json:\"socketInterfaceId\" graphql:\"socketInterfaceId\""
+	SupportedDestinations []cato_models.SocketInterfaceDestType                             "json:\"supportedDestinations\" graphql:\"supportedDestinations\""
+	Vrrp                  *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Vrrp      "json:\"vrrp,omitempty\" graphql:\"vrrp\""
+	Wan                   *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Wan       "json:\"wan,omitempty\" graphql:\"wan\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetAltWan() *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_AltWan {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.AltWan
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetBandwidth() *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Bandwidth {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.Bandwidth
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetDestType() *cato_models.SocketInterfaceDestType {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return &t.DestType
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetLag() *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lag {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.Lag
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetLan() *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Lan {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.Lan
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetName() string {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.Name
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetOffCloud() *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_OffCloud {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.OffCloud
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetSocketInterfaceID() *cato_models.SocketInterfaceIDEnum {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return &t.SocketInterfaceID
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetSupportedDestinations() []cato_models.SocketInterfaceDestType {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.SupportedDestinations
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetVrrp() *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Vrrp {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.Vrrp
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Items) GetWan() *SiteSocketInterfaceList_Site_SocketInterfaceList_Items_Wan {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Items{}
+	}
+	return t.Wan
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList_Paging{}
+	}
+	return t.Total
+}
+
+type SiteSocketInterfaceList_Site_SocketInterfaceList struct {
+	Items  []*SiteSocketInterfaceList_Site_SocketInterfaceList_Items "json:\"items\" graphql:\"items\""
+	Paging SiteSocketInterfaceList_Site_SocketInterfaceList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList) GetItems() []*SiteSocketInterfaceList_Site_SocketInterfaceList_Items {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList{}
+	}
+	return t.Items
+}
+func (t *SiteSocketInterfaceList_Site_SocketInterfaceList) GetPaging() *SiteSocketInterfaceList_Site_SocketInterfaceList_Paging {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site_SocketInterfaceList{}
+	}
+	return &t.Paging
+}
+
+type SiteSocketInterfaceList_Site struct {
+	SocketInterfaceList *SiteSocketInterfaceList_Site_SocketInterfaceList "json:\"socketInterfaceList,omitempty\" graphql:\"socketInterfaceList\""
+}
+
+func (t *SiteSocketInterfaceList_Site) GetSocketInterfaceList() *SiteSocketInterfaceList_Site_SocketInterfaceList {
+	if t == nil {
+		t = &SiteSocketInterfaceList_Site{}
+	}
+	return t.SocketInterfaceList
 }
 
 type SiteStaticHost_Site_StaticHost_Host struct {
@@ -369698,6 +372051,17 @@ func (t *AssignSiteBwLicense) GetSites() *AssignSiteBwLicense_Sites {
 	return &t.Sites
 }
 
+type SiteAssignSocket struct {
+	Site SiteAssignSocket_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteAssignSocket) GetSite() *SiteAssignSocket_Site {
+	if t == nil {
+		t = &SiteAssignSocket{}
+	}
+	return &t.Site
+}
+
 type SiteCreateBgpPeerBulk struct {
 	Site SiteCreateBgpPeerBulk_Site "json:\"site\" graphql:\"site\""
 }
@@ -369958,6 +372322,17 @@ type SiteStartSiteUpgrade struct {
 func (t *SiteStartSiteUpgrade) GetSite() *SiteStartSiteUpgrade_Site {
 	if t == nil {
 		t = &SiteStartSiteUpgrade{}
+	}
+	return &t.Site
+}
+
+type SiteUnassignSocket struct {
+	Site SiteUnassignSocket_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteUnassignSocket) GetSite() *SiteUnassignSocket_Site {
+	if t == nil {
+		t = &SiteUnassignSocket{}
 	}
 	return &t.Site
 }
@@ -370380,6 +372755,17 @@ func (t *SitesAssignSiteBwLicense) GetSites() *SitesAssignSiteBwLicense_Sites {
 	return &t.Sites
 }
 
+type SitesAssignSocket struct {
+	Sites SitesAssignSocket_Sites "json:\"sites\" graphql:\"sites\""
+}
+
+func (t *SitesAssignSocket) GetSites() *SitesAssignSocket_Sites {
+	if t == nil {
+		t = &SitesAssignSocket{}
+	}
+	return &t.Sites
+}
+
 type SitesCreateBgpPeerBulk struct {
 	Sites SitesCreateBgpPeerBulk_Sites "json:\"sites\" graphql:\"sites\""
 }
@@ -370640,6 +373026,17 @@ type SitesStartSiteUpgrade struct {
 func (t *SitesStartSiteUpgrade) GetSites() *SitesStartSiteUpgrade_Sites {
 	if t == nil {
 		t = &SitesStartSiteUpgrade{}
+	}
+	return &t.Sites
+}
+
+type SitesUnassignSocket struct {
+	Sites SitesUnassignSocket_Sites "json:\"sites\" graphql:\"sites\""
+}
+
+func (t *SitesUnassignSocket) GetSites() *SitesUnassignSocket_Sites {
+	if t == nil {
+		t = &SitesUnassignSocket{}
 	}
 	return &t.Sites
 }
@@ -371742,6 +374139,17 @@ func (t *ExternalAccess) GetExternalAccess() *ExternalAccess_ExternalAccess {
 		t = &ExternalAccess{}
 	}
 	return &t.ExternalAccess
+}
+
+type FinancialDocuments struct {
+	FinancialDocuments *FinancialDocuments_FinancialDocuments "json:\"financialDocuments,omitempty\" graphql:\"financialDocuments\""
+}
+
+func (t *FinancialDocuments) GetFinancialDocuments() *FinancialDocuments_FinancialDocuments {
+	if t == nil {
+		t = &FinancialDocuments{}
+	}
+	return t.FinancialDocuments
 }
 
 type GroupsGroup struct {
@@ -372888,6 +375296,28 @@ func (t *SiteSocketConfiguration) GetSite() *SiteSocketConfiguration_Site {
 	return &t.Site
 }
 
+type SiteSocketInterface struct {
+	Site SiteSocketInterface_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteSocketInterface) GetSite() *SiteSocketInterface_Site {
+	if t == nil {
+		t = &SiteSocketInterface{}
+	}
+	return &t.Site
+}
+
+type SiteSocketInterfaceList struct {
+	Site SiteSocketInterfaceList_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteSocketInterfaceList) GetSite() *SiteSocketInterfaceList_Site {
+	if t == nil {
+		t = &SiteSocketInterfaceList{}
+	}
+	return &t.Site
+}
+
 type SiteStaticHost struct {
 	Site SiteStaticHost_Site "json:\"site\" graphql:\"site\""
 }
@@ -373438,6 +375868,7 @@ const BusinessPlatformCreateTrialAccountDocument = `mutation businessPlatformCre
 				postalCode
 				cmaCreatedBy
 				cmaCreatedAt
+				isMSP
 			}
 		}
 	}
@@ -373493,6 +375924,7 @@ const BusinessPlatformLinkToTrialAccountDocument = `mutation businessPlatformLin
 				postalCode
 				cmaCreatedBy
 				cmaCreatedAt
+				isMSP
 			}
 		}
 	}
@@ -380195,6 +382627,7 @@ const PolicyApplicationControlAddRuleDocument = `mutation policyApplicationContr
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -380411,6 +382844,7 @@ const PolicyApplicationControlAddRuleDocument = `mutation policyApplicationContr
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -380617,6 +383051,7 @@ const PolicyApplicationControlAddRuleDocument = `mutation policyApplicationContr
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -380939,6 +383374,7 @@ const PolicyApplicationControlCreatePolicyRevisionDocument = `mutation policyApp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -381155,6 +383591,7 @@ const PolicyApplicationControlCreatePolicyRevisionDocument = `mutation policyApp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -381361,6 +383798,7 @@ const PolicyApplicationControlCreatePolicyRevisionDocument = `mutation policyApp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -381649,6 +384087,7 @@ const PolicyApplicationControlDiscardPolicyRevisionDocument = `mutation policyAp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -381865,6 +384304,7 @@ const PolicyApplicationControlDiscardPolicyRevisionDocument = `mutation policyAp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -382071,6 +384511,7 @@ const PolicyApplicationControlDiscardPolicyRevisionDocument = `mutation policyAp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -382357,6 +384798,7 @@ const PolicyApplicationControlMoveRuleDocument = `mutation policyApplicationCont
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -382573,6 +385015,7 @@ const PolicyApplicationControlMoveRuleDocument = `mutation policyApplicationCont
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -382779,6 +385222,7 @@ const PolicyApplicationControlMoveRuleDocument = `mutation policyApplicationCont
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -383101,6 +385545,7 @@ const PolicyApplicationControlPublishPolicyRevisionDocument = `mutation policyAp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -383317,6 +385762,7 @@ const PolicyApplicationControlPublishPolicyRevisionDocument = `mutation policyAp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -383523,6 +385969,7 @@ const PolicyApplicationControlPublishPolicyRevisionDocument = `mutation policyAp
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -383809,6 +386256,7 @@ const PolicyApplicationControlRemoveRuleDocument = `mutation policyApplicationCo
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -384025,6 +386473,7 @@ const PolicyApplicationControlRemoveRuleDocument = `mutation policyApplicationCo
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -384231,6 +386680,7 @@ const PolicyApplicationControlRemoveRuleDocument = `mutation policyApplicationCo
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -384553,6 +387003,7 @@ const PolicyApplicationControlUpdatePolicyDocument = `mutation policyApplication
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -384769,6 +387220,7 @@ const PolicyApplicationControlUpdatePolicyDocument = `mutation policyApplication
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -384975,6 +387427,7 @@ const PolicyApplicationControlUpdatePolicyDocument = `mutation policyApplication
 										risk
 										riskOperator
 									}
+									aiRisk
 								}
 								actionConfig {
 									userNotification {
@@ -385261,6 +387714,7 @@ const PolicyApplicationControlUpdateRuleDocument = `mutation policyApplicationCo
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -385477,6 +387931,7 @@ const PolicyApplicationControlUpdateRuleDocument = `mutation policyApplicationCo
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -385683,6 +388138,7 @@ const PolicyApplicationControlUpdateRuleDocument = `mutation policyApplicationCo
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -415116,6 +417572,14 @@ const PolicyWanNetworkAddRuleDocument = `mutation policyWanNetworkAddRule ($wanN
 								id
 								name
 							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
 						}
 						configuration {
 							activeTcpAcceleration
@@ -415282,6 +417746,14 @@ const PolicyWanNetworkAddRuleDocument = `mutation policyWanNetworkAddRule ($wanN
 								domain
 								fqdn
 								service {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -415553,6 +418025,14 @@ const PolicyWanNetworkCreatePolicyRevisionDocument = `mutation policyWanNetworkC
 									id
 									name
 								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
 							}
 							configuration {
 								activeTcpAcceleration
@@ -415719,6 +418199,14 @@ const PolicyWanNetworkCreatePolicyRevisionDocument = `mutation policyWanNetworkC
 									domain
 									fqdn
 									service {
+										id
+										name
+									}
+									globalIpRange {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -415953,6 +418441,14 @@ const PolicyWanNetworkDiscardPolicyRevisionDocument = `mutation policyWanNetwork
 									id
 									name
 								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
 							}
 							configuration {
 								activeTcpAcceleration
@@ -416119,6 +418615,14 @@ const PolicyWanNetworkDiscardPolicyRevisionDocument = `mutation policyWanNetwork
 									domain
 									fqdn
 									service {
+										id
+										name
+									}
+									globalIpRange {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -416351,6 +418855,14 @@ const PolicyWanNetworkMoveRuleDocument = `mutation policyWanNetworkMoveRule ($po
 								id
 								name
 							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
 						}
 						configuration {
 							activeTcpAcceleration
@@ -416517,6 +419029,14 @@ const PolicyWanNetworkMoveRuleDocument = `mutation policyWanNetworkMoveRule ($po
 								domain
 								fqdn
 								service {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -416788,6 +419308,14 @@ const PolicyWanNetworkPublishPolicyRevisionDocument = `mutation policyWanNetwork
 									id
 									name
 								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
 							}
 							configuration {
 								activeTcpAcceleration
@@ -416954,6 +419482,14 @@ const PolicyWanNetworkPublishPolicyRevisionDocument = `mutation policyWanNetwork
 									domain
 									fqdn
 									service {
+										id
+										name
+									}
+									globalIpRange {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -417186,6 +419722,14 @@ const PolicyWanNetworkRemoveRuleDocument = `mutation policyWanNetworkRemoveRule 
 								id
 								name
 							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
 						}
 						configuration {
 							activeTcpAcceleration
@@ -417352,6 +419896,14 @@ const PolicyWanNetworkRemoveRuleDocument = `mutation policyWanNetworkRemoveRule 
 								domain
 								fqdn
 								service {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -418023,6 +420575,14 @@ const PolicyWanNetworkUpdatePolicyDocument = `mutation policyWanNetworkUpdatePol
 									id
 									name
 								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
 							}
 							configuration {
 								activeTcpAcceleration
@@ -418189,6 +420749,14 @@ const PolicyWanNetworkUpdatePolicyDocument = `mutation policyWanNetworkUpdatePol
 									domain
 									fqdn
 									service {
+										id
+										name
+									}
+									globalIpRange {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -418421,6 +420989,14 @@ const PolicyWanNetworkUpdateRuleDocument = `mutation policyWanNetworkUpdateRule 
 								id
 								name
 							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
 						}
 						configuration {
 							activeTcpAcceleration
@@ -418587,6 +421163,14 @@ const PolicyWanNetworkUpdateRuleDocument = `mutation policyWanNetworkUpdateRule 
 								domain
 								fqdn
 								service {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -422092,6 +424676,43 @@ func (c *Client) AssignSiteBwLicense(ctx context.Context, accountID string, inpu
 	return &res, nil
 }
 
+const SiteAssignSocketDocument = `mutation siteAssignSocket ($accountId: ID!, $siteAssignSocketInput: SiteAssignSocketInput!) {
+	site(accountId: $accountId) {
+		assignSocket(input: $siteAssignSocketInput) {
+			socket {
+				id
+				serial
+				registrationStatus
+				primary
+				description
+				site {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) SiteAssignSocket(ctx context.Context, accountID string, siteAssignSocketInput cato_models.SiteAssignSocketInput, interceptors ...clientv2.RequestInterceptor) (*SiteAssignSocket, error) {
+	vars := map[string]any{
+		"accountId":             accountID,
+		"siteAssignSocketInput": siteAssignSocketInput,
+	}
+
+	var res SiteAssignSocket
+	if err := c.Client.Post(ctx, "siteAssignSocket", SiteAssignSocketDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const SiteCreateBgpPeerBulkDocument = `mutation siteCreateBgpPeerBulk ($accountId: ID!, $createBgpPeerBulkInput: CreateBgpPeerBulkInput!) {
 	site(accountId: $accountId) {
 		createBgpPeerBulk(input: $createBgpPeerBulkInput) {
@@ -423387,6 +426008,36 @@ func (c *Client) SiteStartSiteUpgrade(ctx context.Context, accountID string, sta
 
 	var res SiteStartSiteUpgrade
 	if err := c.Client.Post(ctx, "siteStartSiteUpgrade", SiteStartSiteUpgradeDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const SiteUnassignSocketDocument = `mutation siteUnassignSocket ($accountId: ID!, $siteUnassignSocketInput: SiteUnassignSocketInput!) {
+	site(accountId: $accountId) {
+		unassignSocket(input: $siteUnassignSocketInput) {
+			socket {
+				id
+				serial
+			}
+		}
+	}
+}
+`
+
+func (c *Client) SiteUnassignSocket(ctx context.Context, accountID string, siteUnassignSocketInput cato_models.SiteUnassignSocketInput, interceptors ...clientv2.RequestInterceptor) (*SiteUnassignSocket, error) {
+	vars := map[string]any{
+		"accountId":               accountID,
+		"siteUnassignSocketInput": siteUnassignSocketInput,
+	}
+
+	var res SiteUnassignSocket
+	if err := c.Client.Post(ctx, "siteUnassignSocket", SiteUnassignSocketDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -425190,6 +427841,43 @@ func (c *Client) SitesAssignSiteBwLicense(ctx context.Context, accountID string,
 	return &res, nil
 }
 
+const SitesAssignSocketDocument = `mutation sitesAssignSocket ($accountId: ID!, $siteAssignSocketInput: SiteAssignSocketInput!) {
+	sites(accountId: $accountId) {
+		assignSocket(input: $siteAssignSocketInput) {
+			socket {
+				id
+				serial
+				registrationStatus
+				primary
+				description
+				site {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) SitesAssignSocket(ctx context.Context, accountID string, siteAssignSocketInput cato_models.SiteAssignSocketInput, interceptors ...clientv2.RequestInterceptor) (*SitesAssignSocket, error) {
+	vars := map[string]any{
+		"accountId":             accountID,
+		"siteAssignSocketInput": siteAssignSocketInput,
+	}
+
+	var res SitesAssignSocket
+	if err := c.Client.Post(ctx, "sitesAssignSocket", SitesAssignSocketDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const SitesCreateBgpPeerBulkDocument = `mutation sitesCreateBgpPeerBulk ($accountId: ID!, $createBgpPeerBulkInput: CreateBgpPeerBulkInput!) {
 	sites(accountId: $accountId) {
 		createBgpPeerBulk(input: $createBgpPeerBulkInput) {
@@ -426485,6 +429173,36 @@ func (c *Client) SitesStartSiteUpgrade(ctx context.Context, accountID string, st
 
 	var res SitesStartSiteUpgrade
 	if err := c.Client.Post(ctx, "sitesStartSiteUpgrade", SitesStartSiteUpgradeDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const SitesUnassignSocketDocument = `mutation sitesUnassignSocket ($accountId: ID!, $siteUnassignSocketInput: SiteUnassignSocketInput!) {
+	sites(accountId: $accountId) {
+		unassignSocket(input: $siteUnassignSocketInput) {
+			socket {
+				id
+				serial
+			}
+		}
+	}
+}
+`
+
+func (c *Client) SitesUnassignSocket(ctx context.Context, accountID string, siteUnassignSocketInput cato_models.SiteUnassignSocketInput, interceptors ...clientv2.RequestInterceptor) (*SitesUnassignSocket, error) {
+	vars := map[string]any{
+		"accountId":               accountID,
+		"siteUnassignSocketInput": siteUnassignSocketInput,
+	}
+
+	var res SitesUnassignSocket
+	if err := c.Client.Post(ctx, "sitesUnassignSocket", SitesUnassignSocketDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -431566,7 +434284,7 @@ func (c *Client) AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFi
 	return &res, nil
 }
 
-const BusinessPlatformDocument = `query businessPlatform ($accountId: ID!, $businessPlatformAccountListInput: BusinessPlatformAccountListInput, $businessPlatformPartnerListInput: BusinessPlatformPartnerListInput) {
+const BusinessPlatformDocument = `query businessPlatform ($accountId: ID!, $businessPlatformAccountListInput: BusinessPlatformAccountListInput, $businessPlatformPartnerListInput: BusinessPlatformPartnerListInput, $businessPlatformCountAccountByPlanInput: BusinessPlatformCountAccountByPlanInput) {
 	businessPlatform(accountId: $accountId) {
 		accountList(input: $businessPlatformAccountListInput) {
 			items {
@@ -431597,12 +434315,13 @@ const BusinessPlatformDocument = `query businessPlatform ($accountId: ID!, $busi
 				postalCode
 				cmaCreatedBy
 				cmaCreatedAt
+				isMSP
 			}
 			paging {
 				total
 			}
 		}
-		countAccountByPlan {
+		countAccountByPlan(input: $businessPlatformCountAccountByPlanInput) {
 			items {
 				plan
 				count
@@ -431640,11 +434359,12 @@ const BusinessPlatformDocument = `query businessPlatform ($accountId: ID!, $busi
 }
 `
 
-func (c *Client) BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, businessPlatformPartnerListInput *cato_models.BusinessPlatformPartnerListInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error) {
+func (c *Client) BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, businessPlatformPartnerListInput *cato_models.BusinessPlatformPartnerListInput, businessPlatformCountAccountByPlanInput *cato_models.BusinessPlatformCountAccountByPlanInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error) {
 	vars := map[string]any{
-		"accountId":                        accountID,
-		"businessPlatformAccountListInput": businessPlatformAccountListInput,
-		"businessPlatformPartnerListInput": businessPlatformPartnerListInput,
+		"accountId":                               accountID,
+		"businessPlatformAccountListInput":        businessPlatformAccountListInput,
+		"businessPlatformPartnerListInput":        businessPlatformPartnerListInput,
+		"businessPlatformCountAccountByPlanInput": businessPlatformCountAccountByPlanInput,
 	}
 
 	var res BusinessPlatform
@@ -433815,6 +436535,91 @@ func (c *Client) ExternalAccess(ctx context.Context, accountID string, partnerAc
 
 	var res ExternalAccess
 	if err := c.Client.Post(ctx, "externalAccess", ExternalAccessDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const FinancialDocumentsDocument = `query financialDocuments ($accountId: ID!, $invoiceAccountListInput: InvoiceAccountListInput!, $invoiceChargeItemListInput: InvoiceChargeItemListInput!, $invoiceSummaryListInput: InvoiceSummaryListInput!) {
+	financialDocuments(accountId: $accountId) {
+		invoiceSummaryList(input: $invoiceSummaryListInput) {
+			items {
+				invoice {
+					id
+					name
+				}
+				issuedDate
+				dueDate
+				currency
+				subtotal
+				taxTotal
+				total
+				account {
+					account {
+						id
+						name
+					}
+					startDate
+					endDate
+					amount
+				}
+				downloadPath
+			}
+			pageInfo {
+				total
+			}
+		}
+		invoiceAccountList(input: $invoiceAccountListInput) {
+			items {
+				account {
+					id
+					name
+				}
+				startDate
+				endDate
+				amount
+			}
+			pageInfo {
+				total
+			}
+		}
+		invoiceChargeItemList(input: $invoiceChargeItemListInput) {
+			items {
+				account {
+					id
+					name
+				}
+				name
+				description
+				quantity
+				startDate
+				endDate
+				amount
+				position
+			}
+			pageInfo {
+				total
+			}
+		}
+	}
+}
+`
+
+func (c *Client) FinancialDocuments(ctx context.Context, accountID string, invoiceAccountListInput cato_models.InvoiceAccountListInput, invoiceChargeItemListInput cato_models.InvoiceChargeItemListInput, invoiceSummaryListInput cato_models.InvoiceSummaryListInput, interceptors ...clientv2.RequestInterceptor) (*FinancialDocuments, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"invoiceAccountListInput":    invoiceAccountListInput,
+		"invoiceChargeItemListInput": invoiceChargeItemListInput,
+		"invoiceSummaryListInput":    invoiceSummaryListInput,
+	}
+
+	var res FinancialDocuments
+	if err := c.Client.Post(ctx, "financialDocuments", FinancialDocumentsDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -436646,6 +439451,7 @@ const ApplicationControlPolicyDocument = `query applicationControlPolicy ($accou
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -436862,6 +439668,7 @@ const ApplicationControlPolicyDocument = `query applicationControlPolicy ($accou
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -437068,6 +439875,7 @@ const ApplicationControlPolicyDocument = `query applicationControlPolicy ($accou
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -441106,6 +443914,14 @@ const WanNetworkPolicyDocument = `query wanNetworkPolicy ($accountId: ID!, $wanN
 								id
 								name
 							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
 						}
 						configuration {
 							activeTcpAcceleration
@@ -441272,6 +444088,14 @@ const WanNetworkPolicyDocument = `query wanNetworkPolicy ($accountId: ID!, $wanN
 								domain
 								fqdn
 								service {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -444134,6 +446958,11 @@ const SiteGeneralDetailsDocument = `query siteGeneralDetails ($siteRefInput: Sit
 				}
 				preferredOnly
 			}
+			siteBandwidthLimit {
+				override
+				upstreamMaxBandwidthMbps
+				downstreamMaxBandwidthMbps
+			}
 			workingHours {
 				override
 				fromTimeMinuteOffset
@@ -444206,6 +447035,143 @@ func (c *Client) SiteSocketConfiguration(ctx context.Context, siteSocketConfigur
 
 	var res SiteSocketConfiguration
 	if err := c.Client.Post(ctx, "siteSocketConfiguration", SiteSocketConfigurationDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const SiteSocketInterfaceDocument = `query siteSocketInterface ($accountId: ID!, $siteSocketInterfaceInput: SiteSocketInterfaceInput!) {
+	site(accountId: $accountId) {
+		socketInterface(input: $siteSocketInterfaceInput) {
+			socketInterfaceId
+			name
+			destType
+			supportedDestinations
+			lan {
+				subnet
+				translatedSubnet
+				localIp
+			}
+			bandwidth {
+				upstreamBandwidth
+				downstreamBandwidth
+				upstreamBandwidthMbpsPrecision
+				downstreamBandwidthMbpsPrecision
+			}
+			wan {
+				role
+				precedence
+			}
+			offCloud {
+				enabled
+				publicIp
+				publicStaticPort
+			}
+			altWan {
+				privateInterfaceIp
+				privateNetwork
+				privateGatewayIp
+				privateVlanTag
+				publicInterfaceIp
+				publicNetwork
+				publicGatewayIp
+				publicVlanTag
+			}
+			lag {
+				minLinks
+			}
+			vrrp {
+				vrrpType
+			}
+		}
+	}
+}
+`
+
+func (c *Client) SiteSocketInterface(ctx context.Context, accountID string, siteSocketInterfaceInput cato_models.SiteSocketInterfaceInput, interceptors ...clientv2.RequestInterceptor) (*SiteSocketInterface, error) {
+	vars := map[string]any{
+		"accountId":                accountID,
+		"siteSocketInterfaceInput": siteSocketInterfaceInput,
+	}
+
+	var res SiteSocketInterface
+	if err := c.Client.Post(ctx, "siteSocketInterface", SiteSocketInterfaceDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const SiteSocketInterfaceListDocument = `query siteSocketInterfaceList ($accountId: ID!, $socketInterfaceListInput: SocketInterfaceListInput!) {
+	site(accountId: $accountId) {
+		socketInterfaceList(input: $socketInterfaceListInput) {
+			items {
+				socketInterfaceId
+				name
+				destType
+				supportedDestinations
+				lan {
+					subnet
+					translatedSubnet
+					localIp
+				}
+				bandwidth {
+					upstreamBandwidth
+					downstreamBandwidth
+					upstreamBandwidthMbpsPrecision
+					downstreamBandwidthMbpsPrecision
+				}
+				wan {
+					role
+					precedence
+				}
+				offCloud {
+					enabled
+					publicIp
+					publicStaticPort
+				}
+				altWan {
+					privateInterfaceIp
+					privateNetwork
+					privateGatewayIp
+					privateVlanTag
+					publicInterfaceIp
+					publicNetwork
+					publicGatewayIp
+					publicVlanTag
+				}
+				lag {
+					minLinks
+				}
+				vrrp {
+					vrrpType
+				}
+			}
+			paging {
+				total
+			}
+		}
+	}
+}
+`
+
+func (c *Client) SiteSocketInterfaceList(ctx context.Context, accountID string, socketInterfaceListInput cato_models.SocketInterfaceListInput, interceptors ...clientv2.RequestInterceptor) (*SiteSocketInterfaceList, error) {
+	vars := map[string]any{
+		"accountId":                accountID,
+		"socketInterfaceListInput": socketInterfaceListInput,
+	}
+
+	var res SiteSocketInterfaceList
+	if err := c.Client.Post(ctx, "siteSocketInterfaceList", SiteSocketInterfaceListDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -447780,6 +450746,7 @@ var DocumentOperationNames = map[string]string{
 	SiteAddSocketSiteDocument:                                    "siteAddSocketSite",
 	SiteAddStaticHostDocument:                                    "siteAddStaticHost",
 	AssignSiteBwLicenseDocument:                                  "assignSiteBwLicense",
+	SiteAssignSocketDocument:                                     "siteAssignSocket",
 	SiteCreateBgpPeerBulkDocument:                                "siteCreateBgpPeerBulk",
 	SiteCreateNetworkRangeBulkDocument:                           "siteCreateNetworkRangeBulk",
 	SiteCreateStaticHostBulkDocument:                             "siteCreateStaticHostBulk",
@@ -447804,6 +450771,7 @@ var DocumentOperationNames = map[string]string{
 	SiteRemoveWifiSsidDocument:                                   "siteRemoveWifiSsid",
 	ReplaceSiteBwLicenseDocument:                                 "replaceSiteBwLicense",
 	SiteStartSiteUpgradeDocument:                                 "siteStartSiteUpgrade",
+	SiteUnassignSocketDocument:                                   "siteUnassignSocket",
 	SiteUpdateBgpPeerDocument:                                    "siteUpdateBgpPeer",
 	SiteUpdateBgpPeerBulkDocument:                                "siteUpdateBgpPeerBulk",
 	SiteUpdateBgpPeersDocument:                                   "siteUpdateBgpPeers",
@@ -447842,6 +450810,7 @@ var DocumentOperationNames = map[string]string{
 	SitesAddSocketSiteDocument:                                   "sitesAddSocketSite",
 	SitesAddStaticHostDocument:                                   "sitesAddStaticHost",
 	SitesAssignSiteBwLicenseDocument:                             "sitesAssignSiteBwLicense",
+	SitesAssignSocketDocument:                                    "sitesAssignSocket",
 	SitesCreateBgpPeerBulkDocument:                               "sitesCreateBgpPeerBulk",
 	SitesCreateNetworkRangeBulkDocument:                          "sitesCreateNetworkRangeBulk",
 	SitesCreateStaticHostBulkDocument:                            "sitesCreateStaticHostBulk",
@@ -447866,6 +450835,7 @@ var DocumentOperationNames = map[string]string{
 	SitesRemoveWifiSsidDocument:                                  "sitesRemoveWifiSsid",
 	SitesReplaceSiteBwLicenseDocument:                            "sitesReplaceSiteBwLicense",
 	SitesStartSiteUpgradeDocument:                                "sitesStartSiteUpgrade",
+	SitesUnassignSocketDocument:                                  "sitesUnassignSocket",
 	SitesUpdateBgpPeerDocument:                                   "sitesUpdateBgpPeer",
 	SitesUpdateBgpPeerBulkDocument:                               "sitesUpdateBgpPeerBulk",
 	SitesUpdateBgpPeersDocument:                                  "sitesUpdateBgpPeers",
@@ -447966,6 +450936,7 @@ var DocumentOperationNames = map[string]string{
 	EventsFeedDocument:                                           "eventsFeed",
 	EventsTimeSeriesDocument:                                     "eventsTimeSeries",
 	ExternalAccessDocument:                                       "externalAccess",
+	FinancialDocumentsDocument:                                   "financialDocuments",
 	GroupsGroupDocument:                                          "groupsGroup",
 	GroupsGroupMembersDocument:                                   "groupsGroupMembers",
 	GroupsGroupListDocument:                                      "groupsGroupList",
@@ -448070,6 +451041,8 @@ var DocumentOperationNames = map[string]string{
 	SiteSiteBgpStatusDocument:                         "siteSiteBgpStatus",
 	SiteGeneralDetailsDocument:                        "siteGeneralDetails",
 	SiteSocketConfigurationDocument:                   "siteSocketConfiguration",
+	SiteSocketInterfaceDocument:                       "siteSocketInterface",
+	SiteSocketInterfaceListDocument:                   "siteSocketInterfaceList",
 	SiteStaticHostDocument:                            "siteStaticHost",
 	SiteStaticHostListDocument:                        "siteStaticHostList",
 	SiteValidWifiRadioSettingsDocument:                "siteValidWifiRadioSettings",

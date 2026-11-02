@@ -210,6 +210,7 @@ query applicationControlPolicy ($accountId: ID!, $applicationControlPolicyInput:
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -426,6 +427,7 @@ query applicationControlPolicy ($accountId: ID!, $applicationControlPolicyInput:
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {
@@ -632,6 +634,7 @@ query applicationControlPolicy ($accountId: ID!, $applicationControlPolicyInput:
 									risk
 									riskOperator
 								}
+								aiRisk
 							}
 							actionConfig {
 								userNotification {

@@ -162,6 +162,14 @@ query wanNetworkPolicy ($accountId: ID!, $wanNetworkPolicyInput: WanNetworkPolic
 								id
 								name
 							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
 						}
 						configuration {
 							activeTcpAcceleration
@@ -328,6 +336,14 @@ query wanNetworkPolicy ($accountId: ID!, $wanNetworkPolicyInput: WanNetworkPolic
 								domain
 								fqdn
 								service {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
