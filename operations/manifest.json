@@ -10115,7 +10115,7 @@
         "siteRefInput",
         "accountId"
       ],
-      "document_sha256": "7622dc2c09a6c002aabfa79609008667bd0dd7e93bab3c3edc4bf25b19f8f342",
+      "document_sha256": "d62185e45b96ff87f070bbaef4d57cb4e8565dbbfc006f898001855f7524dc78",
       "cli_file": "queryPayloads/query.site.siteGeneralDetails.txt",
       "cli_name": "siteSiteGeneralDetails",
       "cli_sha256": "3f3ac32660965465b1ea18b20352d6696904db2a991377eaf6786bbc742ae786",

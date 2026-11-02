@@ -350275,31 +350275,6 @@ func (t *SiteGeneralDetails_Site_SiteGeneralDetails_PreferredPopLocationSiteGene
 	return t.Secondary
 }
 
-type SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit struct {
-	DownstreamMaxBandwidthMbps int64 "json:\"downstreamMaxBandwidthMbps\" graphql:\"downstreamMaxBandwidthMbps\""
-	Override                   bool  "json:\"override\" graphql:\"override\""
-	UpstreamMaxBandwidthMbps   int64 "json:\"upstreamMaxBandwidthMbps\" graphql:\"upstreamMaxBandwidthMbps\""
-}
-
-func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetDownstreamMaxBandwidthMbps() int64 {
-	if t == nil {
-		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
-	}
-	return t.DownstreamMaxBandwidthMbps
-}
-func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetOverride() bool {
-	if t == nil {
-		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
-	}
-	return t.Override
-}
-func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetUpstreamMaxBandwidthMbps() int64 {
-	if t == nil {
-		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
-	}
-	return t.UpstreamMaxBandwidthMbps
-}
-
 type SiteGeneralDetails_Site_SiteGeneralDetails_WorkingHours struct {
 	FromTimeMinuteOffset *int64                  "json:\"fromTimeMinuteOffset,omitempty\" graphql:\"fromTimeMinuteOffset\""
 	Override             bool                    "json:\"override\" graphql:\"override\""
@@ -350337,7 +350312,6 @@ type SiteGeneralDetails_Site_SiteGeneralDetails struct {
 	DisableACLForSip                              bool                                                                                      "json:\"disableAclForSip\" graphql:\"disableAclForSip\""
 	PreferredPopLocationSiteGeneralDetailsPayload *SiteGeneralDetails_Site_SiteGeneralDetails_PreferredPopLocationSiteGeneralDetailsPayload "json:\"preferredPopLocationSiteGeneralDetailsPayload,omitempty\" graphql:\"preferredPopLocationSiteGeneralDetailsPayload\""
 	Site                                          SiteGeneralDetails_Site_SiteGeneralDetails_Site                                           "json:\"site\" graphql:\"site\""
-	SiteBandwidthLimit                            *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit                            "json:\"siteBandwidthLimit,omitempty\" graphql:\"siteBandwidthLimit\""
 	SiteLocation                                  SiteGeneralDetails_Site_SiteGeneralDetails_SiteLocation                                   "json:\"siteLocation\" graphql:\"siteLocation\""
 	SiteType                                      cato_models.SiteType                                                                      "json:\"siteType\" graphql:\"siteType\""
 	WorkingHours                                  *SiteGeneralDetails_Site_SiteGeneralDetails_WorkingHours                                  "json:\"workingHours,omitempty\" graphql:\"workingHours\""
@@ -350366,12 +350340,6 @@ func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSite() *SiteGeneralDetai
 		t = &SiteGeneralDetails_Site_SiteGeneralDetails{}
 	}
 	return &t.Site
-}
-func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSiteBandwidthLimit() *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit {
-	if t == nil {
-		t = &SiteGeneralDetails_Site_SiteGeneralDetails{}
-	}
-	return t.SiteBandwidthLimit
 }
 func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSiteLocation() *SiteGeneralDetails_Site_SiteGeneralDetails_SiteLocation {
 	if t == nil {
@@ -446957,11 +446925,6 @@ const SiteGeneralDetailsDocument = `query siteGeneralDetails ($siteRefInput: Sit
 					name
 				}
 				preferredOnly
-			}
-			siteBandwidthLimit {
-				override
-				upstreamMaxBandwidthMbps
-				downstreamMaxBandwidthMbps
 			}
 			workingHours {
 				override

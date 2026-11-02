@@ -25,11 +25,6 @@ query siteGeneralDetails ($siteRefInput: SiteRefInput!, $accountId: ID!) {
 				}
 				preferredOnly
 			}
-			siteBandwidthLimit {
-				override
-				upstreamMaxBandwidthMbps
-				downstreamMaxBandwidthMbps
-			}
 			workingHours {
 				override
 				fromTimeMinuteOffset
