@@ -161,6 +161,14 @@ mutation policyWanNetworkMoveRule ($policyMoveRuleInput: PolicyMoveRuleInput!, $
 								id
 								name
 							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
 						}
 						configuration {
 							activeTcpAcceleration
@@ -327,6 +335,14 @@ mutation policyWanNetworkMoveRule ($policyMoveRuleInput: PolicyMoveRuleInput!, $
 								domain
 								fqdn
 								service {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cli_commit_sha": "f9c1ef503810185804f2fda98bb795ad55fc6c95",
+  "cli_commit_sha": "43735d3c9c4714be7bd30392e15f15286e90d9a1",
   "operations": [
     {
       "key": "mutation.access",
@@ -177,10 +177,10 @@
         "accountId",
         "businessPlatformCreateTrialAccountInput"
       ],
-      "document_sha256": "4953516e304936b042fea946fba1f611a8db725269a9f4110026daaf518b4be4",
+      "document_sha256": "4ad4b648d51fb246b5f71eae442f1631107c6f929c40755f03a8422a049b08cd",
       "cli_file": "queryPayloads/mutation.businessPlatform.createTrialAccount.txt",
       "cli_name": "businessPlatformCreateTrialAccount",
-      "cli_sha256": "1e97e52dabb1ac82595fcfadbc188c56f8b49f8d21a13cb51252caab8dc36094",
+      "cli_sha256": "9aae135d43fd237365b3b895a32ec79f0800113cd098c01df9599a239e870bd3",
       "status": "imported"
     },
     {
@@ -192,10 +192,10 @@
         "accountId",
         "businessPlatformLinkToTrialAccountInput"
       ],
-      "document_sha256": "22f38c67bbe6b5c5b968a5cef196f116bc26530df7e7241abc61b952d9f41905",
+      "document_sha256": "0b0675cb48c003507e1f4b802547b5383f8054cdbdc4b9d325d177005dade5b9",
       "cli_file": "queryPayloads/mutation.businessPlatform.linkToTrialAccount.txt",
       "cli_name": "businessPlatformLinkToTrialAccount",
-      "cli_sha256": "e0d6a1aacedd5917de61b588b38525684f9637a05ee488d1a8b3969b38e0d23f",
+      "cli_sha256": "c3433d115093943a4ca8c7829b4080fef95b5d7dbddb3dd2bb5ab2644a5ec2fc",
       "status": "imported"
     },
     {
@@ -1543,10 +1543,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "64d7e961a6e288ee9bc0f2e401eec0f3e2f6ffd642a23cf815007928bbe6adcf",
+      "document_sha256": "9ea043196c20b1c395031892d4b118a514df1bfa15b914300b1a4abccc0c3423",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.addRule.txt",
       "cli_name": "policyApplicationControlAddRule",
-      "cli_sha256": "8e9a04d55693233c1dcfd7cbbef24770e12c6535b2c418c2bf27a418dec96df9",
+      "cli_sha256": "4207a76c1c72f8ca40e744293ff25ac8acf1d6356ba2f0f42bf236472e044459",
       "status": "mapped"
     },
     {
@@ -1575,10 +1575,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "3b9da81c05d2a420b94ad69dccf61f23f78ebf0ac27ccf922e00dbd983c9b38d",
+      "document_sha256": "edb2b022589fe6d484ada1226fcc08008ca158514915192f935249810db44b5b",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.createPolicyRevision.txt",
       "cli_name": "policyApplicationControlCreatePolicyRevision",
-      "cli_sha256": "8990992120c396f20856aa6b695eaec9232fe4fbeb3675cf66a392ed9addf512",
+      "cli_sha256": "8dcb14b419cc6452eddbf683423bb013d7d500807eb2c78c701da3dcf1f57f53",
       "status": "mapped"
     },
     {
@@ -1591,10 +1591,10 @@
         "applicationControlPolicyMutationInput",
         "policyDiscardRevisionInput"
       ],
-      "document_sha256": "bb64974a11a224fc90da0e180d371b27cd304b031adcd7b8dee1e4d596fed003",
+      "document_sha256": "a4eaed32b73c439940d2e7b2c2606b88b0f953b7eecb1dcb14c42577ccd761d9",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.discardPolicyRevision.txt",
       "cli_name": "policyApplicationControlDiscardPolicyRevision",
-      "cli_sha256": "4988055018fa7421711f4e7df22b291777cdb8dcbc72ab0aac0b8b2f4f3d34b2",
+      "cli_sha256": "4050a5cfc5650c2865f5cf045d4ae1c0d7a8b24c4eedb38145fef08683273caa",
       "status": "mapped"
     },
     {
@@ -1607,10 +1607,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "4ce84b8d7cccf7988390b3d3b96f23b6b94f10897c07c1c7a8c5678c49b8871b",
+      "document_sha256": "85485a80cfabe727ddc4137e9cd32629ebe0ec5bbc93296cbcee4dca9eeca0f9",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.moveRule.txt",
       "cli_name": "policyApplicationControlMoveRule",
-      "cli_sha256": "def5a1fbb0f0237dee8e21153fa5b87d5af70eb658b256e157fc83874eb3a5da",
+      "cli_sha256": "54d46ab048e82ee80bc80ea8f4f31acda2322ff60be72004b40f55ac5d5dec73",
       "status": "mapped"
     },
     {
@@ -1639,10 +1639,10 @@
         "applicationControlPolicyMutationInput",
         "policyPublishRevisionInput"
       ],
-      "document_sha256": "f316cc07d69e643ebf7641b13158e5e998255801dc878a069d0f5372791264fa",
+      "document_sha256": "e9b2726709fe9932cca0aecf7f976e7ff2a0ed15a681d53c5e12e0470b082f2b",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.publishPolicyRevision.txt",
       "cli_name": "policyApplicationControlPublishPolicyRevision",
-      "cli_sha256": "0bf675a7c0f2820b463f4bf89ec420df2a2c2054a85cc11e2099947d8784fec2",
+      "cli_sha256": "5b9ccb5e2f74c46a7cba13de917cd43d96bb352c5ee3cbe2a6dbc5b2976437e7",
       "status": "mapped"
     },
     {
@@ -1655,10 +1655,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "9ef762687c614f634b1407c749631fc40d31254f6153e89b794c5205abbf31fd",
+      "document_sha256": "f0ff77f7050ba8fcfb26017230104785efa7e7343376445f17a6078ba98ab2aa",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.removeRule.txt",
       "cli_name": "policyApplicationControlRemoveRule",
-      "cli_sha256": "b04175d11d2a75749f6ed15e1b20e5cb3a3655c1c5ea10daf5c830f5b0e493ca",
+      "cli_sha256": "0b39ee4b1a585eb382946f7f4e789d7bfd8dc8b8346dca461b21f7fefa0fca84",
       "status": "mapped"
     },
     {
@@ -1687,10 +1687,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "74cb0fe28aea4a4e72553e3391a8c5456fae97fa0f26d3e72ccf1db7b3f847c6",
+      "document_sha256": "6830f00b73e5d7ed7bd3e64ec6f24d87aeefbdaf2d6226db3f3db3d47a6d11ab",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.updatePolicy.txt",
       "cli_name": "policyApplicationControlUpdatePolicy",
-      "cli_sha256": "bd8b17fdecb922b079d55f9332553366c9b33ba829af53a70b7b00d7893210b6",
+      "cli_sha256": "42ede96cc7497c6f0af582d626d7de693285b8f5440e3d399279031728b24610",
       "status": "mapped"
     },
     {
@@ -1703,10 +1703,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "a7d9a373552c400f1b023c7e47074a2ca2e7278077b47d7f1b52e82538376e51",
+      "document_sha256": "232cf0b125df4f6aaffa0464152c8514b673f2548e93629171a01984e28f0df9",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.updateRule.txt",
       "cli_name": "policyApplicationControlUpdateRule",
-      "cli_sha256": "75b29f15b9014b7cb6f5655931aa2c656494fd762071198717bf1ba0f86b3659",
+      "cli_sha256": "a977748bf3dec83ee9626905f9d1e46f1e45c0a66b9a310acaf1bf61ccaf139f",
       "status": "mapped"
     },
     {
@@ -4682,10 +4682,10 @@
         "accountId",
         "wanNetworkPolicyMutationInput"
       ],
-      "document_sha256": "e09808a6c8a7adf498014e6046b2220b2203890b72d815142a0afef245840d94",
+      "document_sha256": "c5c920f29392a7a5e5f6ced85c5a4ab3577303d4f9c4edf942d91051b1f3abc9",
       "cli_file": "queryPayloads/mutation.policy.wanNetwork.addRule.txt",
       "cli_name": "policyWanNetworkAddRule",
-      "cli_sha256": "b546975c28753f00bf47f36048be64418276cb9a514a1f653511b4a6f0b8f07a",
+      "cli_sha256": "abbce11524e743b3d8483009cd6dd93a817114c0fd07b4061ed6f539c98d8602",
       "status": "mapped"
     },
     {
@@ -4714,10 +4714,10 @@
         "accountId",
         "wanNetworkPolicyMutationInput"
       ],
-      "document_sha256": "68b5d4f1e27ffa5580637d8ec1f721e30dfea4e8ff5dfff0691e6908983de53e",
+      "document_sha256": "0c4d7bf342318d9726ad73432d97397c087cb7dc156be576d080774bd3982994",
       "cli_file": "queryPayloads/mutation.policy.wanNetwork.createPolicyRevision.txt",
       "cli_name": "policyWanNetworkCreatePolicyRevision",
-      "cli_sha256": "644fbe70c1296c02f753fc7e7a2354a9e3710b5fac068eb9b40083e95d70005f",
+      "cli_sha256": "403ebe627c8fc43eb6108864ed4e30af021e7397b85ec1df88a8744680a7e05b",
       "status": "mapped"
     },
     {
@@ -4730,10 +4730,10 @@
         "policyDiscardRevisionInput",
         "wanNetworkPolicyMutationInput"
       ],
-      "document_sha256": "146caaf3047ff429875cc8dc3376f982513aed254882c289dbb5323269594552",
+      "document_sha256": "92718516a745958c135e1741212cce4f41b10b6062a7c47c2166baadd8ac51b0",
       "cli_file": "queryPayloads/mutation.policy.wanNetwork.discardPolicyRevision.txt",
       "cli_name": "policyWanNetworkDiscardPolicyRevision",
-      "cli_sha256": "4aaeee1da88cb168dca5420c7ff12490c9c4816761eef18853bde2e864481fe3",
+      "cli_sha256": "7210511f7242b4892c64b696dfd708b07936fedd2b49fb0341c8f7dc0bbd39c4",
       "status": "mapped"
     },
     {
@@ -4746,10 +4746,10 @@
         "accountId",
         "wanNetworkPolicyMutationInput"
       ],
-      "document_sha256": "2f08ae42283a4558f778925199bdddd524a2a0bc3fd4cbd739cd4cf6a83125bf",
+      "document_sha256": "7f967660bb8e3e88e54cd2bf6a6161481fcad5eebc38c4a64afa7d9d26befeb7",
       "cli_file": "queryPayloads/mutation.policy.wanNetwork.moveRule.txt",
       "cli_name": "policyWanNetworkMoveRule",
-      "cli_sha256": "3310511183ab1b17bb4bd4835eb8bb33c811a4a3c596246fb1317fa685c8214c",
+      "cli_sha256": "661b1252f7d9b85284ac312aefe88a2129a9732fb7757507ab0b3a406f09ef35",
       "status": "mapped"
     },
     {
@@ -4778,10 +4778,10 @@
         "policyPublishRevisionInput",
         "wanNetworkPolicyMutationInput"
       ],
-      "document_sha256": "c1c4675021a0e888445e94fc05211724a3a0d88c885290193d22e2b558ec6ac3",
+      "document_sha256": "1357996d93dd3c9f8187e3f44bf0d57e075343969f1f6bccf4f9459882551962",
       "cli_file": "queryPayloads/mutation.policy.wanNetwork.publishPolicyRevision.txt",
       "cli_name": "policyWanNetworkPublishPolicyRevision",
-      "cli_sha256": "53193b930da4e3b41c930379d15ec9fde46c8335224dbc535bef1b242785a655",
+      "cli_sha256": "5c3a495ae3a6ba9446ad87a61774ffbb198874f34189964a1b74637198e7c7ab",
       "status": "mapped"
     },
     {
@@ -4794,10 +4794,10 @@
         "accountId",
         "wanNetworkPolicyMutationInput"
       ],
-      "document_sha256": "7a40147c2fb19efd38db674119c00c107a44d2fcce980e4bd93e8b145487ce32",
+      "document_sha256": "ccf99d9d9f3ae2106b350d1cb00db7af503646f29e693774a72ea412e68c8bc8",
       "cli_file": "queryPayloads/mutation.policy.wanNetwork.removeRule.txt",
       "cli_name": "policyWanNetworkRemoveRule",
-      "cli_sha256": "ccfc1b2133993174e6d4dde7a29553db7c78fc0c894fd9ac38f2e05c791764a4",
+      "cli_sha256": "0cb6de395fbdb529719da6fde3716924bd04245e3281fc9afb0c5d957a4958d2",
       "status": "mapped"
     },
     {
@@ -4839,10 +4839,10 @@
         "accountId",
         "wanNetworkPolicyMutationInput"
       ],
-      "document_sha256": "73e8204003c9bd8c1d0f8646a464564cf7493301eb3f0a90a950d47dd7d03437",
+      "document_sha256": "02b3fdffc8feda129de0829e084ba10675bd45c2a3d73b9b76658150512e2a5b",
       "cli_file": "queryPayloads/mutation.policy.wanNetwork.updatePolicy.txt",
       "cli_name": "policyWanNetworkUpdatePolicy",
-      "cli_sha256": "990c538ca88cb7ae99dcad8f972364377aef7da24f097e46f18ab581c70376af",
+      "cli_sha256": "6d771733b961447b6ca3ac3ee1f8de9627a1e76a132ea8ed23f68254500118a4",
       "status": "mapped"
     },
     {
@@ -4855,10 +4855,10 @@
         "accountId",
         "wanNetworkPolicyMutationInput"
       ],
-      "document_sha256": "ea10c56d95138129a14e32d96b7f07ba083957ab33f1552465e5f17fe17977f2",
+      "document_sha256": "fe7c0963ae0be79e2f125f9dc31f189039e972317f9f160b58c8d7c2bfd4585b",
       "cli_file": "queryPayloads/mutation.policy.wanNetwork.updateRule.txt",
       "cli_name": "policyWanNetworkUpdateRule",
-      "cli_sha256": "103d4ac769867b88f6eef5e6e1f18f43009bb7495b8cda5f54f8b06032250135",
+      "cli_sha256": "a6cb06926c083748a287ab578869b87238ab33817eec9cb1fdd5954c632cc21d",
       "status": "mapped"
     },
     {
@@ -5729,6 +5729,21 @@
       "status": "mapped"
     },
     {
+      "key": "mutation.site.assignSocket",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.site.assignSocket.gql",
+      "sdk_name": "siteAssignSocket",
+      "variables": [
+        "accountId",
+        "siteAssignSocketInput"
+      ],
+      "document_sha256": "864f70d27d556276f856d18ba397eac237ab69cc7f76733433f6a04f6e1685e4",
+      "cli_file": "queryPayloads/mutation.site.assignSocket.txt",
+      "cli_name": "siteAssignSocket",
+      "cli_sha256": "9f88a11016fc70a9c88391e2d30c5d6852333a2797e173f3a74b07ffc6553cc4",
+      "status": "imported"
+    },
+    {
       "key": "mutation.site.createBgpPeerBulk",
       "kind": "mutation",
       "sdk_file": "sources/mutation.site.createBgpPeerBulk.gql",
@@ -6087,6 +6102,21 @@
       "cli_file": "queryPayloads/mutation.site.startSiteUpgrade.txt",
       "cli_name": "siteStartSiteUpgrade",
       "cli_sha256": "fbc1da3be0bdeee088d8a98ad4af4e4fbdcc3a98d17e6d8e1abf7b9f0fe0d000",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.site.unassignSocket",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.site.unassignSocket.gql",
+      "sdk_name": "siteUnassignSocket",
+      "variables": [
+        "accountId",
+        "siteUnassignSocketInput"
+      ],
+      "document_sha256": "0c95a038125d000e0d92e98c5c6ad6616b79a025cd58bab1ab485f2e7ad995b3",
+      "cli_file": "queryPayloads/mutation.site.unassignSocket.txt",
+      "cli_name": "siteUnassignSocket",
+      "cli_sha256": "7f8c8c0d57c1f1e4b694c1bbbbb369f7ebe40795d9e4809595c384bf615ea4b5",
       "status": "imported"
     },
     {
@@ -6671,6 +6701,21 @@
       "status": "imported"
     },
     {
+      "key": "mutation.sites.assignSocket",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.sites.assignSocket.gql",
+      "sdk_name": "sitesAssignSocket",
+      "variables": [
+        "accountId",
+        "siteAssignSocketInput"
+      ],
+      "document_sha256": "4e1051a1c86f9d55fc3b1b9104c48270e3b9d51262f1c512d207ef063cd00396",
+      "cli_file": "queryPayloads/mutation.sites.assignSocket.txt",
+      "cli_name": "sitesAssignSocket",
+      "cli_sha256": "c09af60912a8dc75a4f800c848ae7d8e8e695f370f60f86ef587bb5b27a172ac",
+      "status": "imported"
+    },
+    {
       "key": "mutation.sites.createBgpPeerBulk",
       "kind": "mutation",
       "sdk_file": "sources/mutation.sites.createBgpPeerBulk.gql",
@@ -7029,6 +7074,21 @@
       "cli_file": "queryPayloads/mutation.sites.startSiteUpgrade.txt",
       "cli_name": "sitesStartSiteUpgrade",
       "cli_sha256": "6aa7afe7d7b67a43b1202a628b1bd4c56d5aac166b2d5247db7e7291c7ea5c87",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.sites.unassignSocket",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.sites.unassignSocket.gql",
+      "sdk_name": "sitesUnassignSocket",
+      "variables": [
+        "accountId",
+        "siteUnassignSocketInput"
+      ],
+      "document_sha256": "c1fef8c58bd1f7a5962dda642572337581f9693d6dceabc42ae4be00ef962b4f",
+      "cli_file": "queryPayloads/mutation.sites.unassignSocket.txt",
+      "cli_name": "sitesUnassignSocket",
+      "cli_sha256": "4f027d301fd31acb947f3aceefea601152e86aaa9987221985b5f6c8546c6d09",
       "status": "imported"
     },
     {
@@ -8056,12 +8116,13 @@
       "variables": [
         "accountId",
         "businessPlatformAccountListInput",
-        "businessPlatformPartnerListInput"
+        "businessPlatformPartnerListInput",
+        "businessPlatformCountAccountByPlanInput"
       ],
-      "document_sha256": "499bf5d2a2ac69574006d35aa7fb1cba7668aff9d03a7a372bec29968b057e17",
+      "document_sha256": "2130ab6349a5b795221f034fcf7598b303e7c4a7e86f50647eb8266bc3d32c51",
       "cli_file": "queryPayloads/query.businessPlatform.txt",
       "cli_name": "businessPlatform",
-      "cli_sha256": "b6387c8aa6ffd2b0bb5a6f61ee740c96f83d44de2554e6ef60834a7e21d1edc2",
+      "cli_sha256": "27a2288eabc3451ddc244f3dc0db4b1e6e63e68caacad5f5a736fbca490994cf",
       "status": "imported"
     },
     {
@@ -8542,6 +8603,23 @@
       "cli_file": "queryPayloads/query.externalAccess.txt",
       "cli_name": "externalAccess",
       "cli_sha256": "2bfbd34df0628b688fad69162b6c8223447a174f2d24ecc18ef5ac439b78e09b",
+      "status": "imported"
+    },
+    {
+      "key": "query.financialDocuments",
+      "kind": "query",
+      "sdk_file": "sources/query.financialDocuments.gql",
+      "sdk_name": "financialDocuments",
+      "variables": [
+        "accountId",
+        "invoiceAccountListInput",
+        "invoiceChargeItemListInput",
+        "invoiceSummaryListInput"
+      ],
+      "document_sha256": "e2625c6c950cadf41f28fd0e4f88e123135cad5f8ec93c77c586eae3fb153ea7",
+      "cli_file": "queryPayloads/query.financialDocuments.txt",
+      "cli_name": "financialDocuments",
+      "cli_sha256": "e0863a9499df0594ad1b46327e5dd69b5d49235dccb191997548cda4ede1860b",
       "status": "imported"
     },
     {
@@ -9091,10 +9169,10 @@
         "accountId",
         "applicationControlPolicyInput"
       ],
-      "document_sha256": "c0672962b3aa62e23c94580ee9e6ffcabb31198caa6f7d5271e858b1c7d09421",
+      "document_sha256": "d4d9bc9b813e3b00a64b09b5daa509eacedf750a76dcf0bc57f460fd6b247ecb",
       "cli_file": "queryPayloads/query.policy.applicationControl.policy.txt",
       "cli_name": "policyApplicationControlPolicy",
-      "cli_sha256": "c90db763004a1646093d93728d3e8fdde8255f84077a77c09208afd7405d9bea",
+      "cli_sha256": "d6fb20fdfd82eb9c6d4a409e4693f6a5a3a423913ba9c1f05a33824a6ddab69b",
       "status": "mapped"
     },
     {
@@ -9372,10 +9450,10 @@
         "accountId",
         "wanNetworkPolicyInput"
       ],
-      "document_sha256": "f8b0e33b066428a53a8d5b913d606da878e74843a539b7eaa25eebe16ab30e8e",
+      "document_sha256": "20f2c902023226c50d5a01e912c686a873d6294654635042ca6b4d37ce1accfd",
       "cli_file": "queryPayloads/query.policy.wanNetwork.policy.txt",
       "cli_name": "policyWanNetworkPolicy",
-      "cli_sha256": "49820671c5af64dfe13286bc7a651a8671904f7a703ed86d02c5e4603fe53922",
+      "cli_sha256": "3a207357e7f7ccefe8a3f53e874cb55820c2e678e3842668e08ec6ab7efcf948",
       "status": "mapped"
     },
     {
@@ -10040,7 +10118,7 @@
       "document_sha256": "d62185e45b96ff87f070bbaef4d57cb4e8565dbbfc006f898001855f7524dc78",
       "cli_file": "queryPayloads/query.site.siteGeneralDetails.txt",
       "cli_name": "siteSiteGeneralDetails",
-      "cli_sha256": "06b02b00764a090908ae6bd9d576987cc26cfd0f5ae1cc0dfbab666a5605ee90",
+      "cli_sha256": "3f3ac32660965465b1ea18b20352d6696904db2a991377eaf6786bbc742ae786",
       "status": "mapped"
     },
     {
@@ -10057,6 +10135,36 @@
       "cli_name": "siteSiteSocketConfiguration",
       "cli_sha256": "096364d361e9e6cc6ebcb15daa68989f1cda063235c0e0c0f77032159d42b6e5",
       "status": "mapped"
+    },
+    {
+      "key": "query.site.socketInterface",
+      "kind": "query",
+      "sdk_file": "sources/query.site.socketInterface.gql",
+      "sdk_name": "siteSocketInterface",
+      "variables": [
+        "accountId",
+        "siteSocketInterfaceInput"
+      ],
+      "document_sha256": "6d122326cb77afb8e4edcca0855a97f413580086394811bc88f671aa3ac51771",
+      "cli_file": "queryPayloads/query.site.socketInterface.txt",
+      "cli_name": "siteSocketInterface",
+      "cli_sha256": "8b33819f3a47e0daa9e7c23c475d230d10321f87803e29256f389f75cf1c32c6",
+      "status": "imported"
+    },
+    {
+      "key": "query.site.socketInterfaceList",
+      "kind": "query",
+      "sdk_file": "sources/query.site.socketInterfaceList.gql",
+      "sdk_name": "siteSocketInterfaceList",
+      "variables": [
+        "accountId",
+        "socketInterfaceListInput"
+      ],
+      "document_sha256": "3479031dbcb8fb96dc3cc4c84247c77e566876cb9b93f8fbaf35e354e408728b",
+      "cli_file": "queryPayloads/query.site.socketInterfaceList.txt",
+      "cli_name": "siteSocketInterfaceList",
+      "cli_sha256": "5b8a91a2cb2080460a8f34d1da6fa2d466ba1fd49d35d79e3da175195be50c2a",
+      "status": "imported"
     },
     {
       "key": "query.site.staticHost",

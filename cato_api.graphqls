@@ -48,6 +48,7 @@ type Query {
   eventsFeed(accountIDs: [ID!], filters: [EventFeedFieldFilterInput!], marker: String): EventsFeedData @ga
   eventsTimeSeries(accountID: ID!, timeFrame: TimeFrame!, measures: [EventsMeasure], dimensions: [EventsDimension], filters: [EventsFilter!], includeEmptyDimension: Boolean): EventsTimeSeries @ga
   externalAccess(accountId: ID!): ExternalAccessQueries!
+  financialDocuments(accountId: ID!): FinancialDocumentQueries @rollout
   groups(accountId: ID!): GroupsQueries
   hardware(accountId: ID!): HardwareQueries
   hardwareManagement(accountId: ID!): HardwareManagementQueries
@@ -1040,6 +1041,7 @@ type ApplicationControlContext {
 
 """ Application criteria configuration """
 type ApplicationControlCriteria {
+  aiRisk: [ApplicationControlAiRisk!]!
   attributes: ApplicationControlAttributes!
   originCountry: [CountryRef!]!
   risk: [ApplicationControlRiskCriteria!]!
@@ -1438,6 +1440,7 @@ type BusinessPlatformAccount {
   externalId: String
   externalName: String!
   id: ID!
+  isMSP: Boolean!
   partner: AccountRef!
   plan: BusinessPlatformAccountPlan!
   postalCode: String
@@ -1513,7 +1516,7 @@ type BusinessPlatformPlanCountPayload {
 type BusinessPlatformQueries {
   accountList(input: BusinessPlatformAccountListInput): BusinessPlatformAccountListPayload @beta
   accountOverview: BusinessPlatformAccountOverviewPayload @beta
-  countAccountByPlan: BusinessPlatformPlanCountPayload @beta
+  countAccountByPlan(input: BusinessPlatformCountAccountByPlanInput = {filter:{includeMSP:false}}): BusinessPlatformPlanCountPayload @beta
   partnerList(input: BusinessPlatformPartnerListInput): BusinessPlatformPartnerListPayload @beta
   settings: BusinessPlatformSettings @beta
 }
@@ -2851,6 +2854,13 @@ type FileDetails {
   size: Int
 }
 
+""" Queries for retrieving invoices and their account and charge-item details. """
+type FinancialDocumentQueries {
+  invoiceAccountList(input: InvoiceAccountListInput!): InvoiceAccountListPayload! @beta
+  invoiceChargeItemList(input: InvoiceChargeItemListInput!): InvoiceChargeItemListPayload! @beta
+  invoiceSummaryList(input: InvoiceSummaryListInput!): InvoiceSummaryListPayload! @beta
+}
+
 """
 Returns data for the Floating Subnet object. Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched
 to the route advertised by BGP. They are not associated with a specific site.
@@ -3492,7 +3502,7 @@ type InternetFirewallDestination {
   containers: InternetFirewallContainer!
   country: [CountryRef!]!
   customApp: [CustomApplicationRef!]!
-  customCategory: [CustomCategoryRef!]!
+  customCategory: [CustomCategoryRef!]! @deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   domain: [CustomDomain!]!
   fqdn: [Fqdn!]!
   globalIpRange: [GlobalIpRangeRef!]!
@@ -3676,10 +3686,58 @@ type InvestigationDetails {
   managedServiceTicketLink: String
 }
 
+type InvoiceAccountListPayload {
+  items: [InvoiceAccountSummary!]!
+  pageInfo: PageInfo!
+}
+
+""" An account's charges within an invoice. """
+type InvoiceAccountSummary {
+  account: AccountRef!
+  amount: Float!
+  endDate: Date!
+  startDate: Date!
+}
+
+type InvoiceChargeItemListPayload {
+  items: [InvoiceChargeItemSummary!]!
+  pageInfo: PageInfo!
+}
+
+""" A charge item included in an invoice. """
+type InvoiceChargeItemSummary {
+  account: AccountRef!
+  amount: Float!
+  description: String!
+  endDate: Date!
+  name: String!
+  position: Int!
+  quantity: Int!
+  startDate: Date!
+}
+
 """ Referring an invoice object """
 type InvoiceRef implements ObjectRef {
   id: ID!
   name: String!
+}
+
+""" Basic invoice information and its account-level totals. """
+type InvoiceSummary {
+  account: [InvoiceAccountSummary!]!
+  currency: String!
+  downloadPath: String!
+  dueDate: Date!
+  invoice: InvoiceRef!
+  issuedDate: Date!
+  subtotal: Float!
+  taxTotal: Float!
+  total: Float!
+}
+
+type InvoiceSummaryListPayload {
+  items: [InvoiceSummary!]!
+  pageInfo: PageInfo!
 }
 
 """ IoT/OT Security service license details """
@@ -6450,12 +6508,34 @@ type SimpleServiceRef implements ObjectRef {
   name: String!
 }
 
+""" Result of assigning a Socket to a site. """
+type SiteAssignSocketPayload {
+  socket: SiteAssignedSocket!
+}
+
+""" A Socket assigned to a site. """
+type SiteAssignedSocket {
+  description: String
+  id: ID!
+  primary: Boolean!
+  registrationStatus: SocketRegistrationStatus!
+  serial: String!
+  site: SiteRef!
+}
+
 type SiteBackhaulingPayload {
   destination: BackhaulingDestination
   nextHopIP: IPAddress
   preferredSocketPort: String
   site: SiteRef!
   useAsBackhaulingGW: Boolean!
+}
+
+""" The effective bandwidth limit for tunnel traffic, measured in Mbps. """
+type SiteBandwidthLimit {
+  downstreamMaxBandwidthMbps: Int!
+  override: Boolean!
+  upstreamMaxBandwidthMbps: Int!
 }
 
 type SiteBgpStatus {
@@ -6468,6 +6548,7 @@ type SiteGeneralDetailsPayload {
   disableAclForSip: Boolean!
   preferredPopLocation: SitePreferredPopLocation
   site: SiteRef!
+  siteBandwidthLimit: SiteBandwidthLimit @rollout
   siteLocation: SiteLocation!
   siteType: SiteType!
   workingHours: SiteWorkingHours
@@ -6573,6 +6654,7 @@ type SiteMutations {
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
   addStaticHost(siteId: ID!, input: AddStaticHostInput!): AddStaticHostPayload @ga
   assignSiteBwLicense(input: AssignSiteBwLicenseInput!): AssignSiteBwLicensePayload @beta
+  assignSocket(input: SiteAssignSocketInput!): SiteAssignSocketPayload @rollout @beta
   createBgpPeerBulk(input: CreateBgpPeerBulkInput!): CreateBgpPeerBulkPayload @beta
   createNetworkRangeBulk(input: CreateNetworkRangeBulkInput!): CreateNetworkRangeBulkPayload @beta
   createStaticHostBulk(input: CreateStaticHostBulkInput!): CreateStaticHostBulkPayload @beta
@@ -6597,6 +6679,7 @@ type SiteMutations {
   removeWifiSsid(input: RemoveWifiSsidInput!): RemoveWifiSsidPayload @rollout @beta
   replaceSiteBwLicense(input: ReplaceSiteBwLicenseInput!): ReplaceSiteBwLicensePayload @beta
   startSiteUpgrade(input: StartSiteUpgradeInput!): StartSiteUpgradePayload @beta
+  unassignSocket(input: SiteUnassignSocketInput!): SiteUnassignSocketPayload @rollout @beta
   updateBgpPeer(input: UpdateBgpPeerInput!): UpdateBgpPeerPayload @beta
   updateBgpPeerBulk(input: UpdateBgpPeerBulkInput!): UpdateBgpPeerBulkPayload @beta
   updateBgpPeers(input: UpdateBgpPeersInput!): UpdateBgpPeersPayload @deprecated(reason: "Use the bulk BGP peer mutations 'createBgpPeerBulk', 'updateBgpPeerBulk', and 'deleteBgpPeerBulk' instead") @beta
@@ -6653,6 +6736,8 @@ type SiteQueries {
   siteBgpStatus(input: SiteBgpStatusInput!): SiteBgpStatus @beta
   siteGeneralDetails(site: SiteRefInput!): SiteGeneralDetailsPayload @beta
   siteSocketConfiguration(input: SiteSocketConfigurationInput!): SiteSocketConfiguration @beta
+  socketInterface(input: SiteSocketInterfaceInput!): SiteSocketInterface @beta
+  socketInterfaceList(input: SocketInterfaceListInput!): SocketInterfaceListPayload @beta
   staticHost(site: SiteRefInput!, hostId: ID!): StaticHostPayload @beta
   staticHostList(site: SiteRefInput!): StaticHostListPayload @beta
   validWifiRadioSettings(input: ValidWifiRadioSettingsInput!): ValidWifiRadioSettingsPayload @rollout @beta
@@ -6702,12 +6787,88 @@ type SiteSocketInfo {
   wifiSupported: SocketWifiSupport!
 }
 
+""" A socket interface (link) of a socket site. """
+type SiteSocketInterface {
+  altWan: SiteSocketInterfaceAltWan
+  bandwidth: SiteSocketInterfaceBandwidth
+  destType: SocketInterfaceDestType!
+  lag: SiteSocketInterfaceLag
+  lan: SiteSocketInterfaceLan
+  name: String!
+  offCloud: SiteSocketInterfaceOffCloud
+  socketInterfaceId: SocketInterfaceIDEnum!
+  supportedDestinations: [SocketInterfaceDestType!]!
+  vrrp: SiteSocketInterfaceVrrp
+  wan: SiteSocketInterfaceWan
+}
+
+""" Alternative WAN settings of an ALTERNATIVE or LAYER_2_WAN link. """
+type SiteSocketInterfaceAltWan {
+  privateGatewayIp: IPAddress
+  privateInterfaceIp: IPAddress
+  privateNetwork: IPSubnet
+  privateVlanTag: Int
+  publicGatewayIp: IPAddress
+  publicInterfaceIp: IPAddress
+  publicNetwork: IPSubnet
+  publicVlanTag: Int
+}
+
+""" Bandwidth of a WAN link. """
+type SiteSocketInterfaceBandwidth {
+  downstreamBandwidth: Int
+  downstreamBandwidthMbpsPrecision: Float @beta
+  upstreamBandwidth: Int
+  upstreamBandwidthMbpsPrecision: Float @beta
+}
+
+""" LAG settings of a LAG master interface. """
+type SiteSocketInterfaceLag {
+  minLinks: Int!
+}
+
+""" LAN settings of a socket interface. """
+type SiteSocketInterfaceLan {
+  localIp: IPAddress
+  subnet: IPSubnet!
+  translatedSubnet: IPSubnet
+}
+
+""" Off-Cloud settings of a CATO link. """
+type SiteSocketInterfaceOffCloud {
+  enabled: Boolean!
+  publicIp: IPAddress
+  publicStaticPort: Int
+}
+
+""" VRRP settings of the interface. """
+type SiteSocketInterfaceVrrp {
+  vrrpType: VrrpType
+}
+
+""" WAN settings of a CATO link. """
+type SiteSocketInterfaceWan {
+  precedence: SocketInterfacePrecedenceEnum!
+  role: SocketInterfaceRole
+}
+
 """ A static host configured on a site. """
 type SiteStaticHost {
   hostId: ID!
   ip: IPAddress!
   macAddress: String
   name: String!
+}
+
+""" Result of unassigning a Socket from its site. """
+type SiteUnassignSocketPayload {
+  socket: SiteUnassignedSocket!
+}
+
+""" A Socket unassigned from its site. """
+type SiteUnassignedSocket {
+  id: ID!
+  serial: String!
 }
 
 """ Information about a site upgrade. """
@@ -6988,6 +7149,12 @@ type SocketInfo {
   serial: String
   version: String
   versionUpdateTime: DateTime
+}
+
+""" The socket interfaces of a site. """
+type SocketInterfaceListPayload {
+  items: [SiteSocketInterface!]!
+  paging: PageInfo!
 }
 
 """ Socket inventory distribution grouped by physical socket model type and hardware version. """
@@ -7812,7 +7979,7 @@ type TlsInspectApplication {
   application: [ApplicationRef!]!
   country: [CountryRef!]!
   customApp: [CustomApplicationRef!]!
-  customCategory: [CustomCategoryRef!]!
+  customCategory: [CustomCategoryRef!]! @deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   customService: [CustomService!]!
   customServiceIp: [CustomServiceIp!]!
   domain: [CustomDomain!]!
@@ -8341,7 +8508,7 @@ type WanFirewallApplication {
   appCategory: [ApplicationCategoryRef!]!
   application: [ApplicationRef!]!
   customApp: [CustomApplicationRef!]!
-  customCategory: [CustomCategoryRef!]!
+  customCategory: [CustomCategoryRef!]! @deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   domain: [CustomDomain!]!
   fqdn: [Fqdn!]!
   globalIpRange: [GlobalIpRangeRef!]!
@@ -8589,11 +8756,13 @@ type WanNetworkRuleApplication {
   appCategory: [ApplicationCategoryRef!]!
   application: [ApplicationRef!]!
   customApp: [CustomApplicationRef!]!
-  customCategory: [CustomCategoryRef!]!
+  customCategory: [CustomCategoryRef!]! @deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   customService: [CustomService!]!
   customServiceIp: [CustomServiceIp!]!
   domain: [Domain!]!
   fqdn: [Fqdn!]!
+  globalIpRange: [GlobalIpRangeRef!]!
+  group: [GroupRef!]!
   service: [ServiceRef!]!
 }
 
@@ -9422,6 +9591,7 @@ input AddSocketSiteInput {
   name: String!
   nativeNetworkRange: IPSubnet!
   secondaryVSocket: SecondaryVSocketAtCreationInput @beta @ea
+  siteBandwidthLimit: SiteBandwidthLimitInput @rollout
   siteLocation: AddSiteLocationInput!
   siteType: SiteType! = BRANCH
   translatedSubnet: IPSubnet
@@ -9731,11 +9901,11 @@ input ApplicationControlActivityRefInput {
 }
 
 input ApplicationControlAddRuleDataInput {
-  applicationRule: ApplicationControlApplicationRuleInput = {application:{applicationType:[]},applicationActivitySatisfy:ANY,applicationActivity:[],applicationContext:{applicationTenant:[]},accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
-  dataRule: ApplicationControlDataRuleInput = {application:{applicationType:[]},applicationContext:{applicationTenant:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],dlpProfile:{contentProfile:[],edmProfile:[]},applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
+  applicationRule: ApplicationControlApplicationRuleInput = {application:{applicationType:[]},applicationActivitySatisfy:ANY,applicationActivity:[],applicationContext:{applicationTenant:[]},accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[],aiRisk:[]},actionConfig:{userNotification:[]}}
+  dataRule: ApplicationControlDataRuleInput = {application:{applicationType:[]},applicationContext:{applicationTenant:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],dlpProfile:{contentProfile:[],edmProfile:[]},applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[],aiRisk:[]},actionConfig:{userNotification:[]}}
   description: String! = ""
   enabled: Boolean!
-  fileRule: ApplicationControlFileRuleInput = {application:{applicationType:[]},applicationContext:{applicationTenant:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
+  fileRule: ApplicationControlFileRuleInput = {application:{applicationType:[]},applicationContext:{applicationTenant:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[],aiRisk:[]},actionConfig:{userNotification:[]}}
   name: String!
   ruleType: ApplicationControlRuleType! = APPLICATION
 }
@@ -9764,7 +9934,7 @@ input ApplicationControlApplicationRuleInput {
   applicationActivity: [ApplicationControlActivityInput!]! = []
   applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
   applicationContext: ApplicationControlContextInput! = {applicationTenant:[]}
-  applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]}
+  applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[],aiRisk:[]}
   applicationCriteriaSatisfy: ApplicationControlSatisfy! = ANY
   device: [DeviceProfileRefInput!]! = []
   schedule: PolicyScheduleInput! = {activeOn:ALWAYS}
@@ -9861,6 +10031,7 @@ input ApplicationControlContextUpdateInput {
 
 """ Application criteria configuration """
 input ApplicationControlCriteriaInput {
+  aiRisk: [ApplicationControlAiRisk!]! = []
   attributes: ApplicationControlAttributesInput! = {complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}}
   originCountry: [CountryRefInput!]! = []
   risk: [ApplicationControlRiskCriteriaInput!]! = []
@@ -9868,6 +10039,7 @@ input ApplicationControlCriteriaInput {
 
 """ Application criteria configuration """
 input ApplicationControlCriteriaUpdateInput {
+  aiRisk: [ApplicationControlAiRisk!]
   attributes: ApplicationControlAttributesUpdateInput
   originCountry: [CountryRefInput!]
   risk: [ApplicationControlRiskCriteriaInput!]
@@ -9882,7 +10054,7 @@ input ApplicationControlDataRuleInput {
   applicationActivity: [ApplicationControlActivityInput!]! = []
   applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
   applicationContext: ApplicationControlContextInput! = {applicationTenant:[]}
-  applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]}
+  applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[],aiRisk:[]}
   applicationCriteriaSatisfy: ApplicationControlSatisfy! = ANY
   device: [DeviceProfileRefInput!]! = []
   dlpProfile: ApplicationControlDlpProfileInput! = {contentProfile:[],edmProfile:[]}
@@ -9945,7 +10117,7 @@ input ApplicationControlFileRuleInput {
   applicationActivity: [ApplicationControlActivityInput!]! = []
   applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
   applicationContext: ApplicationControlContextInput! = {applicationTenant:[]}
-  applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]}
+  applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[],aiRisk:[]}
   applicationCriteriaSatisfy: ApplicationControlSatisfy! = ANY
   device: [DeviceProfileRefInput!]! = []
   fileAttribute: [ApplicationControlFileAttributeInput!]! = []
@@ -10234,6 +10406,16 @@ input BusinessPlatformAdminData {
   lastName: String!
 }
 
+""" Filter criteria for counting Business Platform accounts grouped by plan. """
+input BusinessPlatformCountAccountByPlanFilterInput {
+  includeMSP: Boolean = false
+}
+
+""" Input for counting Business Platform accounts grouped by plan. """
+input BusinessPlatformCountAccountByPlanInput {
+  filter: BusinessPlatformCountAccountByPlanFilterInput = {includeMSP:false}
+}
+
 """ Input for creating a trial account. """
 input BusinessPlatformCreateTrialAccountInput {
   accountData: AddAccountInput!
@@ -10245,8 +10427,10 @@ input BusinessPlatformCreateTrialAccountInput {
 """ Filter criteria for listing Business Platform accounts. """
 input BusinessPlatformFilterInput {
   account: AccountFilter
+  customerAccount: AccountFilter
   expiresOn: [DateFilterInput!]
   freeText: FreeTextFilterInput
+  includeMSP: Boolean = false
   plan: [BusinessPlatformAccountPlanFilterInput!]
 }
 
@@ -11556,7 +11740,7 @@ input InternetFirewallDestinationInput {
   containers: InternetFirewallContainerInput! = {fqdnContainer:[],ipAddressRangeContainer:[]}
   country: [CountryRefInput!]! = []
   customApp: [CustomApplicationRefInput!]! = []
-  customCategory: [CustomCategoryRefInput!]! = []
+  customCategory: [CustomCategoryRefInput!]! = []@deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   domain: [CustomDomain!]! = []
   fqdn: [Fqdn!]! = []
   globalIpRange: [GlobalIpRangeRefInput!]! = []
@@ -11575,7 +11759,7 @@ input InternetFirewallDestinationUpdateInput {
   containers: InternetFirewallContainerUpdateInput
   country: [CountryRefInput!]
   customApp: [CustomApplicationRefInput!]
-  customCategory: [CustomCategoryRefInput!]
+  customCategory: [CustomCategoryRefInput!] @deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   domain: [CustomDomain!]
   fqdn: [Fqdn!]
   globalIpRange: [GlobalIpRangeRefInput!]
@@ -11713,6 +11897,87 @@ input InternetFirewallUpdateRuleDataInput {
 input InternetFirewallUpdateRuleInput {
   id: ID!
   rule: InternetFirewallUpdateRuleDataInput!
+}
+
+""" Filtering criteria for accounts that appear in an invoice. """
+input InvoiceAccountListFilterInput {
+  account: [AccountFilter!]
+  chargeItem: [FreeTextFilterInput!]
+  endDate: [DateFilterInput!]
+  startDate: [DateFilterInput!]
+}
+
+""" Input for listing the accounts that appear in an invoice. """
+input InvoiceAccountListInput {
+  filter: InvoiceAccountListFilterInput
+  invoice: InvoiceRefInput!
+  paging: PagingInput = {limit:100,from:0}
+  sort: InvoiceAccountListSortInput = {account:{direction:ASC,priority:1}}
+}
+
+""" Available ordering fields for invoice accounts. """
+input InvoiceAccountListSortInput {
+  account: SortOrderInput
+  amount: SortOrderInput
+  endDate: SortOrderInput
+  startDate: SortOrderInput
+}
+
+""" Filtering criteria for invoice charge items. """
+input InvoiceChargeItemListFilterInput {
+  account: [AccountFilter!]
+  endDate: [DateFilterInput!]
+  freeText: [FreeTextFilterInput!]
+  startDate: [DateFilterInput!]
+}
+
+""" Input for listing an invoice's charge items. """
+input InvoiceChargeItemListInput {
+  filter: InvoiceChargeItemListFilterInput
+  invoice: InvoiceRefInput!
+  paging: PagingInput = {limit:100,from:0}
+  sort: InvoiceChargeItemListSortInput
+}
+
+""" Available ordering fields for invoice charge items. """
+input InvoiceChargeItemListSortInput {
+  account: SortOrderInput
+  amount: SortOrderInput
+  description: SortOrderInput
+  endDate: SortOrderInput
+  name: SortOrderInput
+  quantity: SortOrderInput
+  startDate: SortOrderInput
+}
+
+""" Referring an invoice object """
+input InvoiceRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+""" Filtering criteria for invoice summaries. """
+input InvoiceSummaryListFilterInput {
+  account: [AccountFilter!]
+  dueDate: [DateFilterInput!]
+  freeText: [FreeTextFilterInput!]
+  id: [IdFilterInput!]
+  issuedDate: [DateFilterInput!]
+  total: [IntFilterInput!]
+}
+
+""" Input for listing invoice summaries. """
+input InvoiceSummaryListInput {
+  filter: InvoiceSummaryListFilterInput
+  paging: PagingInput = {limit:100,from:0}
+  sort: InvoiceSummaryListSortInput = {dueDate:{direction:DESC,priority:1}}
+}
+
+""" Available ordering fields for invoice summaries. """
+input InvoiceSummaryListSortInput {
+  dueDate: SortOrderInput
+  issuedDate: SortOrderInput
+  total: SortOrderInput
 }
 
 """ Input for adding values to existing IPAddressRange typed container """
@@ -13370,6 +13635,20 @@ input SiteAddStaticHostInput {
   name: String!
 }
 
+""" Input for assigning a Socket to a site. """
+input SiteAssignSocketInput {
+  description: String
+  site: SiteRefInput!
+  socketIdentifier: String!
+}
+
+""" Configures a tunnel bandwidth limit in Mbps. """
+input SiteBandwidthLimitInput {
+  downstreamMaxBandwidthMbps: Int!
+  override: Boolean!
+  upstreamMaxBandwidthMbps: Int!
+}
+
 input SiteBgpStatusInput {
   site: SiteRefInput!
 }
@@ -13401,6 +13680,12 @@ input SiteSocketConfigurationInput {
   site: SiteRefInput!
 }
 
+""" Input for the socketInterface query. """
+input SiteSocketInterfaceInput {
+  site: SiteRefInput!
+  socketInterfaceId: SocketInterfaceIDEnum!
+}
+
 input SiteStaticHostConfigurationInput {
   ip: IPAddress!
   macAddress: MacAddress
@@ -13409,6 +13694,12 @@ input SiteStaticHostConfigurationInput {
 
 input SiteStaticHostRefInput {
   hostId: ID!
+}
+
+""" Input for unassigning a Socket from its site. """
+input SiteUnassignSocketInput {
+  site: SiteRefInput!
+  socketIdentifier: String!
 }
 
 input SiteUpdateStaticHostInput {
@@ -13771,6 +14062,11 @@ input SocketInterfaceLanInput {
   localIp: IPAddress!
   subnet: IPSubnet!
   translatedSubnet: IPSubnet
+}
+
+""" Input for the socketInterfaceList query. """
+input SocketInterfaceListInput {
+  site: SiteRefInput!
 }
 
 input SocketInterfaceOffCloudInput {
@@ -14501,7 +14797,7 @@ input TlsInspectApplicationInput {
   application: [ApplicationRefInput!]! = []
   country: [CountryRefInput!]! = []
   customApp: [CustomApplicationRefInput!]! = []
-  customCategory: [CustomCategoryRefInput!]! = []
+  customCategory: [CustomCategoryRefInput!]! = []@deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   customService: [CustomServiceInput!]! = []
   customServiceIp: [CustomServiceIpInput!]! = []
   domain: [CustomDomain!]! = []
@@ -14521,7 +14817,7 @@ input TlsInspectApplicationUpdateInput {
   application: [ApplicationRefInput!]
   country: [CountryRefInput!]
   customApp: [CustomApplicationRefInput!]
-  customCategory: [CustomCategoryRefInput!]
+  customCategory: [CustomCategoryRefInput!] @deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   customService: [CustomServiceInput!]
   customServiceIp: [CustomServiceIpInput!]
   domain: [CustomDomain!]
@@ -14959,6 +15255,7 @@ input UpdateSiteGeneralDetailsInput {
   disableAclForSip: Boolean
   name: String
   preferredPopLocation: UpdateSitePreferredPopLocationInput
+  siteBandwidthLimit: SiteBandwidthLimitInput @rollout
   siteLocation: UpdateSiteLocationInput
   siteType: SiteType
   workingHours: SiteWorkingHoursInput
@@ -15395,7 +15692,7 @@ input WanFirewallApplicationInput {
   appCategory: [ApplicationCategoryRefInput!]! = []
   application: [ApplicationRefInput!]! = []
   customApp: [CustomApplicationRefInput!]! = []
-  customCategory: [CustomCategoryRefInput!]! = []
+  customCategory: [CustomCategoryRefInput!]! = []@deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   domain: [CustomDomain!]! = []
   fqdn: [Fqdn!]! = []
   globalIpRange: [GlobalIpRangeRefInput!]! = []
@@ -15410,7 +15707,7 @@ input WanFirewallApplicationUpdateInput {
   appCategory: [ApplicationCategoryRefInput!]
   application: [ApplicationRefInput!]
   customApp: [CustomApplicationRefInput!]
-  customCategory: [CustomCategoryRefInput!]
+  customCategory: [CustomCategoryRefInput!] @deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   domain: [CustomDomain!]
   fqdn: [Fqdn!]
   globalIpRange: [GlobalIpRangeRefInput!]
@@ -15587,7 +15884,7 @@ input WanFirewallUpdateRuleInput {
 }
 
 input WanNetworkAddRuleDataInput {
-  application: WanNetworkRuleApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],customServiceIp:[],customService:[],domain:[],fqdn:[],service:[]}
+  application: WanNetworkRuleApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],customServiceIp:[],customService:[],domain:[],fqdn:[],service:[],globalIpRange:[],group:[]}
   bandwidthPriority: BandwidthManagementRefInput!
   configuration: WanNetworkRuleConfigurationInput! = {activeTcpAcceleration:false,packetLossMitigation:false,preserveSourcePort:false,primaryTransport:{transportType:AUTOMATIC,primaryInterfaceRole:AUTOMATIC,secondaryInterfaceRole:AUTOMATIC},secondaryTransport:{transportType:AUTOMATIC,primaryInterfaceRole:AUTOMATIC,secondaryInterfaceRole:AUTOMATIC},allocationIp:[],popLocation:[],backhaulingSite:[]}
   description: String! = ""
@@ -15625,11 +15922,13 @@ input WanNetworkRuleApplicationInput {
   appCategory: [ApplicationCategoryRefInput!]! = []
   application: [ApplicationRefInput!]! = []
   customApp: [CustomApplicationRefInput!]! = []
-  customCategory: [CustomCategoryRefInput!]! = []
+  customCategory: [CustomCategoryRefInput!]! = []@deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   customService: [CustomServiceInput!]! = []
   customServiceIp: [CustomServiceIpInput!]! = []
   domain: [Domain!]! = []
   fqdn: [Fqdn!]! = []
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+  group: [GroupRefInput!]! = []
   service: [ServiceRefInput!]! = []
 }
 
@@ -15637,11 +15936,13 @@ input WanNetworkRuleApplicationUpdateInput {
   appCategory: [ApplicationCategoryRefInput!]
   application: [ApplicationRefInput!]
   customApp: [CustomApplicationRefInput!]
-  customCategory: [CustomCategoryRefInput!]
+  customCategory: [CustomCategoryRefInput!] @deprecated(reason: "Custom Categories are being replaced by advanced groups - reference the group in 'group' instead, or list the members directly. Planned end-of-life (EoL) date: TBD.")
   customService: [CustomServiceInput!]
   customServiceIp: [CustomServiceIpInput!]
   domain: [Domain!]
   fqdn: [Fqdn!]
+  globalIpRange: [GlobalIpRangeRefInput!]
+  group: [GroupRefInput!]
   service: [ServiceRefInput!]
 }
 
@@ -15700,7 +16001,7 @@ input WanNetworkRuleDestinationUpdateInput {
 }
 
 input WanNetworkRuleExceptionInput {
-  application: WanNetworkRuleApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],customServiceIp:[],customService:[],domain:[],fqdn:[],service:[]}
+  application: WanNetworkRuleApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],customServiceIp:[],customService:[],domain:[],fqdn:[],service:[],globalIpRange:[],group:[]}
   destination: WanNetworkRuleDestinationInput! = {user:[],floatingSubnet:[],globalIpRange:[],group:[],host:[],ip:[],ipRange:[],networkInterface:[],subnet:[],site:[],siteNetworkSubnet:[],systemGroup:[],usersGroup:[]}
   name: String!
   source: WanNetworkRuleSourceInput! = {user:[],floatingSubnet:[],globalIpRange:[],group:[],host:[],ip:[],ipRange:[],networkInterface:[],subnet:[],site:[],siteNetworkSubnet:[],systemGroup:[],usersGroup:[]}
@@ -16677,6 +16978,18 @@ enum ApplicationControlAction {
   NOTIFY
 }
 
+""" Application AI risk level, as rated in the app catalog """
+enum ApplicationControlAiRisk {
+  """ Critical AI risk """
+  CRITICAL
+  """ High AI risk """
+  HIGH
+  """ Low AI risk """
+  LOW
+  """ Medium AI risk """
+  MEDIUM
+}
+
 """ Attribute Value """
 enum ApplicationControlAttributeValue {
   """ Any Value """
@@ -16821,7 +17134,11 @@ enum BusinessPlatformAccountPlan {
   with the CRM. No order can be made for this account yet.
   """
   CRM_SYNC_PENDING
-  """ Deal was lost and the account is no longer active. """
+  """ Account is disabled. """
+  DISABLE
+  """ Account's licenses are locked, for example after the commercial license expired. """
+  LOCK
+  """ The account was deleted and is no longer active. """
   LOST
   """ Account is awaiting approval before it can be provisioned. """
   PENDING_APPROVAL
@@ -18727,6 +19044,8 @@ enum OrderType {
 enum OriginType {
   """ Device details reported by the Armis security platform """
   Armis
+  """ Device information from Aruba network infrastructure """
+  Aruba
   """ Device information provided by the Cato Networks platform """
   CatoNetworks
   """ Device information from Cisco Meraki endpoint platform """
@@ -19996,6 +20315,10 @@ enum WanFirewallDirectionEnum {
 }
 
 enum WanNetworkRuleInterfaceRole {
+  """ Alt-WAN 1 interface role. Only valid when the transport is ALTERNATIVE_WAN. """
+  ALT_WAN1
+  """ Alt-WAN 2 interface role. Only valid when the transport is ALTERNATIVE_WAN. """
+  ALT_WAN2
   """ Automatic interface role. """
   AUTOMATIC
   """ No interface role. """

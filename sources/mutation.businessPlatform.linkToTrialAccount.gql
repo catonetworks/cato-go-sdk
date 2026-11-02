@@ -29,6 +29,7 @@ mutation businessPlatformLinkToTrialAccount ($accountId: ID!, $businessPlatformL
 				postalCode
 				cmaCreatedBy
 				cmaCreatedAt
+				isMSP
 			}
 		}
 	}

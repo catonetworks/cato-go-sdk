@@ -952,6 +952,7 @@ type AddSocketSiteInput struct {
 	Name               string                           `json:"name"`
 	NativeNetworkRange string                           `json:"nativeNetworkRange"`
 	SecondaryVSocket   *SecondaryVSocketAtCreationInput `json:"secondaryVSocket,omitempty"`
+	SiteBandwidthLimit *SiteBandwidthLimitInput         `json:"siteBandwidthLimit,omitempty"`
 	SiteLocation       *AddSiteLocationInput            `json:"siteLocation"`
 	SiteType           SiteType                         `json:"siteType"`
 	TranslatedSubnet   *string                          `json:"translatedSubnet,omitempty"`
@@ -2496,6 +2497,7 @@ type ApplicationControlContextUpdateInput struct {
 
 // Application criteria configuration
 type ApplicationControlCriteria struct {
+	AiRisk        []ApplicationControlAiRisk        `json:"aiRisk"`
 	Attributes    *ApplicationControlAttributes     `json:"attributes"`
 	OriginCountry []*CountryRef                     `json:"originCountry"`
 	Risk          []*ApplicationControlRiskCriteria `json:"risk"`
@@ -2503,6 +2505,7 @@ type ApplicationControlCriteria struct {
 
 // Application criteria configuration
 type ApplicationControlCriteriaInput struct {
+	AiRisk        []ApplicationControlAiRisk             `json:"aiRisk"`
 	Attributes    *ApplicationControlAttributesInput     `json:"attributes"`
 	OriginCountry []*CountryRefInput                     `json:"originCountry"`
 	Risk          []*ApplicationControlRiskCriteriaInput `json:"risk"`
@@ -2510,6 +2513,7 @@ type ApplicationControlCriteriaInput struct {
 
 // Application criteria configuration
 type ApplicationControlCriteriaUpdateInput struct {
+	AiRisk        []ApplicationControlAiRisk               `json:"aiRisk,omitempty"`
 	Attributes    *ApplicationControlAttributesUpdateInput `json:"attributes,omitempty"`
 	OriginCountry []*CountryRefInput                       `json:"originCountry,omitempty"`
 	Risk          []*ApplicationControlRiskCriteriaInput   `json:"risk,omitempty"`
@@ -3388,6 +3392,7 @@ type BusinessPlatformAccount struct {
 	ExternalID          *string                     `json:"externalId,omitempty"`
 	ExternalName        string                      `json:"externalName"`
 	ID                  string                      `json:"id"`
+	IsMsp               bool                        `json:"isMSP"`
 	Partner             *AccountRef                 `json:"partner"`
 	Plan                BusinessPlatformAccountPlan `json:"plan"`
 	PostalCode          *string                     `json:"postalCode,omitempty"`
@@ -3435,6 +3440,16 @@ type BusinessPlatformAdminData struct {
 	LastName  string `json:"lastName"`
 }
 
+// Filter criteria for counting Business Platform accounts grouped by plan.
+type BusinessPlatformCountAccountByPlanFilterInput struct {
+	IncludeMsp *bool `json:"includeMSP,omitempty"`
+}
+
+// Input for counting Business Platform accounts grouped by plan.
+type BusinessPlatformCountAccountByPlanInput struct {
+	Filter *BusinessPlatformCountAccountByPlanFilterInput `json:"filter,omitempty"`
+}
+
 // Input for creating a trial account.
 type BusinessPlatformCreateTrialAccountInput struct {
 	AccountData          *AddAccountInput           `json:"accountData"`
@@ -3450,10 +3465,12 @@ type BusinessPlatformCreateTrialAccountPayload struct {
 
 // Filter criteria for listing Business Platform accounts.
 type BusinessPlatformFilterInput struct {
-	Account   *AccountFilter                            `json:"account,omitempty"`
-	ExpiresOn []*DateFilterInput                        `json:"expiresOn,omitempty"`
-	FreeText  *FreeTextFilterInput                      `json:"freeText,omitempty"`
-	Plan      []*BusinessPlatformAccountPlanFilterInput `json:"plan,omitempty"`
+	Account         *AccountFilter                            `json:"account,omitempty"`
+	CustomerAccount *AccountFilter                            `json:"customerAccount,omitempty"`
+	ExpiresOn       []*DateFilterInput                        `json:"expiresOn,omitempty"`
+	FreeText        *FreeTextFilterInput                      `json:"freeText,omitempty"`
+	IncludeMsp      *bool                                     `json:"includeMSP,omitempty"`
+	Plan            []*BusinessPlatformAccountPlanFilterInput `json:"plan,omitempty"`
 }
 
 // Input for linking a Business Platform account to an existing trial (CMA) account.
@@ -6289,6 +6306,13 @@ type FileDetails struct {
 	Size      *int64  `json:"size,omitempty"`
 }
 
+// Queries for retrieving invoices and their account and charge-item details.
+type FinancialDocumentQueries struct {
+	InvoiceAccountList    *InvoiceAccountListPayload    `json:"invoiceAccountList"`
+	InvoiceChargeItemList *InvoiceChargeItemListPayload `json:"invoiceChargeItemList"`
+	InvoiceSummaryList    *InvoiceSummaryListPayload    `json:"invoiceSummaryList"`
+}
+
 // Returns data for the Floating Subnet object. Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched
 // to the route advertised by BGP. They are not associated with a specific site.
 // This is useful in scenarios such as active-standby high availability routed via BGP.
@@ -7827,6 +7851,87 @@ type InvestigationDetails struct {
 	ManagedServiceTicketLink *string       `json:"managedServiceTicketLink,omitempty"`
 }
 
+// Filtering criteria for accounts that appear in an invoice.
+type InvoiceAccountListFilterInput struct {
+	Account    []*AccountFilter       `json:"account,omitempty"`
+	ChargeItem []*FreeTextFilterInput `json:"chargeItem,omitempty"`
+	EndDate    []*DateFilterInput     `json:"endDate,omitempty"`
+	StartDate  []*DateFilterInput     `json:"startDate,omitempty"`
+}
+
+// Input for listing the accounts that appear in an invoice.
+type InvoiceAccountListInput struct {
+	Filter  *InvoiceAccountListFilterInput `json:"filter,omitempty"`
+	Invoice *InvoiceRefInput               `json:"invoice"`
+	Paging  *PagingInput                   `json:"paging,omitempty"`
+	Sort    *InvoiceAccountListSortInput   `json:"sort,omitempty"`
+}
+
+type InvoiceAccountListPayload struct {
+	Items    []*InvoiceAccountSummary `json:"items"`
+	PageInfo *PageInfo                `json:"pageInfo"`
+}
+
+// Available ordering fields for invoice accounts.
+type InvoiceAccountListSortInput struct {
+	Account   *SortOrderInput `json:"account,omitempty"`
+	Amount    *SortOrderInput `json:"amount,omitempty"`
+	EndDate   *SortOrderInput `json:"endDate,omitempty"`
+	StartDate *SortOrderInput `json:"startDate,omitempty"`
+}
+
+// An account's charges within an invoice.
+type InvoiceAccountSummary struct {
+	Account   *AccountRef `json:"account"`
+	Amount    float64     `json:"amount"`
+	EndDate   time.Time   `json:"endDate"`
+	StartDate time.Time   `json:"startDate"`
+}
+
+// Filtering criteria for invoice charge items.
+type InvoiceChargeItemListFilterInput struct {
+	Account   []*AccountFilter       `json:"account,omitempty"`
+	EndDate   []*DateFilterInput     `json:"endDate,omitempty"`
+	FreeText  []*FreeTextFilterInput `json:"freeText,omitempty"`
+	StartDate []*DateFilterInput     `json:"startDate,omitempty"`
+}
+
+// Input for listing an invoice's charge items.
+type InvoiceChargeItemListInput struct {
+	Filter  *InvoiceChargeItemListFilterInput `json:"filter,omitempty"`
+	Invoice *InvoiceRefInput                  `json:"invoice"`
+	Paging  *PagingInput                      `json:"paging,omitempty"`
+	Sort    *InvoiceChargeItemListSortInput   `json:"sort,omitempty"`
+}
+
+type InvoiceChargeItemListPayload struct {
+	Items    []*InvoiceChargeItemSummary `json:"items"`
+	PageInfo *PageInfo                   `json:"pageInfo"`
+}
+
+// Available ordering fields for invoice charge items.
+type InvoiceChargeItemListSortInput struct {
+	Account     *SortOrderInput `json:"account,omitempty"`
+	Amount      *SortOrderInput `json:"amount,omitempty"`
+	Description *SortOrderInput `json:"description,omitempty"`
+	EndDate     *SortOrderInput `json:"endDate,omitempty"`
+	Name        *SortOrderInput `json:"name,omitempty"`
+	Quantity    *SortOrderInput `json:"quantity,omitempty"`
+	StartDate   *SortOrderInput `json:"startDate,omitempty"`
+}
+
+// A charge item included in an invoice.
+type InvoiceChargeItemSummary struct {
+	Account     *AccountRef `json:"account"`
+	Amount      float64     `json:"amount"`
+	Description string      `json:"description"`
+	EndDate     time.Time   `json:"endDate"`
+	Name        string      `json:"name"`
+	Position    int64       `json:"position"`
+	Quantity    int64       `json:"quantity"`
+	StartDate   time.Time   `json:"startDate"`
+}
+
 // Referring an invoice object
 type InvoiceRef struct {
 	ID   string `json:"id"`
@@ -7836,6 +7941,54 @@ type InvoiceRef struct {
 func (InvoiceRef) IsObjectRef()         {}
 func (this InvoiceRef) GetID() string   { return this.ID }
 func (this InvoiceRef) GetName() string { return this.Name }
+
+// Referring an invoice object
+type InvoiceRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+// Basic invoice information and its account-level totals.
+type InvoiceSummary struct {
+	Account      []*InvoiceAccountSummary `json:"account"`
+	Currency     string                   `json:"currency"`
+	DownloadPath string                   `json:"downloadPath"`
+	DueDate      time.Time                `json:"dueDate"`
+	Invoice      *InvoiceRef              `json:"invoice"`
+	IssuedDate   time.Time                `json:"issuedDate"`
+	Subtotal     float64                  `json:"subtotal"`
+	TaxTotal     float64                  `json:"taxTotal"`
+	Total        float64                  `json:"total"`
+}
+
+// Filtering criteria for invoice summaries.
+type InvoiceSummaryListFilterInput struct {
+	Account    []*AccountFilter       `json:"account,omitempty"`
+	DueDate    []*DateFilterInput     `json:"dueDate,omitempty"`
+	FreeText   []*FreeTextFilterInput `json:"freeText,omitempty"`
+	ID         []*IDFilterInput       `json:"id,omitempty"`
+	IssuedDate []*DateFilterInput     `json:"issuedDate,omitempty"`
+	Total      []*IntFilterInput      `json:"total,omitempty"`
+}
+
+// Input for listing invoice summaries.
+type InvoiceSummaryListInput struct {
+	Filter *InvoiceSummaryListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                   `json:"paging,omitempty"`
+	Sort   *InvoiceSummaryListSortInput   `json:"sort,omitempty"`
+}
+
+type InvoiceSummaryListPayload struct {
+	Items    []*InvoiceSummary `json:"items"`
+	PageInfo *PageInfo         `json:"pageInfo"`
+}
+
+// Available ordering fields for invoice summaries.
+type InvoiceSummaryListSortInput struct {
+	DueDate    *SortOrderInput `json:"dueDate,omitempty"`
+	IssuedDate *SortOrderInput `json:"issuedDate,omitempty"`
+	Total      *SortOrderInput `json:"total,omitempty"`
+}
 
 // IoT/OT Security service license details
 type IotOtLicense struct {
@@ -13262,12 +13415,48 @@ type SiteAddStaticHostInput struct {
 	Name       string  `json:"name"`
 }
 
+// Input for assigning a Socket to a site.
+type SiteAssignSocketInput struct {
+	Description      *string       `json:"description,omitempty"`
+	Site             *SiteRefInput `json:"site"`
+	SocketIdentifier string        `json:"socketIdentifier"`
+}
+
+// Result of assigning a Socket to a site.
+type SiteAssignSocketPayload struct {
+	Socket *SiteAssignedSocket `json:"socket"`
+}
+
+// A Socket assigned to a site.
+type SiteAssignedSocket struct {
+	Description        *string                  `json:"description,omitempty"`
+	ID                 string                   `json:"id"`
+	Primary            bool                     `json:"primary"`
+	RegistrationStatus SocketRegistrationStatus `json:"registrationStatus"`
+	Serial             string                   `json:"serial"`
+	Site               *SiteRef                 `json:"site"`
+}
+
 type SiteBackhaulingPayload struct {
 	Destination         *BackhaulingDestination `json:"destination,omitempty"`
 	NextHopIP           *string                 `json:"nextHopIP,omitempty"`
 	PreferredSocketPort *string                 `json:"preferredSocketPort,omitempty"`
 	Site                *SiteRef                `json:"site"`
 	UseAsBackhaulingGw  bool                    `json:"useAsBackhaulingGW"`
+}
+
+// The effective bandwidth limit for tunnel traffic, measured in Mbps.
+type SiteBandwidthLimit struct {
+	DownstreamMaxBandwidthMbps int64 `json:"downstreamMaxBandwidthMbps"`
+	Override                   bool  `json:"override"`
+	UpstreamMaxBandwidthMbps   int64 `json:"upstreamMaxBandwidthMbps"`
+}
+
+// Configures a tunnel bandwidth limit in Mbps.
+type SiteBandwidthLimitInput struct {
+	DownstreamMaxBandwidthMbps int64 `json:"downstreamMaxBandwidthMbps"`
+	Override                   bool  `json:"override"`
+	UpstreamMaxBandwidthMbps   int64 `json:"upstreamMaxBandwidthMbps"`
 }
 
 type SiteBgpStatus struct {
@@ -13284,6 +13473,7 @@ type SiteGeneralDetailsPayload struct {
 	DisableACLForSip     bool                      `json:"disableAclForSip"`
 	PreferredPopLocation *SitePreferredPopLocation `json:"preferredPopLocation,omitempty"`
 	Site                 *SiteRef                  `json:"site"`
+	SiteBandwidthLimit   *SiteBandwidthLimit       `json:"siteBandwidthLimit,omitempty"`
 	SiteLocation         *SiteLocation             `json:"siteLocation"`
 	SiteType             SiteType                  `json:"siteType"`
 	WorkingHours         *SiteWorkingHours         `json:"workingHours,omitempty"`
@@ -13409,6 +13599,7 @@ type SiteMutations struct {
 	AddSocketSite                             *AddSocketSitePayload                             `json:"addSocketSite,omitempty"`
 	AddStaticHost                             *AddStaticHostPayload                             `json:"addStaticHost,omitempty"`
 	AssignSiteBwLicense                       *AssignSiteBwLicensePayload                       `json:"assignSiteBwLicense,omitempty"`
+	AssignSocket                              *SiteAssignSocketPayload                          `json:"assignSocket,omitempty"`
 	CreateBgpPeerBulk                         *CreateBgpPeerBulkPayload                         `json:"createBgpPeerBulk,omitempty"`
 	CreateNetworkRangeBulk                    *CreateNetworkRangeBulkPayload                    `json:"createNetworkRangeBulk,omitempty"`
 	CreateStaticHostBulk                      *CreateStaticHostBulkPayload                      `json:"createStaticHostBulk,omitempty"`
@@ -13433,6 +13624,7 @@ type SiteMutations struct {
 	RemoveWifiSsid                            *RemoveWifiSsidPayload                            `json:"removeWifiSsid,omitempty"`
 	ReplaceSiteBwLicense                      *ReplaceSiteBwLicensePayload                      `json:"replaceSiteBwLicense,omitempty"`
 	StartSiteUpgrade                          *StartSiteUpgradePayload                          `json:"startSiteUpgrade,omitempty"`
+	UnassignSocket                            *SiteUnassignSocketPayload                        `json:"unassignSocket,omitempty"`
 	UpdateBgpPeer                             *UpdateBgpPeerPayload                             `json:"updateBgpPeer,omitempty"`
 	UpdateBgpPeerBulk                         *UpdateBgpPeerBulkPayload                         `json:"updateBgpPeerBulk,omitempty"`
 	UpdateBgpPeers                            *UpdateBgpPeersPayload                            `json:"updateBgpPeers,omitempty"`
@@ -13500,6 +13692,8 @@ type SiteQueries struct {
 	SiteBgpStatus                           *SiteBgpStatus                           `json:"siteBgpStatus,omitempty"`
 	SiteGeneralDetails                      *SiteGeneralDetailsPayload               `json:"siteGeneralDetails,omitempty"`
 	SiteSocketConfiguration                 *SiteSocketConfiguration                 `json:"siteSocketConfiguration,omitempty"`
+	SocketInterface                         *SiteSocketInterface                     `json:"socketInterface,omitempty"`
+	SocketInterfaceList                     *SocketInterfaceListPayload              `json:"socketInterfaceList,omitempty"`
 	StaticHost                              *StaticHostPayload                       `json:"staticHost,omitempty"`
 	StaticHostList                          *StaticHostListPayload                   `json:"staticHostList,omitempty"`
 	ValidWifiRadioSettings                  *ValidWifiRadioSettingsPayload           `json:"validWifiRadioSettings,omitempty"`
@@ -13569,6 +13763,77 @@ type SiteSocketInfo struct {
 	WifiSupported      SocketWifiSupport         `json:"wifiSupported"`
 }
 
+// A socket interface (link) of a socket site.
+type SiteSocketInterface struct {
+	AltWan                *SiteSocketInterfaceAltWan    `json:"altWan,omitempty"`
+	Bandwidth             *SiteSocketInterfaceBandwidth `json:"bandwidth,omitempty"`
+	DestType              SocketInterfaceDestType       `json:"destType"`
+	Lag                   *SiteSocketInterfaceLag       `json:"lag,omitempty"`
+	Lan                   *SiteSocketInterfaceLan       `json:"lan,omitempty"`
+	Name                  string                        `json:"name"`
+	OffCloud              *SiteSocketInterfaceOffCloud  `json:"offCloud,omitempty"`
+	SocketInterfaceID     SocketInterfaceIDEnum         `json:"socketInterfaceId"`
+	SupportedDestinations []SocketInterfaceDestType     `json:"supportedDestinations"`
+	Vrrp                  *SiteSocketInterfaceVrrp      `json:"vrrp,omitempty"`
+	Wan                   *SiteSocketInterfaceWan       `json:"wan,omitempty"`
+}
+
+// Alternative WAN settings of an ALTERNATIVE or LAYER_2_WAN link.
+type SiteSocketInterfaceAltWan struct {
+	PrivateGatewayIP   *string `json:"privateGatewayIp,omitempty"`
+	PrivateInterfaceIP *string `json:"privateInterfaceIp,omitempty"`
+	PrivateNetwork     *string `json:"privateNetwork,omitempty"`
+	PrivateVlanTag     *int64  `json:"privateVlanTag,omitempty"`
+	PublicGatewayIP    *string `json:"publicGatewayIp,omitempty"`
+	PublicInterfaceIP  *string `json:"publicInterfaceIp,omitempty"`
+	PublicNetwork      *string `json:"publicNetwork,omitempty"`
+	PublicVlanTag      *int64  `json:"publicVlanTag,omitempty"`
+}
+
+// Bandwidth of a WAN link.
+type SiteSocketInterfaceBandwidth struct {
+	DownstreamBandwidth              *int64   `json:"downstreamBandwidth,omitempty"`
+	DownstreamBandwidthMbpsPrecision *float64 `json:"downstreamBandwidthMbpsPrecision,omitempty"`
+	UpstreamBandwidth                *int64   `json:"upstreamBandwidth,omitempty"`
+	UpstreamBandwidthMbpsPrecision   *float64 `json:"upstreamBandwidthMbpsPrecision,omitempty"`
+}
+
+// Input for the socketInterface query.
+type SiteSocketInterfaceInput struct {
+	Site              *SiteRefInput         `json:"site"`
+	SocketInterfaceID SocketInterfaceIDEnum `json:"socketInterfaceId"`
+}
+
+// LAG settings of a LAG master interface.
+type SiteSocketInterfaceLag struct {
+	MinLinks int64 `json:"minLinks"`
+}
+
+// LAN settings of a socket interface.
+type SiteSocketInterfaceLan struct {
+	LocalIP          *string `json:"localIp,omitempty"`
+	Subnet           string  `json:"subnet"`
+	TranslatedSubnet *string `json:"translatedSubnet,omitempty"`
+}
+
+// Off-Cloud settings of a CATO link.
+type SiteSocketInterfaceOffCloud struct {
+	Enabled          bool    `json:"enabled"`
+	PublicIP         *string `json:"publicIp,omitempty"`
+	PublicStaticPort *int64  `json:"publicStaticPort,omitempty"`
+}
+
+// VRRP settings of the interface.
+type SiteSocketInterfaceVrrp struct {
+	VrrpType *VrrpType `json:"vrrpType,omitempty"`
+}
+
+// WAN settings of a CATO link.
+type SiteSocketInterfaceWan struct {
+	Precedence SocketInterfacePrecedenceEnum `json:"precedence"`
+	Role       *SocketInterfaceRole          `json:"role,omitempty"`
+}
+
 // A static host configured on a site.
 type SiteStaticHost struct {
 	HostID     string  `json:"hostId"`
@@ -13585,6 +13850,23 @@ type SiteStaticHostConfigurationInput struct {
 
 type SiteStaticHostRefInput struct {
 	HostID string `json:"hostId"`
+}
+
+// Input for unassigning a Socket from its site.
+type SiteUnassignSocketInput struct {
+	Site             *SiteRefInput `json:"site"`
+	SocketIdentifier string        `json:"socketIdentifier"`
+}
+
+// Result of unassigning a Socket from its site.
+type SiteUnassignSocketPayload struct {
+	Socket *SiteUnassignedSocket `json:"socket"`
+}
+
+// A Socket unassigned from its site.
+type SiteUnassignedSocket struct {
+	ID     string `json:"id"`
+	Serial string `json:"serial"`
 }
 
 type SiteUpdateStaticHostInput struct {
@@ -14415,6 +14697,17 @@ type SocketInterfaceLanInput struct {
 	LocalIP          string  `json:"localIp"`
 	Subnet           string  `json:"subnet"`
 	TranslatedSubnet *string `json:"translatedSubnet,omitempty"`
+}
+
+// Input for the socketInterfaceList query.
+type SocketInterfaceListInput struct {
+	Site *SiteRefInput `json:"site"`
+}
+
+// The socket interfaces of a site.
+type SocketInterfaceListPayload struct {
+	Items  []*SiteSocketInterface `json:"items"`
+	Paging *PageInfo              `json:"paging"`
 }
 
 type SocketInterfaceOffCloudInput struct {
@@ -17271,6 +17564,7 @@ type UpdateSiteGeneralDetailsInput struct {
 	DisableACLForSip     *bool                                `json:"disableAclForSip,omitempty"`
 	Name                 *string                              `json:"name,omitempty"`
 	PreferredPopLocation *UpdateSitePreferredPopLocationInput `json:"preferredPopLocation,omitempty"`
+	SiteBandwidthLimit   *SiteBandwidthLimitInput             `json:"siteBandwidthLimit,omitempty"`
 	SiteLocation         *UpdateSiteLocationInput             `json:"siteLocation,omitempty"`
 	SiteType             *SiteType                            `json:"siteType,omitempty"`
 	WorkingHours         *SiteWorkingHoursInput               `json:"workingHours,omitempty"`
@@ -18643,6 +18937,8 @@ type WanNetworkRuleApplication struct {
 	CustomServiceIP []*CustomServiceIP        `json:"customServiceIp"`
 	Domain          []string                  `json:"domain"`
 	Fqdn            []string                  `json:"fqdn"`
+	GlobalIPRange   []*GlobalIPRangeRef       `json:"globalIpRange"`
+	Group           []*GroupRef               `json:"group"`
 	Service         []*ServiceRef             `json:"service"`
 }
 
@@ -18655,6 +18951,8 @@ type WanNetworkRuleApplicationInput struct {
 	CustomServiceIP []*CustomServiceIPInput        `json:"customServiceIp"`
 	Domain          []string                       `json:"domain"`
 	Fqdn            []string                       `json:"fqdn"`
+	GlobalIPRange   []*GlobalIPRangeRefInput       `json:"globalIpRange"`
+	Group           []*GroupRefInput               `json:"group"`
 	Service         []*ServiceRefInput             `json:"service"`
 }
 
@@ -18667,6 +18965,8 @@ type WanNetworkRuleApplicationUpdateInput struct {
 	CustomServiceIP []*CustomServiceIPInput        `json:"customServiceIp,omitempty"`
 	Domain          []string                       `json:"domain,omitempty"`
 	Fqdn            []string                       `json:"fqdn,omitempty"`
+	GlobalIPRange   []*GlobalIPRangeRefInput       `json:"globalIpRange,omitempty"`
+	Group           []*GroupRefInput               `json:"group,omitempty"`
 	Service         []*ServiceRefInput             `json:"service,omitempty"`
 }
 
@@ -21870,6 +22170,67 @@ func (e ApplicationControlAction) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Application AI risk level, as rated in the app catalog
+type ApplicationControlAiRisk string
+
+const (
+	//  Critical AI risk
+	ApplicationControlAiRiskCritical ApplicationControlAiRisk = "CRITICAL"
+	//  High AI risk
+	ApplicationControlAiRiskHigh ApplicationControlAiRisk = "HIGH"
+	//  Low AI risk
+	ApplicationControlAiRiskLow ApplicationControlAiRisk = "LOW"
+	//  Medium AI risk
+	ApplicationControlAiRiskMedium ApplicationControlAiRisk = "MEDIUM"
+)
+
+var AllApplicationControlAiRisk = []ApplicationControlAiRisk{
+	ApplicationControlAiRiskCritical,
+	ApplicationControlAiRiskHigh,
+	ApplicationControlAiRiskLow,
+	ApplicationControlAiRiskMedium,
+}
+
+func (e ApplicationControlAiRisk) IsValid() bool {
+	switch e {
+	case ApplicationControlAiRiskCritical, ApplicationControlAiRiskHigh, ApplicationControlAiRiskLow, ApplicationControlAiRiskMedium:
+		return true
+	}
+	return false
+}
+
+func (e ApplicationControlAiRisk) String() string {
+	return string(e)
+}
+
+func (e *ApplicationControlAiRisk) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ApplicationControlAiRisk(str)
+	return nil
+}
+
+func (e ApplicationControlAiRisk) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ApplicationControlAiRisk) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlAiRisk) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Attribute Value
 type ApplicationControlAttributeValue string
 
@@ -22711,7 +23072,11 @@ const (
 	// CMA details of this trial account have not yet been synchronized
 	// with the CRM. No order can be made for this account yet.
 	BusinessPlatformAccountPlanCrmSyncPending BusinessPlatformAccountPlan = "CRM_SYNC_PENDING"
-	//  Deal was lost and the account is no longer active.
+	//  Account is disabled.
+	BusinessPlatformAccountPlanDisable BusinessPlatformAccountPlan = "DISABLE"
+	//  Account's licenses are locked, for example after the commercial license expired.
+	BusinessPlatformAccountPlanLock BusinessPlatformAccountPlan = "LOCK"
+	//  The account was deleted and is no longer active.
 	BusinessPlatformAccountPlanLost BusinessPlatformAccountPlan = "LOST"
 	//  Account is awaiting approval before it can be provisioned.
 	BusinessPlatformAccountPlanPendingApproval BusinessPlatformAccountPlan = "PENDING_APPROVAL"
@@ -22724,6 +23089,8 @@ const (
 var AllBusinessPlatformAccountPlan = []BusinessPlatformAccountPlan{
 	BusinessPlatformAccountPlanCommercial,
 	BusinessPlatformAccountPlanCrmSyncPending,
+	BusinessPlatformAccountPlanDisable,
+	BusinessPlatformAccountPlanLock,
 	BusinessPlatformAccountPlanLost,
 	BusinessPlatformAccountPlanPendingApproval,
 	BusinessPlatformAccountPlanProspect,
@@ -22732,7 +23099,7 @@ var AllBusinessPlatformAccountPlan = []BusinessPlatformAccountPlan{
 
 func (e BusinessPlatformAccountPlan) IsValid() bool {
 	switch e {
-	case BusinessPlatformAccountPlanCommercial, BusinessPlatformAccountPlanCrmSyncPending, BusinessPlatformAccountPlanLost, BusinessPlatformAccountPlanPendingApproval, BusinessPlatformAccountPlanProspect, BusinessPlatformAccountPlanTrial:
+	case BusinessPlatformAccountPlanCommercial, BusinessPlatformAccountPlanCrmSyncPending, BusinessPlatformAccountPlanDisable, BusinessPlatformAccountPlanLock, BusinessPlatformAccountPlanLost, BusinessPlatformAccountPlanPendingApproval, BusinessPlatformAccountPlanProspect, BusinessPlatformAccountPlanTrial:
 		return true
 	}
 	return false
@@ -29697,6 +30064,8 @@ type OriginType string
 const (
 	//  Device details reported by the Armis security platform
 	OriginTypeArmis OriginType = "Armis"
+	//  Device information from Aruba network infrastructure
+	OriginTypeAruba OriginType = "Aruba"
 	//  Device information provided by the Cato Networks platform
 	OriginTypeCatoNetworks OriginType = "CatoNetworks"
 	//  Device information from Cisco Meraki endpoint platform
@@ -29721,6 +30090,7 @@ const (
 
 var AllOriginType = []OriginType{
 	OriginTypeArmis,
+	OriginTypeAruba,
 	OriginTypeCatoNetworks,
 	OriginTypeCiscoMeraki,
 	OriginTypeClaroty,
@@ -29735,7 +30105,7 @@ var AllOriginType = []OriginType{
 
 func (e OriginType) IsValid() bool {
 	switch e {
-	case OriginTypeArmis, OriginTypeCatoNetworks, OriginTypeCiscoMeraki, OriginTypeClaroty, OriginTypeCrowdstrike, OriginTypeJuniperMist, OriginTypeMicrosoftDefender, OriginTypeMicrosoftIntune, OriginTypeSentinelOne, OriginTypeUnknown, OriginTypeZoom:
+	case OriginTypeArmis, OriginTypeAruba, OriginTypeCatoNetworks, OriginTypeCiscoMeraki, OriginTypeClaroty, OriginTypeCrowdstrike, OriginTypeJuniperMist, OriginTypeMicrosoftDefender, OriginTypeMicrosoftIntune, OriginTypeSentinelOne, OriginTypeUnknown, OriginTypeZoom:
 		return true
 	}
 	return false
@@ -36646,6 +37016,10 @@ func (e WanFirewallDirectionEnum) MarshalJSON() ([]byte, error) {
 type WanNetworkRuleInterfaceRole string
 
 const (
+	//  Alt-WAN 1 interface role. Only valid when the transport is ALTERNATIVE_WAN.
+	WanNetworkRuleInterfaceRoleAltWan1 WanNetworkRuleInterfaceRole = "ALT_WAN1"
+	//  Alt-WAN 2 interface role. Only valid when the transport is ALTERNATIVE_WAN.
+	WanNetworkRuleInterfaceRoleAltWan2 WanNetworkRuleInterfaceRole = "ALT_WAN2"
 	//  Automatic interface role.
 	WanNetworkRuleInterfaceRoleAutomatic WanNetworkRuleInterfaceRole = "AUTOMATIC"
 	//  No interface role.
@@ -36665,6 +37039,8 @@ const (
 )
 
 var AllWanNetworkRuleInterfaceRole = []WanNetworkRuleInterfaceRole{
+	WanNetworkRuleInterfaceRoleAltWan1,
+	WanNetworkRuleInterfaceRoleAltWan2,
 	WanNetworkRuleInterfaceRoleAutomatic,
 	WanNetworkRuleInterfaceRoleNone,
 	WanNetworkRuleInterfaceRoleWan1,
@@ -36677,7 +37053,7 @@ var AllWanNetworkRuleInterfaceRole = []WanNetworkRuleInterfaceRole{
 
 func (e WanNetworkRuleInterfaceRole) IsValid() bool {
 	switch e {
-	case WanNetworkRuleInterfaceRoleAutomatic, WanNetworkRuleInterfaceRoleNone, WanNetworkRuleInterfaceRoleWan1, WanNetworkRuleInterfaceRoleWan2, WanNetworkRuleInterfaceRoleWan3, WanNetworkRuleInterfaceRoleWan4, WanNetworkRuleInterfaceRoleWan5, WanNetworkRuleInterfaceRoleWan6:
+	case WanNetworkRuleInterfaceRoleAltWan1, WanNetworkRuleInterfaceRoleAltWan2, WanNetworkRuleInterfaceRoleAutomatic, WanNetworkRuleInterfaceRoleNone, WanNetworkRuleInterfaceRoleWan1, WanNetworkRuleInterfaceRoleWan2, WanNetworkRuleInterfaceRoleWan3, WanNetworkRuleInterfaceRoleWan4, WanNetworkRuleInterfaceRoleWan5, WanNetworkRuleInterfaceRoleWan6:
 		return true
 	}
 	return false
