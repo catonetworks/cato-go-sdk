@@ -44,6 +44,10 @@ query applicationControlPolicy ($accountId: ID!, $applicationControlPolicyInput:
 									id
 									name
 								}
+								group {
+									id
+									name
+								}
 								sanctionedAppsCategory {
 									id
 									name
@@ -234,6 +238,10 @@ query applicationControlPolicy ($accountId: ID!, $applicationControlPolicyInput:
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -451,6 +459,10 @@ query applicationControlPolicy ($accountId: ID!, $applicationControlPolicyInput:
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
