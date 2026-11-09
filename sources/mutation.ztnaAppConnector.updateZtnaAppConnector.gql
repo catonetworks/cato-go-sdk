@@ -49,6 +49,16 @@ mutation ztnaAppConnectorUpdateZtnaAppConnector ($accountId: ID!, $updateZtnaApp
 					licenseId
 					bw
 				}
+				lanInterface {
+					ipAssignment
+					staticAddress {
+						localIp
+						subnet
+						gateway
+						primaryDnsServer
+						secondaryDnsServer
+					}
+				}
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cli_commit_sha": "43735d3c9c4714be7bd30392e15f15286e90d9a1",
+  "cli_commit_sha": "7b06599ea25c9b50412d12e86556114b2df976d7",
   "operations": [
     {
       "key": "mutation.access",
@@ -1543,10 +1543,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "9ea043196c20b1c395031892d4b118a514df1bfa15b914300b1a4abccc0c3423",
+      "document_sha256": "84c9cbf56d1af7fb75ca09c03800ebb040faeadd58162d71553307cc2c64b92b",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.addRule.txt",
       "cli_name": "policyApplicationControlAddRule",
-      "cli_sha256": "4207a76c1c72f8ca40e744293ff25ac8acf1d6356ba2f0f42bf236472e044459",
+      "cli_sha256": "a73939f7857bd2075e94326fbfd04047fa9ed9162231ff10d84fb91d5e7bd320",
       "status": "mapped"
     },
     {
@@ -1575,10 +1575,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "edb2b022589fe6d484ada1226fcc08008ca158514915192f935249810db44b5b",
+      "document_sha256": "9cfc86d7eb3c03ee0e259005db00dca373b146276ae25c475eb5724c506a2080",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.createPolicyRevision.txt",
       "cli_name": "policyApplicationControlCreatePolicyRevision",
-      "cli_sha256": "8dcb14b419cc6452eddbf683423bb013d7d500807eb2c78c701da3dcf1f57f53",
+      "cli_sha256": "cabeb214c953cea273a3cb9401e2a6bac43cb17d3a885de781cbeea4d0892e3e",
       "status": "mapped"
     },
     {
@@ -1591,10 +1591,10 @@
         "applicationControlPolicyMutationInput",
         "policyDiscardRevisionInput"
       ],
-      "document_sha256": "a4eaed32b73c439940d2e7b2c2606b88b0f953b7eecb1dcb14c42577ccd761d9",
+      "document_sha256": "8ad1958335ca34af740def41e455000cf954ac98c8a47084063d04a7f7d2c47e",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.discardPolicyRevision.txt",
       "cli_name": "policyApplicationControlDiscardPolicyRevision",
-      "cli_sha256": "4050a5cfc5650c2865f5cf045d4ae1c0d7a8b24c4eedb38145fef08683273caa",
+      "cli_sha256": "bcc53f129db0eefd0121b95777ba90b814e99118edcce0ee1adbc83bf510cdd4",
       "status": "mapped"
     },
     {
@@ -1607,10 +1607,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "85485a80cfabe727ddc4137e9cd32629ebe0ec5bbc93296cbcee4dca9eeca0f9",
+      "document_sha256": "f887c21e7f50b77f316162665ffab35df33d568a5935b1d3fe4ab3d1a19d62be",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.moveRule.txt",
       "cli_name": "policyApplicationControlMoveRule",
-      "cli_sha256": "54d46ab048e82ee80bc80ea8f4f31acda2322ff60be72004b40f55ac5d5dec73",
+      "cli_sha256": "86f205d230d7ccbe4ab9082ba0cdca7cab40cd18d46c096ccb41a6bd6b26c4d5",
       "status": "mapped"
     },
     {
@@ -1639,10 +1639,10 @@
         "applicationControlPolicyMutationInput",
         "policyPublishRevisionInput"
       ],
-      "document_sha256": "e9b2726709fe9932cca0aecf7f976e7ff2a0ed15a681d53c5e12e0470b082f2b",
+      "document_sha256": "ce7f68fd2e2483d4d565ca88e50f9687b17fcafabdc5542acd5171b6fc544911",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.publishPolicyRevision.txt",
       "cli_name": "policyApplicationControlPublishPolicyRevision",
-      "cli_sha256": "5b9ccb5e2f74c46a7cba13de917cd43d96bb352c5ee3cbe2a6dbc5b2976437e7",
+      "cli_sha256": "23ae29efd1f40710d0f6e5b50de1071c324bcf98783e66fbc657a075648280be",
       "status": "mapped"
     },
     {
@@ -1655,10 +1655,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "f0ff77f7050ba8fcfb26017230104785efa7e7343376445f17a6078ba98ab2aa",
+      "document_sha256": "1675e28f3558bec3c369ee83e1c16750109fcb0113fbace4116a8a9f3a2faf71",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.removeRule.txt",
       "cli_name": "policyApplicationControlRemoveRule",
-      "cli_sha256": "0b39ee4b1a585eb382946f7f4e789d7bfd8dc8b8346dca461b21f7fefa0fca84",
+      "cli_sha256": "41d927dac69d74f674b34a8fb9b05e2ac39b39435cce3665c3e4002a8b16d319",
       "status": "mapped"
     },
     {
@@ -1687,10 +1687,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "6830f00b73e5d7ed7bd3e64ec6f24d87aeefbdaf2d6226db3f3db3d47a6d11ab",
+      "document_sha256": "f4ad2be881ad056944fce6d89214e9621c44b2f4bbe622f830e90edecaf97f5f",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.updatePolicy.txt",
       "cli_name": "policyApplicationControlUpdatePolicy",
-      "cli_sha256": "42ede96cc7497c6f0af582d626d7de693285b8f5440e3d399279031728b24610",
+      "cli_sha256": "bb9b157eb28702932123f9ff5d661b686ee36c4f4a608355e509c745bf3a0c60",
       "status": "mapped"
     },
     {
@@ -1703,10 +1703,10 @@
         "accountId",
         "applicationControlPolicyMutationInput"
       ],
-      "document_sha256": "232cf0b125df4f6aaffa0464152c8514b673f2548e93629171a01984e28f0df9",
+      "document_sha256": "cbe9943cd46bc5501856607af2e046571c1656e67b9e334463dea45436c3212c",
       "cli_file": "queryPayloads/mutation.policy.applicationControl.updateRule.txt",
       "cli_name": "policyApplicationControlUpdateRule",
-      "cli_sha256": "a977748bf3dec83ee9626905f9d1e46f1e45c0a66b9a310acaf1bf61ccaf139f",
+      "cli_sha256": "104442266d741bc42893515fdb572e42587d5a4d67ce45029056526aac014bc7",
       "status": "mapped"
     },
     {
@@ -7648,10 +7648,10 @@
         "accountId",
         "addZtnaAppConnectorInput"
       ],
-      "document_sha256": "1f839cc2e01dc1afb491c10a479e75cf8506183020fe40054f40a024eea475d0",
+      "document_sha256": "2ad5bfd80c8e3aab5447e70c1d68642410c26d4464aab587dff076035dd94560",
       "cli_file": "queryPayloads/mutation.ztnaAppConnector.addZtnaAppConnector.txt",
       "cli_name": "ztnaAppConnectorAddZtnaAppConnector",
-      "cli_sha256": "8508bcae0fe90529be027c45c6ca79e936a3938a2cc96cc2ac9d02c2bfe469c9",
+      "cli_sha256": "fb980c2871d4c14f0c2a74cd0e32971210444a6404704262c124879867d8c152",
       "status": "imported"
     },
     {
@@ -7690,10 +7690,10 @@
         "accountId",
         "assignSocketToZtnaAppConnectorInput"
       ],
-      "document_sha256": "bd392986f6af54e0837d0bca36990e225f65fb4d6a1492d925fe28d4a36ea7ae",
+      "document_sha256": "c1049587fc14f3b418479fe09d8b2765df8a3f484f79bc9c65e0aa9f2dae154c",
       "cli_file": "queryPayloads/mutation.ztnaAppConnector.assignSocketToZtnaAppConnector.txt",
       "cli_name": "ztnaAppConnectorAssignSocketToZtnaAppConnector",
-      "cli_sha256": "f8ce686a2b6d80dc3b07a1705045320cc5e70636705408eb763aaaa91c377d74",
+      "cli_sha256": "950dcf1caf4062026dc7eb86dfad5e4ff8d0df9bc648f43fb42fcba9c877e0e5",
       "status": "imported"
     },
     {
@@ -7729,10 +7729,10 @@
         "accountId",
         "removeZtnaAppConnectorInput"
       ],
-      "document_sha256": "54cea1dfbf74091f75e9668726b6613569680f872694d3dc2e215e3bb7957911",
+      "document_sha256": "a1025085d97afba4e94b60780e40687992c010eef4c464359795d220c51f6359",
       "cli_file": "queryPayloads/mutation.ztnaAppConnector.removeZtnaAppConnector.txt",
       "cli_name": "ztnaAppConnectorRemoveZtnaAppConnector",
-      "cli_sha256": "8b1f5b25c604925563f30fcb361734ee0b2286ec7a999bd9037343cee033fbb2",
+      "cli_sha256": "fd22ec4fdbf4eb883623fbc2e7e2d5a6db61be900b4ca991afa992a606a8b9e6",
       "status": "imported"
     },
     {
@@ -7756,10 +7756,10 @@
         "accountId",
         "unassignSocketFromZtnaAppConnectorInput"
       ],
-      "document_sha256": "1f8bfd7b7753eb82a99b9fe92186555eee40bb717cb3666496869f6f9584eab1",
+      "document_sha256": "82c000a2edb1f3e868a175a234561a3a3887c0a5faa0f51d40ac5962d035c3c6",
       "cli_file": "queryPayloads/mutation.ztnaAppConnector.unassignSocketFromZtnaAppConnector.txt",
       "cli_name": "ztnaAppConnectorUnassignSocketFromZtnaAppConnector",
-      "cli_sha256": "48d75802a9b7c3639f1ce279e616788a0933f0332ec9b53476531251c7f5a314",
+      "cli_sha256": "b916bfab6ebd02ab72ff8a15c12c2d4f29c9e2d018f0e7dec5cb2b8d11faf8c6",
       "status": "imported"
     },
     {
@@ -7783,10 +7783,10 @@
         "accountId",
         "updateZtnaAppConnectorInput"
       ],
-      "document_sha256": "0583a5a6d18aa52237322d056b41619d18b776d9ea7944e71c852acddb8b0dcc",
+      "document_sha256": "d1d3c38af8e49cbd36fb4944ac753feaf48da650b4c744310ca46f4f19a93c12",
       "cli_file": "queryPayloads/mutation.ztnaAppConnector.updateZtnaAppConnector.txt",
       "cli_name": "ztnaAppConnectorUpdateZtnaAppConnector",
-      "cli_sha256": "7d0f851fa8d3aa8ea8e9ab42f8b5a406d193b217b163fc5c0605a099cc34bce0",
+      "cli_sha256": "601ab3281bf4196711b13e8c484c8c346ef9f9bb5367e389de04606d20a3434a",
       "status": "imported"
     },
     {
@@ -9169,10 +9169,10 @@
         "accountId",
         "applicationControlPolicyInput"
       ],
-      "document_sha256": "d4d9bc9b813e3b00a64b09b5daa509eacedf750a76dcf0bc57f460fd6b247ecb",
+      "document_sha256": "fa0b6779d8b6e38ce4811531ec5bb304e7a5e23d3a37c31ec7b03dd406f71ae4",
       "cli_file": "queryPayloads/query.policy.applicationControl.policy.txt",
       "cli_name": "policyApplicationControlPolicy",
-      "cli_sha256": "d6fb20fdfd82eb9c6d4a409e4693f6a5a3a423913ba9c1f05a33824a6ddab69b",
+      "cli_sha256": "49154cc3970ec5cb808ee27d9ba381b127fe9fd931f49c8a1e0814745d97ccb4",
       "status": "mapped"
     },
     {
@@ -10115,7 +10115,7 @@
         "siteRefInput",
         "accountId"
       ],
-      "document_sha256": "d62185e45b96ff87f070bbaef4d57cb4e8565dbbfc006f898001855f7524dc78",
+      "document_sha256": "7622dc2c09a6c002aabfa79609008667bd0dd7e93bab3c3edc4bf25b19f8f342",
       "cli_file": "queryPayloads/query.site.siteGeneralDetails.txt",
       "cli_name": "siteSiteGeneralDetails",
       "cli_sha256": "3f3ac32660965465b1ea18b20352d6696904db2a991377eaf6786bbc742ae786",
@@ -10527,10 +10527,10 @@
         "accountId",
         "ztnaAppConnectorRefInput"
       ],
-      "document_sha256": "f5926275663bb9f31760a9a66255cf17a701066fb8a3cc0f5b09bc9ccd932628",
+      "document_sha256": "9f78b9b38c01d3a2941412d3478d54cec75d9560be4900ff038cdd4a76619d68",
       "cli_file": "queryPayloads/query.ztnaAppConnector.ztnaAppConnector.txt",
       "cli_name": "ztnaAppConnectorZtnaAppConnector",
-      "cli_sha256": "1a401cce95c4fb19ab36e9fd0fe443770400c8b1c793f7e12d0a2a8df1b2b3f3",
+      "cli_sha256": "e12d89a2ddbd2fe1ceb6e77f64b5ab6002ee96234e128694841e3dbf38851191",
       "status": "imported"
     },
     {
@@ -10557,10 +10557,10 @@
         "accountId",
         "ztnaAppConnectorListInput"
       ],
-      "document_sha256": "6cf63f0879175bb5977423fa0f984805bd3b553314f8396fc7a5fc32a456ede3",
+      "document_sha256": "1c267b8bedbf6456ec3221a74970d1846f461bc05acf009f4478f3d0311298ec",
       "cli_file": "queryPayloads/query.ztnaAppConnector.ztnaAppConnectorList.txt",
       "cli_name": "ztnaAppConnectorZtnaAppConnectorList",
-      "cli_sha256": "9bbeca109776883d212c35a430077d690481dbc0c48a4b555f4b920acc749ce4",
+      "cli_sha256": "6b20fee54029cd0b47503cf4840438604c5cdd51fbef4a673c528f648594720c",
       "status": "imported"
     }
   ]
