@@ -203,9 +203,6 @@ mutation policySocketLanRemoveSubPolicy ($socketLanPolicyMutationInput: SocketLa
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -317,9 +314,6 @@ mutation policySocketLanRemoveSubPolicy ($socketLanPolicyMutationInput: SocketLa
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -364,12 +358,6 @@ mutation policySocketLanRemoveSubPolicy ($socketLanPolicyMutationInput: SocketLa
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status

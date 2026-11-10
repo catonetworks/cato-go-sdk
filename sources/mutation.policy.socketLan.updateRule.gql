@@ -198,9 +198,6 @@ mutation policySocketLanUpdateRule ($socketLanPolicyMutationInput: SocketLanPoli
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -311,9 +308,6 @@ mutation policySocketLanUpdateRule ($socketLanPolicyMutationInput: SocketLanPoli
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {

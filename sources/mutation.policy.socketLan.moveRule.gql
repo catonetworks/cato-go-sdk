@@ -198,9 +198,6 @@ mutation policySocketLanMoveRule ($policyMoveRuleInput: PolicyMoveRuleInput!, $a
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -311,9 +308,6 @@ mutation policySocketLanMoveRule ($policyMoveRuleInput: PolicyMoveRuleInput!, $a
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {

@@ -10,13 +10,6 @@ mutation notificationCreateMailingList ($accountId: ID!, $createMailingListInput
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 		}
 	}

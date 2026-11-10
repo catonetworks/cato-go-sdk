@@ -177,9 +177,6 @@ mutation policySocketLanFirewallUpdateRule ($accountId: ID!, $socketLanPolicyMut
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					revision {
 						id
