@@ -1,0 +1,11 @@
+mutation notificationIntegrationDeleteWebhook ($accountId: ID!, $webhookIntegrationRefInput: WebhookIntegrationRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			deleteWebhook(input: $webhookIntegrationRefInput) {
+				webhook {
+					id
+				}
+			}
+		}
+	}
+}

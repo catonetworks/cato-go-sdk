@@ -93,6 +93,10 @@ type CatoClient interface {
 	NotificationCreateSubscriptionGroup(ctx context.Context, accountID string, createSubscriptionGroupInput cato_models.CreateSubscriptionGroupInput, interceptors ...clientv2.RequestInterceptor) (*NotificationCreateSubscriptionGroup, error)
 	NotificationDeleteMailingList(ctx context.Context, accountID string, mailingListRefInput cato_models.MailingListRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationDeleteMailingList, error)
 	NotificationDeleteSubscriptionGroup(ctx context.Context, accountID string, subscriptionGroupRefInput cato_models.SubscriptionGroupRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationDeleteSubscriptionGroup, error)
+	NotificationIntegrationCreateWebhook(ctx context.Context, accountID string, createWebhookInput cato_models.CreateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationCreateWebhook, error)
+	NotificationIntegrationDeleteWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationDeleteWebhook, error)
+	NotificationIntegrationTestWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationTestWebhook, error)
+	NotificationIntegrationUpdateWebhook(ctx context.Context, accountID string, updateWebhookInput cato_models.UpdateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationUpdateWebhook, error)
 	NotificationUpdateMailingList(ctx context.Context, accountID string, updateMailingListInput cato_models.UpdateMailingListInput, interceptors ...clientv2.RequestInterceptor) (*NotificationUpdateMailingList, error)
 	NotificationUpdateSubscriptionGroup(ctx context.Context, accountID string, updateSubscriptionGroupInput cato_models.UpdateSubscriptionGroupInput, interceptors ...clientv2.RequestInterceptor) (*NotificationUpdateSubscriptionGroup, error)
 	ObjectCreateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.CreateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectCreateGlobalIPRangeBulk, error)
@@ -15520,6 +15524,192 @@ func (t *NotificationDeleteSubscriptionGroup_Notification) GetDeleteSubscription
 		t = &NotificationDeleteSubscriptionGroup_Notification{}
 	}
 	return t.DeleteSubscriptionGroup
+}
+
+type NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook struct {
+	Webhook NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook) GetWebhook() *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationCreateWebhook_Notification_Integration struct {
+	CreateWebhook *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook "json:\"createWebhook,omitempty\" graphql:\"createWebhook\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration) GetCreateWebhook() *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration{}
+	}
+	return t.CreateWebhook
+}
+
+type NotificationIntegrationCreateWebhook_Notification struct {
+	Integration NotificationIntegrationCreateWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification) GetIntegration() *NotificationIntegrationCreateWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook{}
+	}
+	return t.ID
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook struct {
+	Webhook NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook) GetWebhook() *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration struct {
+	DeleteWebhook *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook "json:\"deleteWebhook,omitempty\" graphql:\"deleteWebhook\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration) GetDeleteWebhook() *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration{}
+	}
+	return t.DeleteWebhook
+}
+
+type NotificationIntegrationDeleteWebhook_Notification struct {
+	Integration NotificationIntegrationDeleteWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification) GetIntegration() *NotificationIntegrationDeleteWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook struct {
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+	Success      bool    "json:\"success\" graphql:\"success\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook) GetErrorMessage() *string {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook{}
+	}
+	return t.ErrorMessage
+}
+func (t *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook) GetSuccess() bool {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook{}
+	}
+	return t.Success
+}
+
+type NotificationIntegrationTestWebhook_Notification_Integration struct {
+	TestWebhook NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook "json:\"testWebhook\" graphql:\"testWebhook\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification_Integration) GetTestWebhook() *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration{}
+	}
+	return &t.TestWebhook
+}
+
+type NotificationIntegrationTestWebhook_Notification struct {
+	Integration NotificationIntegrationTestWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification) GetIntegration() *NotificationIntegrationTestWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook struct {
+	Webhook NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook) GetWebhook() *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration struct {
+	UpdateWebhook *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook "json:\"updateWebhook,omitempty\" graphql:\"updateWebhook\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration) GetUpdateWebhook() *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration{}
+	}
+	return t.UpdateWebhook
+}
+
+type NotificationIntegrationUpdateWebhook_Notification struct {
+	Integration NotificationIntegrationUpdateWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification) GetIntegration() *NotificationIntegrationUpdateWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification{}
+	}
+	return &t.Integration
 }
 
 type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Admin struct {
@@ -307396,100 +307586,10 @@ func (t *NotificationIntegrationWebhookFields_Notification) GetIntegration() *No
 	return &t.Integration
 }
 
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth struct {
-	Username string "json:\"username\" graphql:\"username\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth) GetUsername() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth{}
-	}
-	return t.Username
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth{}
-	}
-	return t.Name
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Name
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Value
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders{}
-	}
-	return t.Name
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth struct {
-	PlainHeaders  []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
-	SecretHeaders []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth{}
-	}
-	return t.PlainHeaders
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth{}
-	}
-	return t.SecretHeaders
-}
-
 type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth struct {
-	BasicAuth         NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
-	CustomHeaderAuth  NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
-	CustomHeadersAuth NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
-	AuthType          cato_models.AuthType                                                                                 "json:\"authType\" graphql:\"authType\""
+	AuthType cato_models.AuthType "json:\"authType\" graphql:\"authType\""
 }
 
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetBasicAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.BasicAuth
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetCustomHeaderAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.CustomHeaderAuth
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetCustomHeadersAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.CustomHeadersAuth
-}
 func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetAuthType() *cato_models.AuthType {
 	if t == nil {
 		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
@@ -308202,231 +308302,8 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 	return &t.Type
 }
 
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth struct {
-	Username string "json:\"username\" graphql:\"username\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth) GetUsername() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth{}
-	}
-	return t.Username
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth struct {
-	PlainHeaders  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
-	SecretHeaders []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth{}
-	}
-	return t.PlainHeaders
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth{}
-	}
-	return t.SecretHeaders
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth struct {
-	BasicAuth         NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
-	CustomHeaderAuth  NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
-	CustomHeadersAuth NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
-	AuthType          cato_models.AuthType                                                                                                      "json:\"authType\" graphql:\"authType\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetBasicAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.BasicAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetCustomHeaderAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.CustomHeaderAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetCustomHeadersAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.CustomHeadersAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetAuthType() *cato_models.AuthType {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.AuthType
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping struct {
-	Key   string "json:\"key\" graphql:\"key\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping) GetKey() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping{}
-	}
-	return t.Key
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList struct {
-	Auth             NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth               "json:\"auth\" graphql:\"auth\""
-	Body             string                                                                                                                "json:\"body\" graphql:\"body\""
-	Enabled          bool                                                                                                                  "json:\"enabled\" graphql:\"enabled\""
-	Header           []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header          "json:\"header\" graphql:\"header\""
-	ID               string                                                                                                                "json:\"id\" graphql:\"id\""
-	Name             string                                                                                                                "json:\"name\" graphql:\"name\""
-	RelatedWebhookID *string                                                                                                               "json:\"relatedWebhookId,omitempty\" graphql:\"relatedWebhookId\""
-	RequestMethod    cato_models.WebhookRequestMethod                                                                                      "json:\"requestMethod\" graphql:\"requestMethod\""
-	ResponseMapping  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
-	URL              string                                                                                                                "json:\"url\" graphql:\"url\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return &t.Auth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetBody() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Body
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetEnabled() bool {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Enabled
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetHeader() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Header
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetID() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.ID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetRelatedWebhookID() *string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.RelatedWebhookID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetRequestMethod() *cato_models.WebhookRequestMethod {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return &t.RequestMethod
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetResponseMapping() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.ResponseMapping
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetURL() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.URL
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration struct {
-	WebhookList []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList "json:\"webhookList\" graphql:\"webhookList\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration) GetWebhookList() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration{}
-	}
-	return t.WebhookList
-}
-
 type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items struct {
 	ID          string                                                                                    "json:\"id\" graphql:\"id\""
-	Integration NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration    "json:\"integration\" graphql:\"integration\""
 	MailingList []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList "json:\"mailingList\" graphql:\"mailingList\""
 	Name        string                                                                                    "json:\"name\" graphql:\"name\""
 }
@@ -308436,12 +308313,6 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
 	}
 	return t.ID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetIntegration() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
-	}
-	return &t.Integration
 }
 func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetMailingList() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList {
 	if t == nil {
@@ -367508,6 +367379,50 @@ func (t *NotificationDeleteSubscriptionGroup) GetNotification() *NotificationDel
 	return t.Notification
 }
 
+type NotificationIntegrationCreateWebhook struct {
+	Notification *NotificationIntegrationCreateWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationCreateWebhook) GetNotification() *NotificationIntegrationCreateWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationDeleteWebhook struct {
+	Notification *NotificationIntegrationDeleteWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook) GetNotification() *NotificationIntegrationDeleteWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationTestWebhook struct {
+	Notification *NotificationIntegrationTestWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationTestWebhook) GetNotification() *NotificationIntegrationTestWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationUpdateWebhook struct {
+	Notification *NotificationIntegrationUpdateWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook) GetNotification() *NotificationIntegrationUpdateWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook{}
+	}
+	return t.Notification
+}
+
 type NotificationUpdateMailingList struct {
 	Notification *NotificationUpdateMailingList_Notification "json:\"notification,omitempty\" graphql:\"notification\""
 }
@@ -378456,6 +378371,131 @@ func (c *Client) NotificationDeleteSubscriptionGroup(ctx context.Context, accoun
 
 	var res NotificationDeleteSubscriptionGroup
 	if err := c.Client.Post(ctx, "notificationDeleteSubscriptionGroup", NotificationDeleteSubscriptionGroupDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationCreateWebhookDocument = `mutation notificationIntegrationCreateWebhook ($accountId: ID!, $createWebhookInput: CreateWebhookInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			createWebhook(input: $createWebhookInput) {
+				webhook {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationCreateWebhook(ctx context.Context, accountID string, createWebhookInput cato_models.CreateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationCreateWebhook, error) {
+	vars := map[string]any{
+		"accountId":          accountID,
+		"createWebhookInput": createWebhookInput,
+	}
+
+	var res NotificationIntegrationCreateWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationCreateWebhook", NotificationIntegrationCreateWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationDeleteWebhookDocument = `mutation notificationIntegrationDeleteWebhook ($accountId: ID!, $webhookIntegrationRefInput: WebhookIntegrationRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			deleteWebhook(input: $webhookIntegrationRefInput) {
+				webhook {
+					id
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationDeleteWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationDeleteWebhook, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"webhookIntegrationRefInput": webhookIntegrationRefInput,
+	}
+
+	var res NotificationIntegrationDeleteWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationDeleteWebhook", NotificationIntegrationDeleteWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationTestWebhookDocument = `mutation notificationIntegrationTestWebhook ($accountId: ID!, $webhookIntegrationRefInput: WebhookIntegrationRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			testWebhook(input: $webhookIntegrationRefInput) {
+				success
+				errorMessage
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationTestWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationTestWebhook, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"webhookIntegrationRefInput": webhookIntegrationRefInput,
+	}
+
+	var res NotificationIntegrationTestWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationTestWebhook", NotificationIntegrationTestWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationUpdateWebhookDocument = `mutation notificationIntegrationUpdateWebhook ($accountId: ID!, $updateWebhookInput: UpdateWebhookInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			updateWebhook(input: $updateWebhookInput) {
+				webhook {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationUpdateWebhook(ctx context.Context, accountID string, updateWebhookInput cato_models.UpdateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationUpdateWebhook, error) {
+	vars := map[string]any{
+		"accountId":          accountID,
+		"updateWebhookInput": updateWebhookInput,
+	}
+
+	var res NotificationIntegrationUpdateWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationUpdateWebhook", NotificationIntegrationUpdateWebhookDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -436646,6 +436686,43 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 						name
 					}
 				}
+				integration {
+					webhookList {
+						id
+						name
+						enabled
+						url
+						requestMethod
+						auth {
+							authType
+							... on BasicAuth {
+								username
+							}
+							... on CustomHeaderAuth {
+								name
+							}
+							... on CustomHeadersAuth {
+								plainHeaders {
+									name
+									value
+								}
+								secretHeaders {
+									name
+								}
+							}
+						}
+						header {
+							name
+							value
+						}
+						body
+						responseMapping {
+							key
+							value
+						}
+						relatedWebhookId
+					}
+				}
 			}
 			paging {
 				total
@@ -436951,21 +437028,6 @@ const NotificationIntegrationWebhookListDocument = `query notificationIntegratio
 					requestMethod
 					auth {
 						authType
-						... on BasicAuth {
-							username
-						}
-						... on CustomHeaderAuth {
-							name
-						}
-						... on CustomHeadersAuth {
-							plainHeaders {
-								name
-								value
-							}
-							secretHeaders {
-								name
-							}
-						}
 					}
 					header {
 						name
@@ -448747,6 +448809,10 @@ var DocumentOperationNames = map[string]string{
 	NotificationCreateSubscriptionGroupDocument:                  "notificationCreateSubscriptionGroup",
 	NotificationDeleteMailingListDocument:                        "notificationDeleteMailingList",
 	NotificationDeleteSubscriptionGroupDocument:                  "notificationDeleteSubscriptionGroup",
+	NotificationIntegrationCreateWebhookDocument:                 "notificationIntegrationCreateWebhook",
+	NotificationIntegrationDeleteWebhookDocument:                 "notificationIntegrationDeleteWebhook",
+	NotificationIntegrationTestWebhookDocument:                   "notificationIntegrationTestWebhook",
+	NotificationIntegrationUpdateWebhookDocument:                 "notificationIntegrationUpdateWebhook",
 	NotificationUpdateMailingListDocument:                        "notificationUpdateMailingList",
 	NotificationUpdateSubscriptionGroupDocument:                  "notificationUpdateSubscriptionGroup",
 	ObjectCreateGlobalIPRangeBulkDocument:                        "objectCreateGlobalIpRangeBulk",

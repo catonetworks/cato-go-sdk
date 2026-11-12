@@ -1267,6 +1267,66 @@
       "status": "imported"
     },
     {
+      "key": "mutation.notification.integration.createWebhook",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.notification.integration.createWebhook.gql",
+      "sdk_name": "notificationIntegrationCreateWebhook",
+      "variables": [
+        "accountId",
+        "createWebhookInput"
+      ],
+      "document_sha256": "6bdf868838ed8782eeebd596c19bfd72b9cfbac1583d46400ff22074804255a6",
+      "cli_file": "queryPayloads/mutation.notification.integration.createWebhook.txt",
+      "cli_name": "notificationIntegrationCreateWebhook",
+      "cli_sha256": "74eed6feb412ac4029a44c67da00fe99dafc33e0ec03b865aae010d453e76f95",
+      "status": "mapped"
+    },
+    {
+      "key": "mutation.notification.integration.deleteWebhook",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.notification.integration.deleteWebhook.gql",
+      "sdk_name": "notificationIntegrationDeleteWebhook",
+      "variables": [
+        "accountId",
+        "webhookIntegrationRefInput"
+      ],
+      "document_sha256": "e7d456582a674e7eaf1f155d9cce6ef2a2e215f000e04d52fb4094562ef24c70",
+      "cli_file": "queryPayloads/mutation.notification.integration.deleteWebhook.txt",
+      "cli_name": "notificationIntegrationDeleteWebhook",
+      "cli_sha256": "dd31ac28b55065bcee2d94fe3c314826fccc4cc9d3b4d5f8745f70b04eb19d7a",
+      "status": "mapped"
+    },
+    {
+      "key": "mutation.notification.integration.testWebhook",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.notification.integration.testWebhook.gql",
+      "sdk_name": "notificationIntegrationTestWebhook",
+      "variables": [
+        "accountId",
+        "webhookIntegrationRefInput"
+      ],
+      "document_sha256": "21479c29effe37ae5d0539a2416830a9b6cd48c32e1684dfdd5ac02e5055b806",
+      "cli_file": "queryPayloads/mutation.notification.integration.testWebhook.txt",
+      "cli_name": "notificationIntegrationTestWebhook",
+      "cli_sha256": "09edb57ce4a9ff5f22677c15d60e329735592d052ae2b859ebf9eb3a9372ea07",
+      "status": "mapped"
+    },
+    {
+      "key": "mutation.notification.integration.updateWebhook",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.notification.integration.updateWebhook.gql",
+      "sdk_name": "notificationIntegrationUpdateWebhook",
+      "variables": [
+        "accountId",
+        "updateWebhookInput"
+      ],
+      "document_sha256": "f3ce90e4be35eed6c3912cda691e2e7fafe1f55abfb4ac616ba7fd1bf2fc9c8a",
+      "cli_file": "queryPayloads/mutation.notification.integration.updateWebhook.txt",
+      "cli_name": "notificationIntegrationUpdateWebhook",
+      "cli_sha256": "dd5d6807a00f6cba9dcbce96121f13822d9839acf20ad55ed3f095d3058bd0ff",
+      "status": "mapped"
+    },
+    {
       "key": "mutation.notification.updateMailingList",
       "kind": "mutation",
       "sdk_file": "sources/mutation.notification.updateMailingList.gql",
@@ -9025,11 +9085,8 @@
       "variables": [
         "accountId"
       ],
-      "document_sha256": "9b2f4bf942c6bb7f69f8ad33068070db4017141012e1407147326342dd1b8008",
-      "cli_file": "queryPayloads/query.notification.integration.webhookList.txt",
-      "cli_name": "notificationIntegrationWebhookList",
-      "cli_sha256": "dc89556f01993f0b3fc33c34b9178d5d1a03a884a267381d236830426495883b",
-      "status": "imported"
+      "document_sha256": "9fafaef608c21b719c5a755f0ef5bdcbbda59c583499030ee126fc0f43f0a60c",
+      "status": "sdk_only"
     },
     {
       "key": "query.notification.mailingList",
