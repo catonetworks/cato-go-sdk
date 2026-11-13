@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Raise the minimum Go version to 1.26.11 and use the same patch release in
+  Jenkins to address standard-library security fixes.
+
 ## [1.0.0] - 2026-10-14
 
 First major release of the Cato Networks Go SDK. This entry describes the

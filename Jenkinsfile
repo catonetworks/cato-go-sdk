@@ -8,20 +8,20 @@
 //   Content type: application/json
 //   Events:       Pushes   ← select "Pushes" (not "Pull requests")
 //
-// Required Jenkins credentials (Secret text):
-//   cato-acctest-account-id  →  CATO_ACCOUNT_ID
-//   cato-acctest-baseurl     →  CATO_BASEURL
-//   cato-acctest-token       →  CATO_TOKEN
-//   automation-github-user   →  used to clone provider repo
-//   cato-acctest-gh-token    →  GitHub PAT with repo:status scope (posts commit status)
-//
-// TFACC_TEST_SKIP and TFACC_TEST_VARS are stored in-repo (non-sensitive config).
+// Required Jenkins credentials:
+//   cato-acctest-config     -> Secret file: CATO_BASEURL, TFACC_TEST_SKIP, accounts
+//                            (ten records with id, api_key, test_vars, test_env)
+//   automation-github-user -> used to clone provider repo
+//   cato-acctest-gh-token   -> GitHub PAT with repo:status scope
+// Configuration source: STA test account configuration + STA test account creds
+// in the open-source development 1Password vault. Never commit account keys.
+// This job serializes its builds. Do not overlap other CI using the same pool.
 
 pipeline {
     agent {
         docker {
-            image 'golang:1.26'
-            args  '-e GOTOOLCHAIN=auto -e GOCACHE=/tmp/go-cache -e GOPATH=/tmp/gopath'
+            image 'golang:1.26.11'
+            args  '--cpus=2 --memory=4g --memory-swap=4g -e GOTOOLCHAIN=auto -e GOCACHE=/tmp/go-cache -e GOPATH=/tmp/gopath'
         }
     }
 
@@ -70,6 +70,16 @@ pipeline {
     }
 
     stages {
+        stage('Prepare acceptance runner') {
+            steps {
+                // Keep the runner from this Jenkinsfile's revision even when
+                // SDK_BRANCH predates multi-account support.
+                stash name: 'acceptance-runner', includes: 'scripts/run_acctest_pool.py'
+                sh 'command -v python3 >/dev/null || { apt-get update && apt-get install -y --no-install-recommends python3; }'
+                sh "python3 -m unittest discover -s scripts -p 'test_*.py'"
+            }
+        }
+
         stage('Checkout SDK branch') {
             steps {
                 // GIT_REF (from webhook) is refs/heads/<branch>; SDK_BRANCH (manual param)
@@ -134,66 +144,16 @@ pipeline {
         }
 
         stage('Run AccTests') {
-            environment {
-                CATO_ACCOUNT_ID = credentials('cato-acctest-account-id')
-                CATO_BASEURL    = credentials('cato-acctest-baseurl')
-                CATO_TOKEN      = credentials('cato-acctest-token')
-                TFACC_ENABLE_RULES_INDEX_CRUD = 'true'
-                TFACC_TEST_SKIP = '''{
-  "TestAccInternetFw_Full":      "ENG-184274 - policy.internetFirewall.addRule - Internal server error",
-  "TestAccInternetFw_IDName":    "ENG-184283 - policy.internetFirewall.addRule - Rule has an invalid entity for users by ID and name",
-  "TestAccInternetFw_Timeframe": "ENG-184310 - policy.internetFirewall.addRule - Invalid DateTime format in customTimeframePolicySchedule",
-  "TestAccInternetFw_UserID":    "ENG-183543 - TF Bug: Terraform - Update policy by name",
-  "TestAccSocketSite_Location":  "ENG-171068 Unable to remove the state code by Site location API",
-  "TestAccLicense":              "does not work on trial accounts",
-  "TestAccLfSubPolicy":          "does not work on staging"
-}'''
-                TFACC_TEST_VARS = '''{
-  "global_ip_ranges": [
-    { "name": "global_ip_range",   "id": "1305171" },
-    { "name": "global_ip_range_2", "id": "1305172" },
-    { "name": "global_ip_range_3", "id": "1401240" }
-  ],
-  "floating_ranges": [
-    { "name": "floating_range",   "id": "1305173" },
-    { "name": "floating_range_2", "id": "1305174" },
-    { "name": "floating_range_3", "id": "1401245" }
-  ],
-  "user_groups": [
-    { "name": "user_group_1", "id": "500000016" },
-    { "name": "user_group_2", "id": "500000017" },
-    { "name": "user_group_3", "id": "500000019" }
-  ],
-  "system_groups": [
-    { "name": "All Floating Ranges", "id": "7S"        },
-    { "name": "All SDP Users",       "id": "2S"        },
-    { "name": "All LDAP Users",      "id": "10000010S" }
-  ],
-  "device_postures": [
-    { "name": "Test Device Posture Profile", "id": "445784" },
-    { "name": "Test device posture 1",       "id": "463096" },
-    { "name": "Test device posture 2",       "id": "473896" }
-  ],
-  "custom_apps": [
-    { "name": "acctest_custom_app_1", "id": "3bc976fc-4f77-4f88-837c-ec73e9de8f9d" },
-    { "name": "acctest_custom_app_2", "id": "d86a1e1e-1ae4-48c3-a40b-031cd95b62c2" },
-    { "name": "acctest_custom_app_3", "id": "af990dd3-afcf-4bb5-9ccb-7813fbfd0201" }
-  ],
-  "custom_categories": [
-    { "name": "acctest_custom_category_1", "id": "74382" },
-    { "name": "acctest_custom_category_2", "id": "74383" },
-    { "name": "acctest_custom_category_3", "id": "74477" }
-  ]
-}'''
-            }
             steps {
-                dir('terraform-provider-cato') {
-                    script {
-                        def target = params.ACCTEST_FILTER?.trim()
-                        if (target) {
-                            sh "make acctest-flaky t=${target}"
-                        } else {
-                            sh 'make acctest-flaky'
+                dir('.jenkins-runner') {
+                    unstash 'acceptance-runner'
+                }
+                withCredentials([file(credentialsId: 'cato-acctest-config', variable: 'CATO_ACCTEST_CONFIG_FILE')]) {
+                    withEnv(["ACCTEST_FILTER=${params.ACCTEST_FILTER ?: ''}"]) {
+                        dir('terraform-provider-cato') {
+                            // One build, no matrix: ten concurrent workers use
+                            // separate workspaces and distinct pool accounts.
+                            sh 'python3 ../.jenkins-runner/scripts/run_acctest_pool.py --provider .'
                         }
                     }
                 }
