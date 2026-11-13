@@ -2,7 +2,7 @@
 """Run provider acceptance groups concurrently using a Jenkins secret-file pool."""
 
 import argparse
-from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import importlib.util
 import json
 import os
@@ -134,17 +134,12 @@ def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=No
                           for group, _ in jobs}
             warm(workspaces[0])
             with ThreadPoolExecutor(max_workers=planner.GROUP_COUNT) as executor:
-                pending = {executor.submit(run_selection, group, slot, workspaces[group])
+                futures = {executor.submit(run_selection, group, slot, workspaces[group])
                            for group, slot in jobs}
-                while pending:
-                    finished, pending = wait(pending, timeout=30, return_when=FIRST_COMPLETED)
-                    for future in finished:
-                        failure = future.result()
-                        if failure:
-                            failures.append(failure)
-                    if pending:
-                        print(f'Acceptance progress: {planner.GROUP_COUNT - len(pending)}/{planner.GROUP_COUNT} groups finished; '
-                              f'{len(pending)} still running (cleanup/build/test output may be buffered)', flush=True)
+                for future in as_completed(futures):
+                    failure = future.result()
+                    if failure:
+                        failures.append(failure)
     if failures:
         print('Failed acceptance selections: ' + ', '.join(sorted(failures)), file=sys.stderr)
     return int(bool(failures))
