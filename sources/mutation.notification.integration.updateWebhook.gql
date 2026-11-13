@@ -1,0 +1,12 @@
+mutation notificationIntegrationUpdateWebhook ($accountId: ID!, $updateWebhookInput: UpdateWebhookInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			updateWebhook(input: $updateWebhookInput) {
+				webhook {
+					id
+					name
+				}
+			}
+		}
+	}
+}

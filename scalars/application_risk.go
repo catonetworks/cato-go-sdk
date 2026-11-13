@@ -35,7 +35,14 @@ func (r *ApplicationRisk) UnmarshalJSON(data []byte) error {
 	return fmt.Errorf("ApplicationRisk: unexpected JSON %s", string(data))
 }
 
+// MarshalJSON emits numeric risk values as JSON numbers — the policy-platform
+// backend rejects a quoted risk score (DOWNSTREAM_SERVICE_ERROR), even though
+// the GraphQL schema declares a custom scalar. Non-numeric values fall back to
+// a JSON string.
 func (r ApplicationRisk) MarshalJSON() ([]byte, error) {
+	if n, err := strconv.ParseInt(string(r), 10, 64); err == nil {
+		return []byte(strconv.FormatInt(n, 10)), nil
+	}
 	return json.Marshal(string(r))
 }
 
@@ -57,7 +64,12 @@ func (r *ApplicationRisk) UnmarshalGQL(v interface{}) error {
 	return nil
 }
 
+// MarshalGQL mirrors MarshalJSON: numeric values are written unquoted.
 func (r ApplicationRisk) MarshalGQL(w io.Writer) {
+	if n, err := strconv.ParseInt(string(r), 10, 64); err == nil {
+		fmt.Fprint(w, strconv.FormatInt(n, 10))
+		return
+	}
 	fmt.Fprintf(w, "%q", string(r))
 }
 

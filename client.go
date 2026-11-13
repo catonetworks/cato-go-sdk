@@ -93,6 +93,10 @@ type CatoClient interface {
 	NotificationCreateSubscriptionGroup(ctx context.Context, accountID string, createSubscriptionGroupInput cato_models.CreateSubscriptionGroupInput, interceptors ...clientv2.RequestInterceptor) (*NotificationCreateSubscriptionGroup, error)
 	NotificationDeleteMailingList(ctx context.Context, accountID string, mailingListRefInput cato_models.MailingListRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationDeleteMailingList, error)
 	NotificationDeleteSubscriptionGroup(ctx context.Context, accountID string, subscriptionGroupRefInput cato_models.SubscriptionGroupRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationDeleteSubscriptionGroup, error)
+	NotificationIntegrationCreateWebhook(ctx context.Context, accountID string, createWebhookInput cato_models.CreateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationCreateWebhook, error)
+	NotificationIntegrationDeleteWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationDeleteWebhook, error)
+	NotificationIntegrationTestWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationTestWebhook, error)
+	NotificationIntegrationUpdateWebhook(ctx context.Context, accountID string, updateWebhookInput cato_models.UpdateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationUpdateWebhook, error)
 	NotificationUpdateMailingList(ctx context.Context, accountID string, updateMailingListInput cato_models.UpdateMailingListInput, interceptors ...clientv2.RequestInterceptor) (*NotificationUpdateMailingList, error)
 	NotificationUpdateSubscriptionGroup(ctx context.Context, accountID string, updateSubscriptionGroupInput cato_models.UpdateSubscriptionGroupInput, interceptors ...clientv2.RequestInterceptor) (*NotificationUpdateSubscriptionGroup, error)
 	ObjectCreateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.CreateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectCreateGlobalIPRangeBulk, error)
@@ -14716,46 +14720,9 @@ func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingLis
 	return t.Name
 }
 
-type NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit struct {
-	UpdatedBy   NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit) GetUpdatedBy() *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationCreateMailingList_Notification_CreateMailingList_MailingList struct {
 	Address []string                                                                          "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                            "json:\"id\" graphql:\"id\""
 	Name    string                                                                            "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
@@ -14772,12 +14739,6 @@ func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingLis
 		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList) GetAudit() *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList) GetID() string {
 	if t == nil {
@@ -14838,46 +14799,9 @@ func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGrou
 	return t.Name
 }
 
-type NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList struct {
 	Address []string                                                                                                        "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                                                          "json:\"id\" graphql:\"id\""
 	Name    string                                                                                                          "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                                                            "json:\"type\" graphql:\"type\""
@@ -14894,12 +14818,6 @@ func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGrou
 		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList) GetAudit() *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -15214,46 +15132,9 @@ func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingLis
 	return t.Name
 }
 
-type NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit struct {
-	UpdatedBy   NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit) GetUpdatedBy() *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList struct {
 	Address []string                                                                          "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                            "json:\"id\" graphql:\"id\""
 	Name    string                                                                            "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
@@ -15270,12 +15151,6 @@ func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingLis
 		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList) GetAudit() *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList) GetID() string {
 	if t == nil {
@@ -15336,46 +15211,9 @@ func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGrou
 	return t.Name
 }
 
-type NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList struct {
 	Address []string                                                                                                        "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                                                          "json:\"id\" graphql:\"id\""
 	Name    string                                                                                                          "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                                                            "json:\"type\" graphql:\"type\""
@@ -15392,12 +15230,6 @@ func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGrou
 		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList) GetAudit() *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -15694,6 +15526,192 @@ func (t *NotificationDeleteSubscriptionGroup_Notification) GetDeleteSubscription
 	return t.DeleteSubscriptionGroup
 }
 
+type NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook struct {
+	Webhook NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook) GetWebhook() *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationCreateWebhook_Notification_Integration struct {
+	CreateWebhook *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook "json:\"createWebhook,omitempty\" graphql:\"createWebhook\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration) GetCreateWebhook() *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration{}
+	}
+	return t.CreateWebhook
+}
+
+type NotificationIntegrationCreateWebhook_Notification struct {
+	Integration NotificationIntegrationCreateWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification) GetIntegration() *NotificationIntegrationCreateWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook{}
+	}
+	return t.ID
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook struct {
+	Webhook NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook) GetWebhook() *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration struct {
+	DeleteWebhook *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook "json:\"deleteWebhook,omitempty\" graphql:\"deleteWebhook\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration) GetDeleteWebhook() *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration{}
+	}
+	return t.DeleteWebhook
+}
+
+type NotificationIntegrationDeleteWebhook_Notification struct {
+	Integration NotificationIntegrationDeleteWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification) GetIntegration() *NotificationIntegrationDeleteWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook struct {
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+	Success      bool    "json:\"success\" graphql:\"success\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook) GetErrorMessage() *string {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook{}
+	}
+	return t.ErrorMessage
+}
+func (t *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook) GetSuccess() bool {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook{}
+	}
+	return t.Success
+}
+
+type NotificationIntegrationTestWebhook_Notification_Integration struct {
+	TestWebhook NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook "json:\"testWebhook\" graphql:\"testWebhook\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification_Integration) GetTestWebhook() *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration{}
+	}
+	return &t.TestWebhook
+}
+
+type NotificationIntegrationTestWebhook_Notification struct {
+	Integration NotificationIntegrationTestWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification) GetIntegration() *NotificationIntegrationTestWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook struct {
+	Webhook NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook) GetWebhook() *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration struct {
+	UpdateWebhook *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook "json:\"updateWebhook,omitempty\" graphql:\"updateWebhook\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration) GetUpdateWebhook() *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration{}
+	}
+	return t.UpdateWebhook
+}
+
+type NotificationIntegrationUpdateWebhook_Notification struct {
+	Integration NotificationIntegrationUpdateWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification) GetIntegration() *NotificationIntegrationUpdateWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
 type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Admin struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -15712,46 +15730,9 @@ func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingLis
 	return t.Name
 }
 
-type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit struct {
-	UpdatedBy   NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit) GetUpdatedBy() *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList struct {
 	Address []string                                                                          "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                            "json:\"id\" graphql:\"id\""
 	Name    string                                                                            "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
@@ -15768,12 +15749,6 @@ func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingLis
 		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList) GetAudit() *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList) GetID() string {
 	if t == nil {
@@ -15834,46 +15809,9 @@ func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGrou
 	return t.Name
 }
 
-type NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList struct {
 	Address []string                                                                                                        "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                                                          "json:\"id\" graphql:\"id\""
 	Name    string                                                                                                          "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                                                            "json:\"type\" graphql:\"type\""
@@ -15890,12 +15828,6 @@ func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGrou
 		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList) GetAudit() *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -139251,19 +139183,7 @@ func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_SubP
 	return t.Name
 }
 
-type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall struct {
-	Access     PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                     "json:\"properties\" graphql:\"properties\""
@@ -139272,12 +139192,6 @@ type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall struct {
 	SubPolicy  *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall) GetAccess() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall) GetAudit() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall{}
@@ -140029,19 +139943,7 @@ func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_SubPolicy) GetName
 	return t.Name
 }
 
-type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule struct {
-	Access     PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                       "json:\"properties\" graphql:\"properties\""
@@ -140050,12 +139952,6 @@ type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule struct {
 	SubPolicy  *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule) GetAccess() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule) GetAudit() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule{}
@@ -141548,19 +141444,7 @@ func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_
 	return t.Name
 }
 
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                       "json:\"properties\" graphql:\"properties\""
@@ -141569,12 +141453,6 @@ type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule
 	SubPolicy  *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
@@ -142326,19 +142204,7 @@ func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_
 	return t.Name
 }
 
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules struct {
-	Access     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                         "json:\"properties\" graphql:\"properties\""
@@ -142347,12 +142213,6 @@ type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules stru
 	SubPolicy  *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetAccess() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetAudit() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
@@ -142622,29 +142482,11 @@ func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPol
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies struct {
-	Access     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                     "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies) GetAccess() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies) GetPolicy() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies{}
@@ -142658,19 +142500,7 @@ func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPol
 	return t.Properties
 }
 
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy struct {
-	Access      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access         "json:\"access\" graphql:\"access\""
 	Audit       *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
 	Description string                                                                          "json:\"description\" graphql:\"description\""
 	Enabled     bool                                                                            "json:\"enabled\" graphql:\"enabled\""
@@ -142682,12 +142512,6 @@ type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy struct {
 	SubPolicies []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetAccess() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetAudit() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit {
 	if t == nil {
 		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
@@ -143923,19 +143747,7 @@ func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevisi
 	return t.Name
 }
 
-type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                                       "json:\"properties\" graphql:\"properties\""
@@ -143944,12 +143756,6 @@ type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_P
 	SubPolicy  *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall{}
@@ -144701,19 +144507,7 @@ func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevisi
 	return t.Name
 }
 
-type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules struct {
-	Access     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                         "json:\"properties\" graphql:\"properties\""
@@ -144722,12 +144516,6 @@ type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_P
 	SubPolicy  *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules) GetAccess() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules{}
@@ -144997,29 +144785,11 @@ func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevisi
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies struct {
-	Access     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                                     "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies) GetAccess() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies) GetPolicy() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies{}
@@ -145033,19 +144803,7 @@ func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevisi
 	return t.Properties
 }
 
-type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy struct {
-	Access                  PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access                   "json:\"access\" graphql:\"access\""
 	AuditSocketLanPolicy    *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
 	Description             string                                                                                                    "json:\"description\" graphql:\"description\""
 	Enabled                 bool                                                                                                      "json:\"enabled\" graphql:\"enabled\""
@@ -145057,12 +144815,6 @@ type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_P
 	SubPolicies             []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies           "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetAccess() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
@@ -146298,19 +146050,7 @@ func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevi
 	return t.Name
 }
 
-type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                                         "json:\"properties\" graphql:\"properties\""
@@ -146319,12 +146059,6 @@ type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision
 	SubPolicy  *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall{}
@@ -147076,19 +146810,7 @@ func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevi
 	return t.Name
 }
 
-type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules struct {
-	Access     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                           "json:\"properties\" graphql:\"properties\""
@@ -147097,12 +146819,6 @@ type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision
 	SubPolicy  *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules) GetAccess() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules{}
@@ -147372,29 +147088,11 @@ func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevi
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies struct {
-	Access     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                                       "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies) GetAccess() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies) GetPolicy() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies{}
@@ -147408,19 +147106,7 @@ func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevi
 	return t.Properties
 }
 
-type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy struct {
-	Access                  PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access                   "json:\"access\" graphql:\"access\""
 	AuditSocketLanPolicy    *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
 	Description             string                                                                                                      "json:\"description\" graphql:\"description\""
 	Enabled                 bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
@@ -147432,12 +147118,6 @@ type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision
 	SubPolicies             []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies           "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetAccess() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
@@ -148601,19 +148281,7 @@ func (t *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_S
 	return t.Name
 }
 
-type PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule struct {
-	Access     PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                        "json:\"properties\" graphql:\"properties\""
@@ -148622,12 +148290,6 @@ type PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule struc
 	SubPolicy  *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule) GetAccess() *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule) GetAudit() *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule{}
@@ -149837,19 +149499,7 @@ func (t *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule
 	return t.Name
 }
 
-type PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule struct {
-	Access     PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                          "json:\"properties\" graphql:\"properties\""
@@ -149858,12 +149508,6 @@ type PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule str
 	SubPolicy  *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule) GetAccess() *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule) GetAudit() *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule{}
@@ -151073,19 +150717,7 @@ func (t *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_
 	return t.Name
 }
 
-type PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule struct {
-	Access     PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                              "json:\"properties\" graphql:\"properties\""
@@ -151094,12 +150726,6 @@ type PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule
 	SubPolicy  *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule) GetAccess() *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule) GetAudit() *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule{}
@@ -152309,19 +151935,7 @@ func (t *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_
 	return t.Name
 }
 
-type PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule struct {
-	Access     PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                              "json:\"properties\" graphql:\"properties\""
@@ -152330,12 +151944,6 @@ type PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule
 	SubPolicy  *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule) GetAccess() *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule) GetAudit() *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule{}
@@ -153617,19 +153225,7 @@ func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Su
 	return t.Name
 }
 
-type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall struct {
-	Access     PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                       "json:\"properties\" graphql:\"properties\""
@@ -153638,12 +153234,6 @@ type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall struct
 	SubPolicy  *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall) GetAccess() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall) GetAudit() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall{}
@@ -154395,19 +153985,7 @@ func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_SubPolicy) GetNa
 	return t.Name
 }
 
-type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule struct {
-	Access     PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                         "json:\"properties\" graphql:\"properties\""
@@ -154416,12 +153994,6 @@ type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule struct {
 	SubPolicy  *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule) GetAccess() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule) GetAudit() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule{}
@@ -155914,19 +155486,7 @@ func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevi
 	return t.Name
 }
 
-type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                                         "json:\"properties\" graphql:\"properties\""
@@ -155935,12 +155495,6 @@ type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision
 	SubPolicy  *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall{}
@@ -156692,19 +156246,7 @@ func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevi
 	return t.Name
 }
 
-type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules struct {
-	Access     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                           "json:\"properties\" graphql:\"properties\""
@@ -156713,12 +156255,6 @@ type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision
 	SubPolicy  *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules) GetAccess() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules{}
@@ -156988,29 +156524,11 @@ func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevi
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies struct {
-	Access     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                                       "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies) GetAccess() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies) GetPolicy() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies{}
@@ -157024,19 +156542,7 @@ func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevi
 	return t.Properties
 }
 
-type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy struct {
-	Access                  PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access                   "json:\"access\" graphql:\"access\""
 	AuditSocketLanPolicy    *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
 	Description             string                                                                                                      "json:\"description\" graphql:\"description\""
 	Enabled                 bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
@@ -157048,12 +156554,6 @@ type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision
 	SubPolicies             []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies           "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetAccess() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
@@ -158289,19 +157789,7 @@ func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewal
 	return t.Name
 }
 
-type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall struct {
-	Access     PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                           "json:\"properties\" graphql:\"properties\""
@@ -158310,12 +157798,6 @@ type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall st
 	SubPolicy  *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall) GetAccess() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall) GetAudit() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall{}
@@ -159067,19 +158549,7 @@ func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_SubPolicy) G
 	return t.Name
 }
 
-type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule struct {
-	Access     PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                             "json:\"properties\" graphql:\"properties\""
@@ -159088,12 +158558,6 @@ type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule struct {
 	SubPolicy  *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule) GetAccess() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule) GetAudit() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule{}
@@ -160586,19 +160050,7 @@ func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_
 	return t.Name
 }
 
-type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                             "json:\"properties\" graphql:\"properties\""
@@ -160607,12 +160059,6 @@ type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rule
 	SubPolicy  *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall{}
@@ -161364,19 +160810,7 @@ func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_
 	return t.Name
 }
 
-type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules struct {
-	Access     PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                               "json:\"properties\" graphql:\"properties\""
@@ -161385,12 +160819,6 @@ type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rule
 	SubPolicy  *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules) GetAccess() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules) GetAudit() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules{}
@@ -161660,29 +161088,11 @@ func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies struct {
-	Access     PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                           "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies) GetAccess() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies) GetPolicy() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies{}
@@ -161696,19 +161106,7 @@ func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_
 	return t.Properties
 }
 
-type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy struct {
-	Access      PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access         "json:\"access\" graphql:\"access\""
 	Audit       *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
 	Description string                                                                                "json:\"description\" graphql:\"description\""
 	Enabled     bool                                                                                  "json:\"enabled\" graphql:\"enabled\""
@@ -161720,12 +161118,6 @@ type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy stru
 	SubPolicies []*PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy) GetAccess() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy) GetAudit() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy{}
@@ -162961,19 +162353,7 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rule
 	return t.Name
 }
 
-type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                         "json:\"properties\" graphql:\"properties\""
@@ -162982,12 +162362,6 @@ type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Ru
 	SubPolicy  *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall{}
@@ -163739,19 +163113,7 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rule
 	return t.Name
 }
 
-type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules struct {
-	Access     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                           "json:\"properties\" graphql:\"properties\""
@@ -163760,12 +163122,6 @@ type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules st
 	SubPolicy  *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules) GetAccess() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules) GetAudit() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules{}
@@ -164035,29 +163391,11 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubP
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies struct {
-	Access     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                       "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies) GetAccess() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies) GetPolicy() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies{}
@@ -164071,19 +163409,7 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubP
 	return t.Properties
 }
 
-type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy struct {
-	Access      PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access         "json:\"access\" graphql:\"access\""
 	Audit       *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
 	Description string                                                                            "json:\"description\" graphql:\"description\""
 	Enabled     bool                                                                              "json:\"enabled\" graphql:\"enabled\""
@@ -164095,12 +163421,6 @@ type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy struct {
 	SubPolicies []*PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy) GetAccess() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy) GetAudit() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Audit {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy{}
@@ -165336,19 +164656,7 @@ func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_
 	return t.Name
 }
 
-type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                       "json:\"properties\" graphql:\"properties\""
@@ -165357,12 +164665,6 @@ type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule
 	SubPolicy  *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall{}
@@ -166114,19 +165416,7 @@ func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_
 	return t.Name
 }
 
-type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules struct {
-	Access     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                         "json:\"properties\" graphql:\"properties\""
@@ -166135,12 +165425,6 @@ type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules stru
 	SubPolicy  *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules) GetAccess() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules) GetAudit() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules{}
@@ -166410,29 +165694,11 @@ func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPol
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies struct {
-	Access     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                     "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies) GetAccess() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies) GetPolicy() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies{}
@@ -166446,19 +165712,7 @@ func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPol
 	return t.Properties
 }
 
-type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy struct {
-	Access                  PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access                   "json:\"access\" graphql:\"access\""
 	AuditSocketLanPolicy    *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
 	Description             string                                                                                    "json:\"description\" graphql:\"description\""
 	Enabled                 bool                                                                                      "json:\"enabled\" graphql:\"enabled\""
@@ -166470,12 +165724,6 @@ type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy struct {
 	SubPolicies             []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies           "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetAccess() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetAuditSocketLanPolicy() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
@@ -167711,19 +166959,7 @@ func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewal
 	return t.Name
 }
 
-type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall struct {
-	Access     PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                           "json:\"properties\" graphql:\"properties\""
@@ -167732,12 +166968,6 @@ type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall st
 	SubPolicy  *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall) GetAccess() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall) GetAudit() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall{}
@@ -168489,19 +167719,7 @@ func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_SubPolicy) G
 	return t.Name
 }
 
-type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule struct {
-	Access     PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                             "json:\"properties\" graphql:\"properties\""
@@ -168510,12 +167728,6 @@ type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule struct {
 	SubPolicy  *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule) GetAccess() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule) GetAudit() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule{}
@@ -305882,46 +305094,9 @@ func (t *Notification_Notification_MailingListList_Items_Admin) GetName() string
 	return t.Name
 }
 
-type Notification_Notification_MailingListList_Items_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Notification_Notification_MailingListList_Items_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *Notification_Notification_MailingListList_Items_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type Notification_Notification_MailingListList_Items_Audit struct {
-	UpdatedBy   Notification_Notification_MailingListList_Items_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                          "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *Notification_Notification_MailingListList_Items_Audit) GetUpdatedBy() *Notification_Notification_MailingListList_Items_Audit_UpdatedBy {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *Notification_Notification_MailingListList_Items_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type Notification_Notification_MailingListList_Items struct {
 	Address []string                                                 "json:\"address\" graphql:\"address\""
 	Admin   []*Notification_Notification_MailingListList_Items_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   Notification_Notification_MailingListList_Items_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                   "json:\"id\" graphql:\"id\""
 	Name    string                                                   "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                     "json:\"type\" graphql:\"type\""
@@ -305938,12 +305113,6 @@ func (t *Notification_Notification_MailingListList_Items) GetAdmin() []*Notifica
 		t = &Notification_Notification_MailingListList_Items{}
 	}
 	return t.Admin
-}
-func (t *Notification_Notification_MailingListList_Items) GetAudit() *Notification_Notification_MailingListList_Items_Audit {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items{}
-	}
-	return &t.Audit
 }
 func (t *Notification_Notification_MailingListList_Items) GetID() string {
 	if t == nil {
@@ -306011,46 +305180,9 @@ func (t *Notification_Notification_MailingList_Admin) GetName() string {
 	return t.Name
 }
 
-type Notification_Notification_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Notification_Notification_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &Notification_Notification_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *Notification_Notification_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &Notification_Notification_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type Notification_Notification_MailingList_Audit struct {
-	UpdatedBy   Notification_Notification_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *Notification_Notification_MailingList_Audit) GetUpdatedBy() *Notification_Notification_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &Notification_Notification_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *Notification_Notification_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &Notification_Notification_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type Notification_Notification_MailingList struct {
 	Address []string                                       "json:\"address\" graphql:\"address\""
 	Admin   []*Notification_Notification_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   Notification_Notification_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                         "json:\"id\" graphql:\"id\""
 	Name    string                                         "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType           "json:\"type\" graphql:\"type\""
@@ -306067,12 +305199,6 @@ func (t *Notification_Notification_MailingList) GetAdmin() []*Notification_Notif
 		t = &Notification_Notification_MailingList{}
 	}
 	return t.Admin
-}
-func (t *Notification_Notification_MailingList) GetAudit() *Notification_Notification_MailingList_Audit {
-	if t == nil {
-		t = &Notification_Notification_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *Notification_Notification_MailingList) GetID() string {
 	if t == nil {
@@ -307045,46 +306171,9 @@ func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Admin
 	return t.Name
 }
 
-type Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit struct {
-	UpdatedBy   Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                            "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedBy() *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type Notification_Notification_SubscriptionGroupList_Items_MailingList struct {
 	Address []string                                                                   "json:\"address\" graphql:\"address\""
 	Admin   []*Notification_Notification_SubscriptionGroupList_Items_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                     "json:\"id\" graphql:\"id\""
 	Name    string                                                                     "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                       "json:\"type\" graphql:\"type\""
@@ -307101,12 +306190,6 @@ func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList) GetA
 		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList{}
 	}
 	return t.Admin
-}
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList) GetAudit() *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList) GetID() string {
 	if t == nil {
@@ -307428,46 +306511,9 @@ func (t *Notification_Notification_SubscriptionGroup_MailingList_Admin) GetName(
 	return t.Name
 }
 
-type Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type Notification_Notification_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                  "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *Notification_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *Notification_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type Notification_Notification_SubscriptionGroup_MailingList struct {
 	Address []string                                                         "json:\"address\" graphql:\"address\""
 	Admin   []*Notification_Notification_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   Notification_Notification_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                           "json:\"id\" graphql:\"id\""
 	Name    string                                                           "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                             "json:\"type\" graphql:\"type\""
@@ -307484,12 +306530,6 @@ func (t *Notification_Notification_SubscriptionGroup_MailingList) GetAdmin() []*
 		t = &Notification_Notification_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *Notification_Notification_SubscriptionGroup_MailingList) GetAudit() *Notification_Notification_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *Notification_Notification_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -308546,100 +307586,10 @@ func (t *NotificationIntegrationWebhookFields_Notification) GetIntegration() *No
 	return &t.Integration
 }
 
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth struct {
-	Username string "json:\"username\" graphql:\"username\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth) GetUsername() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth{}
-	}
-	return t.Username
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth{}
-	}
-	return t.Name
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Name
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Value
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders{}
-	}
-	return t.Name
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth struct {
-	PlainHeaders  []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
-	SecretHeaders []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth{}
-	}
-	return t.PlainHeaders
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth{}
-	}
-	return t.SecretHeaders
-}
-
 type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth struct {
-	BasicAuth         NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
-	CustomHeaderAuth  NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
-	CustomHeadersAuth NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
-	AuthType          cato_models.AuthType                                                                                 "json:\"authType\" graphql:\"authType\""
+	AuthType cato_models.AuthType "json:\"authType\" graphql:\"authType\""
 }
 
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetBasicAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.BasicAuth
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetCustomHeaderAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.CustomHeaderAuth
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetCustomHeadersAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.CustomHeadersAuth
-}
 func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetAuthType() *cato_models.AuthType {
 	if t == nil {
 		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
@@ -308826,46 +307776,9 @@ func (t *NotificationMailingList_Notification_MailingList_Admin) GetName() strin
 	return t.Name
 }
 
-type NotificationMailingList_Notification_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationMailingList_Notification_MailingList_Audit struct {
-	UpdatedBy   NotificationMailingList_Notification_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                           "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationMailingList_Notification_MailingList_Audit) GetUpdatedBy() *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationMailingList_Notification_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationMailingList_Notification_MailingList struct {
 	Address []string                                                  "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationMailingList_Notification_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationMailingList_Notification_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                    "json:\"id\" graphql:\"id\""
 	Name    string                                                    "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                      "json:\"type\" graphql:\"type\""
@@ -308882,12 +307795,6 @@ func (t *NotificationMailingList_Notification_MailingList) GetAdmin() []*Notific
 		t = &NotificationMailingList_Notification_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationMailingList_Notification_MailingList) GetAudit() *NotificationMailingList_Notification_MailingList_Audit {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationMailingList_Notification_MailingList) GetID() string {
 	if t == nil {
@@ -308937,46 +307844,9 @@ func (t *NotificationMailingListList_Notification_MailingListList_Items_Admin) G
 	return t.Name
 }
 
-type NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationMailingListList_Notification_MailingListList_Items_Audit struct {
-	UpdatedBy   NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                         "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit) GetUpdatedBy() *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationMailingListList_Notification_MailingListList_Items struct {
 	Address []string                                                                "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationMailingListList_Notification_MailingListList_Items_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationMailingListList_Notification_MailingListList_Items_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                  "json:\"id\" graphql:\"id\""
 	Name    string                                                                  "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                    "json:\"type\" graphql:\"type\""
@@ -308993,12 +307863,6 @@ func (t *NotificationMailingListList_Notification_MailingListList_Items) GetAdmi
 		t = &NotificationMailingListList_Notification_MailingListList_Items{}
 	}
 	return t.Admin
-}
-func (t *NotificationMailingListList_Notification_MailingListList_Items) GetAudit() *NotificationMailingListList_Notification_MailingListList_Items_Audit {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items{}
-	}
-	return &t.Audit
 }
 func (t *NotificationMailingListList_Notification_MailingListList_Items) GetID() string {
 	if t == nil {
@@ -309077,46 +307941,9 @@ func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingLis
 	return t.Name
 }
 
-type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList struct {
 	Address []string                                                                          "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                            "json:\"id\" graphql:\"id\""
 	Name    string                                                                            "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
@@ -309133,12 +307960,6 @@ func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingLis
 		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetAudit() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -309442,46 +308263,9 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 	return t.Name
 }
 
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit struct {
-	UpdatedBy   NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedBy() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList struct {
 	Address []string                                                                                        "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                                          "json:\"id\" graphql:\"id\""
 	Name    string                                                                                          "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                                            "json:\"type\" graphql:\"type\""
@@ -309498,12 +308282,6 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetAudit() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetID() string {
 	if t == nil {
@@ -309524,231 +308302,8 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 	return &t.Type
 }
 
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth struct {
-	Username string "json:\"username\" graphql:\"username\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth) GetUsername() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth{}
-	}
-	return t.Username
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth struct {
-	PlainHeaders  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
-	SecretHeaders []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth{}
-	}
-	return t.PlainHeaders
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth{}
-	}
-	return t.SecretHeaders
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth struct {
-	BasicAuth         NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
-	CustomHeaderAuth  NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
-	CustomHeadersAuth NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
-	AuthType          cato_models.AuthType                                                                                                      "json:\"authType\" graphql:\"authType\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetBasicAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.BasicAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetCustomHeaderAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.CustomHeaderAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetCustomHeadersAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.CustomHeadersAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetAuthType() *cato_models.AuthType {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.AuthType
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping struct {
-	Key   string "json:\"key\" graphql:\"key\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping) GetKey() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping{}
-	}
-	return t.Key
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList struct {
-	Auth             NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth               "json:\"auth\" graphql:\"auth\""
-	Body             string                                                                                                                "json:\"body\" graphql:\"body\""
-	Enabled          bool                                                                                                                  "json:\"enabled\" graphql:\"enabled\""
-	Header           []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header          "json:\"header\" graphql:\"header\""
-	ID               string                                                                                                                "json:\"id\" graphql:\"id\""
-	Name             string                                                                                                                "json:\"name\" graphql:\"name\""
-	RelatedWebhookID *string                                                                                                               "json:\"relatedWebhookId,omitempty\" graphql:\"relatedWebhookId\""
-	RequestMethod    cato_models.WebhookRequestMethod                                                                                      "json:\"requestMethod\" graphql:\"requestMethod\""
-	ResponseMapping  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
-	URL              string                                                                                                                "json:\"url\" graphql:\"url\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return &t.Auth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetBody() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Body
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetEnabled() bool {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Enabled
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetHeader() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Header
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetID() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.ID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetRelatedWebhookID() *string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.RelatedWebhookID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetRequestMethod() *cato_models.WebhookRequestMethod {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return &t.RequestMethod
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetResponseMapping() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.ResponseMapping
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetURL() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.URL
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration struct {
-	WebhookList []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList "json:\"webhookList\" graphql:\"webhookList\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration) GetWebhookList() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration{}
-	}
-	return t.WebhookList
-}
-
 type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items struct {
 	ID          string                                                                                    "json:\"id\" graphql:\"id\""
-	Integration NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration    "json:\"integration\" graphql:\"integration\""
 	MailingList []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList "json:\"mailingList\" graphql:\"mailingList\""
 	Name        string                                                                                    "json:\"name\" graphql:\"name\""
 }
@@ -309758,12 +308313,6 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
 	}
 	return t.ID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetIntegration() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
-	}
-	return &t.Integration
 }
 func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetMailingList() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList {
 	if t == nil {
@@ -330219,19 +328768,7 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_SubPo
 	return t.Name
 }
 
-type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                    "json:\"properties\" graphql:\"properties\""
@@ -330240,12 +328777,6 @@ type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall struct {
 	SubPolicy  *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall{}
@@ -330997,19 +329528,7 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy) GetName(
 	return t.Name
 }
 
-type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules struct {
-	Access     PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                      "json:\"properties\" graphql:\"properties\""
@@ -331018,12 +329537,6 @@ type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules struct {
 	SubPolicy  *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetAccess() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
@@ -331311,19 +329824,7 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies) GetPolicy() 
 	return &t.Policy
 }
 
-type PolicySocketLanPolicy_Policy_SocketLan_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPolicy_Policy_SocketLan_Policy struct {
-	Access      PolicySocketLanPolicy_Policy_SocketLan_Policy_Access         "json:\"access\" graphql:\"access\""
 	Audit       *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
 	Description string                                                       "json:\"description\" graphql:\"description\""
 	Enabled     bool                                                         "json:\"enabled\" graphql:\"enabled\""
@@ -331335,12 +329836,6 @@ type PolicySocketLanPolicy_Policy_SocketLan_Policy struct {
 	SubPolicies []*PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetAccess() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit {
 	if t == nil {
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy{}
@@ -368884,6 +367379,50 @@ func (t *NotificationDeleteSubscriptionGroup) GetNotification() *NotificationDel
 	return t.Notification
 }
 
+type NotificationIntegrationCreateWebhook struct {
+	Notification *NotificationIntegrationCreateWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationCreateWebhook) GetNotification() *NotificationIntegrationCreateWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationDeleteWebhook struct {
+	Notification *NotificationIntegrationDeleteWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook) GetNotification() *NotificationIntegrationDeleteWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationTestWebhook struct {
+	Notification *NotificationIntegrationTestWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationTestWebhook) GetNotification() *NotificationIntegrationTestWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationUpdateWebhook struct {
+	Notification *NotificationIntegrationUpdateWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook) GetNotification() *NotificationIntegrationUpdateWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook{}
+	}
+	return t.Notification
+}
+
 type NotificationUpdateMailingList struct {
 	Notification *NotificationUpdateMailingList_Notification "json:\"notification,omitempty\" graphql:\"notification\""
 }
@@ -379628,13 +378167,6 @@ const NotificationCreateMailingListDocument = `mutation notificationCreateMailin
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 		}
 	}
@@ -379673,13 +378205,6 @@ const NotificationCreateSubscriptionGroupDocument = `mutation notificationCreate
 					admin {
 						id
 						name
-					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
 					}
 				}
 				integration {
@@ -379755,13 +378280,6 @@ const NotificationDeleteMailingListDocument = `mutation notificationDeleteMailin
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 		}
 	}
@@ -379800,13 +378318,6 @@ const NotificationDeleteSubscriptionGroupDocument = `mutation notificationDelete
 					admin {
 						id
 						name
-					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
 					}
 				}
 				integration {
@@ -379870,6 +378381,131 @@ func (c *Client) NotificationDeleteSubscriptionGroup(ctx context.Context, accoun
 	return &res, nil
 }
 
+const NotificationIntegrationCreateWebhookDocument = `mutation notificationIntegrationCreateWebhook ($accountId: ID!, $createWebhookInput: CreateWebhookInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			createWebhook(input: $createWebhookInput) {
+				webhook {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationCreateWebhook(ctx context.Context, accountID string, createWebhookInput cato_models.CreateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationCreateWebhook, error) {
+	vars := map[string]any{
+		"accountId":          accountID,
+		"createWebhookInput": createWebhookInput,
+	}
+
+	var res NotificationIntegrationCreateWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationCreateWebhook", NotificationIntegrationCreateWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationDeleteWebhookDocument = `mutation notificationIntegrationDeleteWebhook ($accountId: ID!, $webhookIntegrationRefInput: WebhookIntegrationRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			deleteWebhook(input: $webhookIntegrationRefInput) {
+				webhook {
+					id
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationDeleteWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationDeleteWebhook, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"webhookIntegrationRefInput": webhookIntegrationRefInput,
+	}
+
+	var res NotificationIntegrationDeleteWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationDeleteWebhook", NotificationIntegrationDeleteWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationTestWebhookDocument = `mutation notificationIntegrationTestWebhook ($accountId: ID!, $webhookIntegrationRefInput: WebhookIntegrationRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			testWebhook(input: $webhookIntegrationRefInput) {
+				success
+				errorMessage
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationTestWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationTestWebhook, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"webhookIntegrationRefInput": webhookIntegrationRefInput,
+	}
+
+	var res NotificationIntegrationTestWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationTestWebhook", NotificationIntegrationTestWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationUpdateWebhookDocument = `mutation notificationIntegrationUpdateWebhook ($accountId: ID!, $updateWebhookInput: UpdateWebhookInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			updateWebhook(input: $updateWebhookInput) {
+				webhook {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationUpdateWebhook(ctx context.Context, accountID string, updateWebhookInput cato_models.UpdateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationUpdateWebhook, error) {
+	vars := map[string]any{
+		"accountId":          accountID,
+		"updateWebhookInput": updateWebhookInput,
+	}
+
+	var res NotificationIntegrationUpdateWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationUpdateWebhook", NotificationIntegrationUpdateWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const NotificationUpdateMailingListDocument = `mutation notificationUpdateMailingList ($accountId: ID!, $updateMailingListInput: UpdateMailingListInput!) {
 	notification(accountId: $accountId) {
 		updateMailingList(input: $updateMailingListInput) {
@@ -379881,13 +378517,6 @@ const NotificationUpdateMailingListDocument = `mutation notificationUpdateMailin
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 		}
@@ -379927,13 +378556,6 @@ const NotificationUpdateSubscriptionGroupDocument = `mutation notificationUpdate
 					admin {
 						id
 						name
-					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
 					}
 				}
 				integration {
@@ -403157,9 +401779,6 @@ const PolicySocketLanAddRuleDocument = `mutation policySocketLanAddRule ($socket
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -403270,9 +401889,6 @@ const PolicySocketLanAddRuleDocument = `mutation policySocketLanAddRule ($socket
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {
@@ -403578,9 +402194,6 @@ const PolicySocketLanAddSubPolicyDocument = `mutation policySocketLanAddSubPolic
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -403692,9 +402305,6 @@ const PolicySocketLanAddSubPolicyDocument = `mutation policySocketLanAddSubPolic
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -403739,12 +402349,6 @@ const PolicySocketLanAddSubPolicyDocument = `mutation policySocketLanAddSubPolic
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -403982,9 +402586,6 @@ const PolicySocketLanCreatePolicyRevisionDocument = `mutation policySocketLanCre
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -404096,9 +402697,6 @@ const PolicySocketLanCreatePolicyRevisionDocument = `mutation policySocketLanCre
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -404143,12 +402741,6 @@ const PolicySocketLanCreatePolicyRevisionDocument = `mutation policySocketLanCre
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -404386,9 +402978,6 @@ const PolicySocketLanDiscardPolicyRevisionDocument = `mutation policySocketLanDi
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -404500,9 +403089,6 @@ const PolicySocketLanDiscardPolicyRevisionDocument = `mutation policySocketLanDi
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -404547,12 +403133,6 @@ const PolicySocketLanDiscardPolicyRevisionDocument = `mutation policySocketLanDi
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -404763,9 +403343,6 @@ const PolicySocketLanFirewallAddRuleDocument = `mutation policySocketLanFirewall
 						subPolicy {
 							id
 							name
-						}
-						access {
-							action
 						}
 					}
 					revision {
@@ -404986,9 +403563,6 @@ const PolicySocketLanFirewallMoveRuleDocument = `mutation policySocketLanFirewal
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					revision {
 						id
@@ -405208,9 +403782,6 @@ const PolicySocketLanFirewallRemoveRuleDocument = `mutation policySocketLanFirew
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					revision {
 						id
@@ -405429,9 +404000,6 @@ const PolicySocketLanFirewallUpdateRuleDocument = `mutation policySocketLanFirew
 						subPolicy {
 							id
 							name
-						}
-						access {
-							action
 						}
 					}
 					revision {
@@ -405673,9 +404241,6 @@ const PolicySocketLanMoveRuleDocument = `mutation policySocketLanMoveRule ($poli
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -405786,9 +404351,6 @@ const PolicySocketLanMoveRuleDocument = `mutation policySocketLanMoveRule ($poli
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {
@@ -406094,9 +404656,6 @@ const PolicySocketLanPublishPolicyRevisionDocument = `mutation policySocketLanPu
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -406208,9 +404767,6 @@ const PolicySocketLanPublishPolicyRevisionDocument = `mutation policySocketLanPu
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -406255,12 +404811,6 @@ const PolicySocketLanPublishPolicyRevisionDocument = `mutation policySocketLanPu
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -406493,9 +405043,6 @@ const PolicySocketLanRemoveRuleDocument = `mutation policySocketLanRemoveRule ($
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -406606,9 +405153,6 @@ const PolicySocketLanRemoveRuleDocument = `mutation policySocketLanRemoveRule ($
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {
@@ -406914,9 +405458,6 @@ const PolicySocketLanRemoveSubPolicyDocument = `mutation policySocketLanRemoveSu
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -407028,9 +405569,6 @@ const PolicySocketLanRemoveSubPolicyDocument = `mutation policySocketLanRemoveSu
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -407075,12 +405613,6 @@ const PolicySocketLanRemoveSubPolicyDocument = `mutation policySocketLanRemoveSu
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -407318,9 +405850,6 @@ const PolicySocketLanReorderPolicyDocument = `mutation policySocketLanReorderPol
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -407432,9 +405961,6 @@ const PolicySocketLanReorderPolicyDocument = `mutation policySocketLanReorderPol
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -407479,12 +406005,6 @@ const PolicySocketLanReorderPolicyDocument = `mutation policySocketLanReorderPol
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -407722,9 +406242,6 @@ const PolicySocketLanUpdatePolicyDocument = `mutation policySocketLanUpdatePolic
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -407836,9 +406353,6 @@ const PolicySocketLanUpdatePolicyDocument = `mutation policySocketLanUpdatePolic
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -407883,12 +406397,6 @@ const PolicySocketLanUpdatePolicyDocument = `mutation policySocketLanUpdatePolic
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -408121,9 +406629,6 @@ const PolicySocketLanUpdateRuleDocument = `mutation policySocketLanUpdateRule ($
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -408234,9 +406739,6 @@ const PolicySocketLanUpdateRuleDocument = `mutation policySocketLanUpdateRule ($
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {
@@ -438003,13 +436505,6 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 			paging {
 				total
@@ -438023,13 +436518,6 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 			admin {
 				id
 				name
-			}
-			audit {
-				updatedTime
-				updatedBy {
-					id
-					name
-				}
 			}
 		}
 		integration {
@@ -438197,13 +436685,6 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 						id
 						name
 					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
-					}
 				}
 				integration {
 					webhookList {
@@ -438258,13 +436739,6 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 			integration {
@@ -438554,21 +437028,6 @@ const NotificationIntegrationWebhookListDocument = `query notificationIntegratio
 					requestMethod
 					auth {
 						authType
-						... on BasicAuth {
-							username
-						}
-						... on CustomHeaderAuth {
-							name
-						}
-						... on CustomHeadersAuth {
-							plainHeaders {
-								name
-								value
-							}
-							secretHeaders {
-								name
-							}
-						}
 					}
 					header {
 						name
@@ -438618,13 +437077,6 @@ const NotificationMailingListDocument = `query notificationMailingList ($account
 				id
 				name
 			}
-			audit {
-				updatedTime
-				updatedBy {
-					id
-					name
-				}
-			}
 		}
 	}
 }
@@ -438659,13 +437111,6 @@ const NotificationMailingListListDocument = `query notificationMailingListList (
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 			paging {
@@ -438706,13 +437151,6 @@ const NotificationSubscriptionGroupDocument = `query notificationSubscriptionGro
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 			integration {
@@ -438789,50 +437227,6 @@ const NotificationSubscriptionGroupListDocument = `query notificationSubscriptio
 					admin {
 						id
 						name
-					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
-					}
-				}
-				integration {
-					webhookList {
-						id
-						name
-						enabled
-						url
-						requestMethod
-						auth {
-							authType
-							... on BasicAuth {
-								username
-							}
-							... on CustomHeaderAuth {
-								name
-							}
-							... on CustomHeadersAuth {
-								plainHeaders {
-									name
-									value
-								}
-								secretHeaders {
-									name
-								}
-							}
-						}
-						header {
-							name
-							value
-						}
-						body
-						responseMapping {
-							key
-							value
-						}
-						relatedWebhookId
 					}
 				}
 			}
@@ -442540,9 +440934,6 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -442654,9 +441045,6 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 						id
 						name
 					}
-					access {
-						action
-					}
 				}
 				sections {
 					audit {
@@ -442701,9 +441089,6 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 							publishedBy
 						}
 					}
-				}
-				access {
-					action
 				}
 			}
 		}
@@ -450424,6 +448809,10 @@ var DocumentOperationNames = map[string]string{
 	NotificationCreateSubscriptionGroupDocument:                  "notificationCreateSubscriptionGroup",
 	NotificationDeleteMailingListDocument:                        "notificationDeleteMailingList",
 	NotificationDeleteSubscriptionGroupDocument:                  "notificationDeleteSubscriptionGroup",
+	NotificationIntegrationCreateWebhookDocument:                 "notificationIntegrationCreateWebhook",
+	NotificationIntegrationDeleteWebhookDocument:                 "notificationIntegrationDeleteWebhook",
+	NotificationIntegrationTestWebhookDocument:                   "notificationIntegrationTestWebhook",
+	NotificationIntegrationUpdateWebhookDocument:                 "notificationIntegrationUpdateWebhook",
 	NotificationUpdateMailingListDocument:                        "notificationUpdateMailingList",
 	NotificationUpdateSubscriptionGroupDocument:                  "notificationUpdateSubscriptionGroup",
 	ObjectCreateGlobalIPRangeBulkDocument:                        "objectCreateGlobalIpRangeBulk",

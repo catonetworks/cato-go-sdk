@@ -10,13 +10,6 @@ query notificationMailingListList ($accountId: ID!) {
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 			paging {
 				total

@@ -10,13 +10,6 @@ query notification ($accountId: ID!, $mailingListRefInput: MailingListRefInput!,
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 			paging {
 				total
@@ -30,13 +23,6 @@ query notification ($accountId: ID!, $mailingListRefInput: MailingListRefInput!,
 			admin {
 				id
 				name
-			}
-			audit {
-				updatedTime
-				updatedBy {
-					id
-					name
-				}
 			}
 		}
 		integration {
@@ -204,13 +190,6 @@ query notification ($accountId: ID!, $mailingListRefInput: MailingListRefInput!,
 						id
 						name
 					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
-					}
 				}
 				integration {
 					webhookList {
@@ -265,13 +244,6 @@ query notification ($accountId: ID!, $mailingListRefInput: MailingListRefInput!,
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 			integration {

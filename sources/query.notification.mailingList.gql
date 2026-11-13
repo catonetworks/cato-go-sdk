@@ -9,13 +9,6 @@ query notificationMailingList ($accountId: ID!, $mailingListRefInput: MailingLis
 				id
 				name
 			}
-			audit {
-				updatedTime
-				updatedBy {
-					id
-					name
-				}
-			}
 		}
 	}
 }
