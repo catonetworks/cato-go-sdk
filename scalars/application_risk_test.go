@@ -53,3 +53,21 @@ func TestApplicationRiskUnmarshalRoundTrip(t *testing.T) {
 		t.Fatalf("round trip changed representation: %s", string(b))
 	}
 }
+
+func TestApplicationRiskCanonicalNumericEncoding(t *testing.T) {
+	for _, tc := range []struct{ input, want string }{
+		{"+7", "7"}, {"007", "7"}, {"-01", "-1"}, {"-0", "0"},
+	} {
+		t.Run(tc.input, func(t *testing.T) {
+			got, err := json.Marshal(ApplicationRisk(tc.input))
+			if err != nil || string(got) != tc.want {
+				t.Fatalf("JSON encoding = %q, %v; want %s", got, err, tc.want)
+			}
+			var gql strings.Builder
+			ApplicationRisk(tc.input).MarshalGQL(&gql)
+			if gql.String() != tc.want {
+				t.Fatalf("GraphQL encoding = %q; want %s", gql.String(), tc.want)
+			}
+		})
+	}
+}
