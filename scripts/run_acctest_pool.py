@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+"""Run provider acceptance groups serially using a Jenkins secret-file pool."""
+
+import argparse
+import importlib.util
+import json
+import os
+from pathlib import Path
+import random
+import re
+import subprocess
+import sys
+from urllib.parse import urlsplit
+
+
+def load_configuration(path, planner):
+    try:
+        config = json.loads(path.read_text())
+    except (OSError, ValueError):
+        raise ValueError('Acceptance configuration is missing or invalid JSON') from None
+    if not isinstance(config, dict):
+        raise ValueError('Acceptance configuration must be an object')
+    endpoint = config.get('CATO_BASEURL', '')
+    if not isinstance(endpoint, str):
+        raise ValueError('CATO_BASEURL must be an HTTPS URL')
+    url = urlsplit(endpoint)
+    if url.scheme != 'https' or not url.hostname or url.username or url.password or url.query or url.fragment:
+        raise ValueError('CATO_BASEURL must be an HTTPS URL without credentials or query parameters')
+    skips = config.get('TFACC_TEST_SKIP', {})
+    if not isinstance(skips, dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in skips.items()):
+        raise ValueError('TFACC_TEST_SKIP must map test names to skip reasons')
+    accounts = config.get('accounts')
+    planner.validate_accounts(accounts)
+    planner.validate_fixture_references(accounts)
+    return config
+
+
+def execute_redacted(command, *, cwd, env):
+    """Stream test output while keeping the selected API key out of Jenkins logs."""
+    with subprocess.Popen(command, cwd=cwd, env=env, stdout=subprocess.PIPE,
+                          stderr=subprocess.STDOUT, text=True, encoding='utf-8', errors='replace') as process:
+        for line in process.stdout:
+            print(line.replace(env['CATO_TOKEN'], '****'), end='', flush=True)
+        return subprocess.CompletedProcess(command, process.wait())
+
+
+def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=None):
+    planner.validate_inventory()
+    if suite:
+        match = re.fullmatch(r'(?:\./)?(?:internal/acctests/)?([a-z0-9_]+)/?', suite)
+        if not match or match[1] not in planner.load_timings()['packages']:
+            raise ValueError('ACCTEST_FILTER must name an existing acceptance suite')
+        suite = match[1]
+    slots = list(range(planner.GROUP_COUNT))
+    (rng or random.SystemRandom()).shuffle(slots)
+    jobs = [(None, slots[0])] if suite else list(enumerate(slots))
+    failures = []
+    for group, slot in jobs:
+        account = config['accounts'][slot]
+        env = os.environ.copy()
+        for name in (*planner.TEST_ENV_NAMES, 'CATO_ACCTEST_ACCOUNTS', 'CATO_ACCTEST_CONFIG_FILE'):
+            env.pop(name, None)
+        env.update({
+            'CATO_BASEURL': config['CATO_BASEURL'],
+            'CATO_ENDPOINT': config['CATO_BASEURL'],
+            'CATO_ACCOUNT_ID': account['id'],
+            'CATO_TOKEN': account['api_key'],
+            'TFACC_TEST_VARS': json.dumps(account.get('test_vars', {})),
+            'TFACC_TEST_SKIP': json.dumps(config.get('TFACC_TEST_SKIP', {})),
+            'TFACC_ENABLE_RULES_INDEX_CRUD': 'true',
+            'DISABLE_POLICY_RULE_CLEANUP': 'true',
+        })
+        env.update(account.get('test_env', {}))
+        label = f'suite {suite}' if suite else f'group {group}'
+        print(f'Running acceptance {label} on pool slot {slot}', flush=True)
+        selection = f't={suite}' if suite else f'group={group}'
+        result = execute(['make', 'acctest-flaky', selection], cwd=provider, env=env)
+        if result.returncode:
+            failures.append(label)
+    if failures:
+        print('Failed acceptance selections: ' + ', '.join(failures), file=sys.stderr)
+    return int(bool(failures))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--provider', type=Path, required=True)
+    parser.add_argument('--check', action='store_true', help='Validate configuration without running tests')
+    args = parser.parse_args()
+    provider = args.provider.resolve()
+    spec = importlib.util.spec_from_file_location('provider_acctest_groups', provider / 'test_data/acctest_groups.py')
+    if spec is None or spec.loader is None:
+        raise ValueError('Provider checkout does not contain the acceptance group planner')
+    planner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(planner)
+    config_path = os.environ.get('CATO_ACCTEST_CONFIG_FILE')
+    if not config_path:
+        raise ValueError('CATO_ACCTEST_CONFIG_FILE is required')
+    config = load_configuration(Path(config_path), planner)
+    if args.check:
+        planner.validate_inventory()
+        print('Acceptance pool configuration and group inventory are valid')
+        return 0
+    return run(provider, planner, config, os.environ.get('ACCTEST_FILTER', '').strip())
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except (ValueError, OSError):
+        # Configuration may contain keys. Never emit its contents or a traceback.
+        sys.exit('Acceptance setup failed: check the secret-file configuration and provider planner')

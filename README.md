@@ -14,6 +14,42 @@ Requires Go 1.26.11 or newer. See the [1.0.0 changelog](CHANGELOG.md#100---2026-
 for release contents, breaking changes, and migration guidance. The command
 above becomes available when the `v1.0.0` tag is published.
 
+### SDK acceptance tests in Jenkins
+
+The `cato-go-sdk-acc` job runs the provider's ten acceptance groups sequentially
+in one build. Each group receives a distinct, randomly assigned account and its
+matching fixture settings. `ACCTEST_FILTER` optionally selects one complete suite
+on one pool account, using a suite name such as `if_rule` or a path such as
+`internal/acctests/if_rule`. An unknown suite fails before tests start.
+
+Create a Jenkins **Secret file** credential named `cato-acctest-config`. Its JSON
+object contains `CATO_BASEURL` (the HTTPS GraphQL endpoint), `TFACC_TEST_SKIP`
+(the test-name-to-reason map), and `accounts`. The `accounts` array uses the
+provider planner's ten-account format: each record contains `id`, `api_key`,
+`test_vars`, and optional `test_env`. Obtain account fixtures from **STA test
+account configuration** and keys from **STA test account creds** in the
+**open-source development** 1Password vault, matching records by account ID.
+Use the provider CI's current `TFACC_TEST_SKIP` variable for skip settings.
+Keep this combined file outside Git and limit local file permissions to its owner.
+
+The pipeline installs Python 3 when needed and retains the runner before checking
+out `SDK_BRANCH`, so older SDK branches can use the new test setup. The selected
+provider branch must include `test_data/acctest_groups.py` and the group-aware
+acceptance runner. Failures are collected across all groups and fail the build.
+API keys are passed through the child process environment and redacted from its
+console output. The existing GitHub status reporting is preserved.
+
+Jenkins serializes this job's builds. The accounts are also used by provider
+GitHub Actions: coordinate runs to avoid overlapping use of that pool; the
+GitHub workflow's concurrency setting does not lock Jenkins.
+
+Offline checks (no live API calls):
+
+```bash
+python3 -m unittest discover -s scripts -p 'test_*.py'
+CATO_ACCTEST_CONFIG_FILE=/protected/path/pool.json python3 scripts/run_acctest_pool.py --provider ../terraform-provider-cato --check
+```
+
 ### Client Initialization
 
 UPDATE: as of version 0.2.0, the client instantiation call has changed along with the format of additional HTTP headers passed to the client.
