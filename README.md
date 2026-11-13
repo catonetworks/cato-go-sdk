@@ -10,7 +10,7 @@ https://www.catonetworks.com/platform/cato-api/
 go get github.com/catonetworks/cato-go-sdk@v1.0.0
 ```
 
-Requires Go 1.26.9 or newer. See the [1.0.0 changelog](CHANGELOG.md#100---2026-10-14)
+Requires Go 1.26.11 or newer. See the [1.0.0 changelog](CHANGELOG.md#100---2026-10-14)
 for release contents, breaking changes, and migration guidance. The command
 above becomes available when the `v1.0.0` tag is published.
 
