@@ -1,4 +1,4 @@
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 import io
 import json
 import os
@@ -10,7 +10,7 @@ import threading
 import unittest
 from unittest.mock import Mock, patch
 
-from run_acctest_pool import execute_redacted, load_configuration, prepare_workspace, run
+from run_acctest_pool import execute_redacted, load_configuration, prepare_workspace, run, warm_build_cache
 
 
 class AcceptancePoolTest(unittest.TestCase):
@@ -28,16 +28,19 @@ class AcceptancePoolTest(unittest.TestCase):
 
     def test_all_groups_use_distinct_accounts_and_aggregate_failures(self):
         barrier = threading.Barrier(10, timeout=10)
+        warm = Mock()
         def execute_group(command, *, cwd, env):
             # A sequential implementation times out here: all ten executions
             # must be in progress before any may finish.
+            warm.assert_called_once()
             barrier.wait()
             return Mock(returncode=int(command[-1] == 'group=2'))
         execute = Mock(side_effect=execute_group)
         prepare = Mock(side_effect=lambda provider, destination: destination)
-        with patch.dict(os.environ, {'CATO_ACCTEST_CONFIG_FILE': '/secret/pool.json', 'CATO_ACCTEST_ACCOUNTS': 'secret-pool'}):
+        with patch.dict(os.environ, {'CATO_ACCTEST_CONFIG_FILE': '/secret/pool.json', 'CATO_ACCTEST_ACCOUNTS': 'secret-pool'}), \
+                redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
             result = run(Path('/provider'), self.planner, self.config, execute=execute,
-                         rng=random.Random(7), prepare=prepare)
+                         rng=random.Random(7), prepare=prepare, warm=warm)
         self.assertEqual(1, result)
         self.assertEqual(10, execute.call_count)
         seen = set()
@@ -50,6 +53,10 @@ class AcceptancePoolTest(unittest.TestCase):
             directories.add(call.kwargs['cwd'])
             self.assertNotIn('CATO_ACCTEST_ACCOUNTS', env)
             self.assertNotIn('CATO_ACCTEST_CONFIG_FILE', env)
+            self.assertIn('-p=1', env['GOFLAGS'])
+            self.assertIn('-trimpath', env['GOFLAGS'])
+            self.assertEqual('2', env['GOMAXPROCS'])
+            self.assertEqual('512MiB', env['GOMEMLIMIT'])
             self.assertEqual(str(json.loads(env['TFACC_TEST_VARS'])['fixture']), env['CATO_TEST_SITE_ID'])
         self.assertEqual(10, len(seen))
         self.assertEqual(10, len(directories))
@@ -61,7 +68,7 @@ class AcceptancePoolTest(unittest.TestCase):
         execute = Mock(return_value=Mock(returncode=0))
         with patch.dict(os.environ, {'CATO_TEST_SITE_ID': 'stale-site'}):
             self.assertEqual(0, run(Path('/provider'), self.planner, self.config,
-                                    'internal/acctests/if_rule', execute=execute))
+                                    'internal/acctests/if_rule', execute=execute, warm=Mock()))
         execute.assert_called_once()
         self.assertEqual('t=if_rule', execute.call_args.args[0][-1])
         self.assertNotIn('CATO_TEST_SITE_ID', execute.call_args.kwargs['env'])
@@ -70,7 +77,7 @@ class AcceptancePoolTest(unittest.TestCase):
         for suite in ('if_rule;id', '../if_rule', 'missing_suite', '--help'):
             execute = Mock()
             with self.assertRaises(ValueError):
-                run(Path('/provider'), self.planner, self.config, suite, execute=execute)
+                run(Path('/provider'), self.planner, self.config, suite, execute=execute, warm=Mock())
             execute.assert_not_called()
 
     def test_configuration_checks_endpoint_and_pool_before_execution(self):
@@ -111,6 +118,27 @@ class AcceptancePoolTest(unittest.TestCase):
             (first / 'go.mod').write_text('changed by one group')
             self.assertEqual('module test\n', (second / 'go.mod').read_text())
             self.assertEqual('module test\n', (provider / 'go.mod').read_text())
+
+    def test_warmup_compiles_without_test_cases_or_account_credentials(self):
+        with patch.dict(os.environ, {'CATO_TOKEN': 'inert-test-key', 'CATO_ACCTEST_CONFIG_FILE': '/secret/pool'}):
+            with patch('run_acctest_pool.subprocess.run') as compile_packages:
+                warm_build_cache(Path('/provider'))
+        command = compile_packages.call_args.args[0]
+        env = compile_packages.call_args.kwargs['env']
+        self.assertIn('-run=^$', command)
+        self.assertEqual('./internal/acctests/...', command[-1])
+        self.assertEqual('0', env['TF_ACC'])
+        self.assertEqual('false', env['ACCTEST_CLEANUP'])
+        self.assertNotIn('CATO_TOKEN', env)
+        self.assertNotIn('CATO_ACCTEST_CONFIG_FILE', env)
+
+    def test_warmup_failure_prevents_any_api_worker_from_starting(self):
+        execute = Mock()
+        prepare = Mock(side_effect=lambda provider, destination: destination)
+        warm = Mock(side_effect=OSError('compile failed'))
+        with self.assertRaises(OSError):
+            run(Path('/provider'), self.planner, self.config, execute=execute, prepare=prepare, warm=warm)
+        execute.assert_not_called()
 
 
 if __name__ == '__main__':

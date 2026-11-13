@@ -2,7 +2,7 @@
 """Run provider acceptance groups concurrently using a Jenkins secret-file pool."""
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 import importlib.util
 import json
 import os
@@ -48,6 +48,30 @@ def execute_redacted(command, *, cwd, env):
         return subprocess.CompletedProcess(command, process.wait())
 
 
+def go_environment():
+    env = os.environ.copy()
+    # Ten API workers must not also become ten unrestricted cold Go builds.
+    # trimpath lets the separate provider copies reuse the warmed build cache.
+    env['GOFLAGS'] = (env.get('GOFLAGS', '') + ' -p=1 -trimpath').strip()
+    env['GOMAXPROCS'] = '2'
+    env['GOMEMLIMIT'] = '512MiB'
+    return env
+
+
+def warm_build_cache(provider, suite=''):
+    env = go_environment()
+    for name in ('CATO_TOKEN', 'CATO_ACCOUNT_ID', 'CATO_BASEURL', 'CATO_ENDPOINT',
+                 'CATO_ACCTEST_ACCOUNTS', 'CATO_ACCTEST_CONFIG_FILE',
+                 'TFACC_TEST_VARS', 'TFACC_TEST_SKIP'):
+        env.pop(name, None)
+    env.update(TF_ACC='0', ACCTEST_CLEANUP='false')
+    packages = [f'./internal/acctests/{suite}', './internal/acctests/acc'] if suite else ['./internal/acctests/...']
+    print('Compiling acceptance packages once, with no test cases or API calls; this may take several minutes', flush=True)
+    subprocess.run(['go', 'test', '-tags=acctest', '-run=^$', *packages],
+                   cwd=provider, env=env, check=True, timeout=1200)
+    print('Acceptance build cache is ready; starting API test workers', flush=True)
+
+
 def prepare_workspace(provider, destination):
     shutil.copytree(provider, destination,
                     ignore=shutil.ignore_patterns('.git', '.terraform', 'tmp_recorded', '__pycache__'))
@@ -60,7 +84,7 @@ def prepare_workspace(provider, destination):
 
 
 def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=None,
-        prepare=prepare_workspace):
+        prepare=prepare_workspace, warm=warm_build_cache):
     planner.validate_inventory()
     if suite:
         match = re.fullmatch(r'(?:\./)?(?:internal/acctests/)?([a-z0-9_]+)/?', suite)
@@ -73,7 +97,7 @@ def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=No
     failures = []
     def run_selection(group, slot, workspace):
         account = config['accounts'][slot]
-        env = os.environ.copy()
+        env = go_environment()
         for name in (*planner.TEST_ENV_NAMES, 'CATO_ACCTEST_ACCOUNTS', 'CATO_ACCTEST_CONFIG_FILE'):
             env.pop(name, None)
         env.update({
@@ -99,6 +123,7 @@ def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=No
             return label
 
     if suite:
+        warm(provider, suite)
         failure = run_selection(None, slots[0], provider)
         if failure:
             failures.append(failure)
@@ -107,13 +132,19 @@ def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=No
             # Prepare every workspace before launching any real API calls.
             workspaces = {group: prepare(provider, Path(directory) / f'group-{group}')
                           for group, _ in jobs}
+            warm(workspaces[0])
             with ThreadPoolExecutor(max_workers=planner.GROUP_COUNT) as executor:
-                futures = [executor.submit(run_selection, group, slot, workspaces[group])
-                           for group, slot in jobs]
-                for future in as_completed(futures):
-                    failure = future.result()
-                    if failure:
-                        failures.append(failure)
+                pending = {executor.submit(run_selection, group, slot, workspaces[group])
+                           for group, slot in jobs}
+                while pending:
+                    finished, pending = wait(pending, timeout=30, return_when=FIRST_COMPLETED)
+                    for future in finished:
+                        failure = future.result()
+                        if failure:
+                            failures.append(failure)
+                    if pending:
+                        print(f'Acceptance progress: {planner.GROUP_COUNT - len(pending)}/{planner.GROUP_COUNT} groups finished; '
+                              f'{len(pending)} still running (cleanup/build/test output may be buffered)', flush=True)
     if failures:
         print('Failed acceptance selections: ' + ', '.join(sorted(failures)), file=sys.stderr)
     return int(bool(failures))
@@ -144,6 +175,10 @@ def main():
 if __name__ == '__main__':
     try:
         sys.exit(main())
-    except (ValueError, OSError, subprocess.SubprocessError):
+    except subprocess.TimeoutExpired:
+        sys.exit('Acceptance preparation timed out; API workers were not started')
+    except subprocess.CalledProcessError as error:
+        sys.exit(f'Acceptance preparation command failed (exit {error.returncode}); see preceding build output')
+    except (ValueError, OSError):
         # Configuration may contain keys. Never emit its contents or a traceback.
         sys.exit('Acceptance setup failed: check the secret-file configuration and provider planner')

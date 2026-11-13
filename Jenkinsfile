@@ -21,7 +21,7 @@ pipeline {
     agent {
         docker {
             image 'golang:1.26.11'
-            args  '-e GOTOOLCHAIN=auto -e GOCACHE=/tmp/go-cache -e GOPATH=/tmp/gopath'
+            args  '--cpus=2 --memory=4g --memory-swap=4g -e GOTOOLCHAIN=auto -e GOCACHE=/tmp/go-cache -e GOPATH=/tmp/gopath'
         }
     }
 

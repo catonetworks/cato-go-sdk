@@ -39,6 +39,13 @@ provider branch must include `test_data/acctest_groups.py` and the group-aware
 acceptance runner. Each workspace points at the same checked-out SDK through an
 absolute module replacement; runner logs, coverage files, and cleanup are isolated
 by workspace and account. Failures are collected across all groups and fail the build.
+Before starting the ten workers, the runner compiles acceptance packages once
+with `-run=^$`, without executing test cases or making API calls. All copies use
+`-trimpath` to share that warmed build cache, `-p=1` to limit package compilation,
+and `GOMAXPROCS=2`/`GOMEMLIMIT=512MiB` to constrain individual Go processes.
+The Jenkins container is limited to two CPUs and 4 GiB of memory, so an overloaded
+build cannot consume the agent's entire resources. Progress is reported every
+30 seconds while group output is buffered during cleanup or compilation.
 API keys are passed through the child process environment and redacted from its
 console output. The existing GitHub status reporting is preserved.
 
