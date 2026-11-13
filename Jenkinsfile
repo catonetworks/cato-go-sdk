@@ -151,8 +151,8 @@ pipeline {
                 withCredentials([file(credentialsId: 'cato-acctest-config', variable: 'CATO_ACCTEST_CONFIG_FILE')]) {
                     withEnv(["ACCTEST_FILTER=${params.ACCTEST_FILTER ?: ''}"]) {
                         dir('terraform-provider-cato') {
-                            // One build, no matrix: ten groups run serially on
-                            // ten distinct, randomly assigned pool accounts.
+                            // One build, no matrix: ten concurrent workers use
+                            // separate workspaces and distinct pool accounts.
                             sh 'python3 ../.jenkins-runner/scripts/run_acctest_pool.py --provider .'
                         }
                     }

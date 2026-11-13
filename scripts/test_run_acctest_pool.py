@@ -6,10 +6,11 @@ from pathlib import Path
 import random
 import tempfile
 import sys
+import threading
 import unittest
 from unittest.mock import Mock, patch
 
-from run_acctest_pool import execute_redacted, load_configuration, run
+from run_acctest_pool import execute_redacted, load_configuration, prepare_workspace, run
 
 
 class AcceptancePoolTest(unittest.TestCase):
@@ -26,20 +27,33 @@ class AcceptancePoolTest(unittest.TestCase):
         }
 
     def test_all_groups_use_distinct_accounts_and_aggregate_failures(self):
-        execute = Mock(side_effect=[Mock(returncode=int(i == 2)) for i in range(10)])
+        barrier = threading.Barrier(10, timeout=10)
+        def execute_group(command, *, cwd, env):
+            # A sequential implementation times out here: all ten executions
+            # must be in progress before any may finish.
+            barrier.wait()
+            return Mock(returncode=int(command[-1] == 'group=2'))
+        execute = Mock(side_effect=execute_group)
+        prepare = Mock(side_effect=lambda provider, destination: destination)
         with patch.dict(os.environ, {'CATO_ACCTEST_CONFIG_FILE': '/secret/pool.json', 'CATO_ACCTEST_ACCOUNTS': 'secret-pool'}):
-            result = run(Path('/provider'), self.planner, self.config, execute=execute, rng=random.Random(7))
+            result = run(Path('/provider'), self.planner, self.config, execute=execute,
+                         rng=random.Random(7), prepare=prepare)
         self.assertEqual(1, result)
         self.assertEqual(10, execute.call_count)
         seen = set()
-        for group, call in enumerate(execute.call_args_list):
+        directories = set()
+        calls = sorted(execute.call_args_list, key=lambda call: int(call.args[0][-1].split('=')[1]))
+        for group, call in enumerate(calls):
             self.assertEqual(['make', 'acctest-flaky', f'group={group}'], call.args[0])
             env = call.kwargs['env']
             seen.add(env['CATO_ACCOUNT_ID'])
+            directories.add(call.kwargs['cwd'])
             self.assertNotIn('CATO_ACCTEST_ACCOUNTS', env)
             self.assertNotIn('CATO_ACCTEST_CONFIG_FILE', env)
             self.assertEqual(str(json.loads(env['TFACC_TEST_VARS'])['fixture']), env['CATO_TEST_SITE_ID'])
         self.assertEqual(10, len(seen))
+        self.assertEqual(10, len(directories))
+        self.assertEqual(10, prepare.call_count)
 
     def test_single_suite_runs_once_and_clears_previous_account_fixtures(self):
         for account in self.config['accounts']:
@@ -78,6 +92,25 @@ class AcceptancePoolTest(unittest.TestCase):
                                      cwd=Path.cwd(), env={**os.environ, 'CATO_TOKEN': 'inert-test-key'})
         self.assertEqual(0, result.returncode)
         self.assertEqual('****\n', output.getvalue())
+
+    def test_workspaces_isolate_runner_files_and_preserve_sdk_checkout(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            provider = root / 'sdk' / 'provider'
+            provider.mkdir(parents=True)
+            (provider / 'go.mod').write_text('module test\n')
+            (provider / 'tmp_recorded').mkdir()
+            (provider / 'tmp_recorded' / 'stale-log').write_text('old run')
+            with patch('run_acctest_pool.subprocess.run') as edit:
+                first = prepare_workspace(provider, root / 'group-0')
+                second = prepare_workspace(provider, root / 'group-1')
+            self.assertEqual(2, edit.call_count)
+            self.assertIn(f'-replace=github.com/catonetworks/cato-go-sdk={provider.parent}',
+                          edit.call_args.args[0])
+            self.assertFalse((first / 'tmp_recorded').exists())
+            (first / 'go.mod').write_text('changed by one group')
+            self.assertEqual('module test\n', (second / 'go.mod').read_text())
+            self.assertEqual('module test\n', (provider / 'go.mod').read_text())
 
 
 if __name__ == '__main__':

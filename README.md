@@ -16,8 +16,9 @@ above becomes available when the `v1.0.0` tag is published.
 
 ### SDK acceptance tests in Jenkins
 
-The `cato-go-sdk-acc` job runs the provider's ten acceptance groups sequentially
-in one build. Each group receives a distinct, randomly assigned account and its
+The `cato-go-sdk-acc` job runs the provider's ten acceptance groups in parallel
+in one build, using ten workers rather than a Jenkins matrix. Each group receives
+a separate temporary provider workspace, a distinct, randomly assigned account, and its
 matching fixture settings. `ACCTEST_FILTER` optionally selects one complete suite
 on one pool account, using a suite name such as `if_rule` or a path such as
 `internal/acctests/if_rule`. An unknown suite fails before tests start.
@@ -35,7 +36,9 @@ Keep this combined file outside Git and limit local file permissions to its owne
 The pipeline installs Python 3 when needed and retains the runner before checking
 out `SDK_BRANCH`, so older SDK branches can use the new test setup. The selected
 provider branch must include `test_data/acctest_groups.py` and the group-aware
-acceptance runner. Failures are collected across all groups and fail the build.
+acceptance runner. Each workspace points at the same checked-out SDK through an
+absolute module replacement; runner logs, coverage files, and cleanup are isolated
+by workspace and account. Failures are collected across all groups and fail the build.
 API keys are passed through the child process environment and redacted from its
 console output. The existing GitHub status reporting is preserved.
 

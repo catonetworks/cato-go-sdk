@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""Run provider acceptance groups serially using a Jenkins secret-file pool."""
+"""Run provider acceptance groups concurrently using a Jenkins secret-file pool."""
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import importlib.util
 import json
 import os
 from pathlib import Path
 import random
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 from urllib.parse import urlsplit
 
 
@@ -40,11 +43,24 @@ def execute_redacted(command, *, cwd, env):
     with subprocess.Popen(command, cwd=cwd, env=env, stdout=subprocess.PIPE,
                           stderr=subprocess.STDOUT, text=True, encoding='utf-8', errors='replace') as process:
         for line in process.stdout:
-            print(line.replace(env['CATO_TOKEN'], '****'), end='', flush=True)
+            prefix = f'[{env["ACCTEST_LABEL"]}] ' if 'ACCTEST_LABEL' in env else ''
+            print(prefix + line.replace(env['CATO_TOKEN'], '****'), end='', flush=True)
         return subprocess.CompletedProcess(command, process.wait())
 
 
-def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=None):
+def prepare_workspace(provider, destination):
+    shutil.copytree(provider, destination,
+                    ignore=shutil.ignore_patterns('.git', '.terraform', 'tmp_recorded', '__pycache__'))
+    # Jenkins replaces the SDK with ../ before invoking this runner. Copies in
+    # temporary directories must keep pointing at that exact SDK checkout.
+    subprocess.run(['go', 'mod', 'edit',
+                    f'-replace=github.com/catonetworks/cato-go-sdk={provider.parent}'],
+                   cwd=destination, check=True, timeout=60)
+    return destination
+
+
+def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=None,
+        prepare=prepare_workspace):
     planner.validate_inventory()
     if suite:
         match = re.fullmatch(r'(?:\./)?(?:internal/acctests/)?([a-z0-9_]+)/?', suite)
@@ -55,7 +71,7 @@ def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=No
     (rng or random.SystemRandom()).shuffle(slots)
     jobs = [(None, slots[0])] if suite else list(enumerate(slots))
     failures = []
-    for group, slot in jobs:
+    def run_selection(group, slot, workspace):
         account = config['accounts'][slot]
         env = os.environ.copy()
         for name in (*planner.TEST_ENV_NAMES, 'CATO_ACCTEST_ACCOUNTS', 'CATO_ACCTEST_CONFIG_FILE'):
@@ -72,13 +88,34 @@ def run(provider, planner, config, suite='', *, execute=execute_redacted, rng=No
         })
         env.update(account.get('test_env', {}))
         label = f'suite {suite}' if suite else f'group {group}'
+        env['ACCTEST_LABEL'] = label
         print(f'Running acceptance {label} on pool slot {slot}', flush=True)
         selection = f't={suite}' if suite else f'group={group}'
-        result = execute(['make', 'acctest-flaky', selection], cwd=provider, env=env)
-        if result.returncode:
-            failures.append(label)
+        try:
+            result = execute(['make', 'acctest-flaky', selection], cwd=workspace, env=env)
+            return label if result.returncode else None
+        except OSError:
+            print(f'Could not start acceptance {label}', file=sys.stderr)
+            return label
+
+    if suite:
+        failure = run_selection(None, slots[0], provider)
+        if failure:
+            failures.append(failure)
+    else:
+        with tempfile.TemporaryDirectory(prefix='cato-sdk-acctest-') as directory:
+            # Prepare every workspace before launching any real API calls.
+            workspaces = {group: prepare(provider, Path(directory) / f'group-{group}')
+                          for group, _ in jobs}
+            with ThreadPoolExecutor(max_workers=planner.GROUP_COUNT) as executor:
+                futures = [executor.submit(run_selection, group, slot, workspaces[group])
+                           for group, slot in jobs]
+                for future in as_completed(futures):
+                    failure = future.result()
+                    if failure:
+                        failures.append(failure)
     if failures:
-        print('Failed acceptance selections: ' + ', '.join(failures), file=sys.stderr)
+        print('Failed acceptance selections: ' + ', '.join(sorted(failures)), file=sys.stderr)
     return int(bool(failures))
 
 
@@ -107,6 +144,6 @@ def main():
 if __name__ == '__main__':
     try:
         sys.exit(main())
-    except (ValueError, OSError):
+    except (ValueError, OSError, subprocess.SubprocessError):
         # Configuration may contain keys. Never emit its contents or a traceback.
         sys.exit('Acceptance setup failed: check the secret-file configuration and provider planner')
