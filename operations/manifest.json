@@ -2416,7 +2416,7 @@
         "internetFirewallAddSubPolicyInput",
         "accountId"
       ],
-      "document_sha256": "72f184bb9beddbb97deeea0c1a3c9e70a6f70e746ad07efb03ab30c7d4703e7c",
+      "document_sha256": "4a0341b5def9c0f10a59f09a649bea04b49977a07bde3dd1d4467769ca4479da",
       "cli_file": "queryPayloads/mutation.policy.internetFirewall.addSubPolicy.txt",
       "cli_name": "policyInternetFirewallAddSubPolicy",
       "cli_sha256": "7996fc5cb765dafcab0f30635950998a75bcccc911902ff37c34cf08323a83ee",
@@ -3660,7 +3660,7 @@
         "accountID",
         "socketLanPolicyMutationInput"
       ],
-      "document_sha256": "2b75e4122154030f59baa2fd0d7179a28882dd2643bbb2aa3d6591a0bc472918",
+      "document_sha256": "7ca7959d32816a30dda4fb8222ad55f99d62080adff6a4be3afbfb3b75b36bc6",
       "cli_file": "queryPayloads/mutation.policy.socketLan.addSubPolicy.txt",
       "cli_name": "policySocketLanAddSubPolicy",
       "cli_sha256": "16d2bf562e9f62ed11fdbda2b35050cc4bb32e7b992662754f0244b36491d3f8",
@@ -4537,7 +4537,7 @@
         "accountId",
         "wanFirewallPolicyMutationInput"
       ],
-      "document_sha256": "3c45708d058863e796123724c7908c1ea267004d984261c6b2b4827f551f86ce",
+      "document_sha256": "b221210a052a1f4d78abe13482986709366f61afa3039c924bcb2669bea1b74b",
       "cli_file": "queryPayloads/mutation.policy.wanFirewall.addSubPolicy.txt",
       "cli_name": "policyWanFirewallAddSubPolicy",
       "cli_sha256": "52b4ebb510ed7762fa36440e826bd7fc38f4af4f79ff4ce651e8c73e6bd514dd",
