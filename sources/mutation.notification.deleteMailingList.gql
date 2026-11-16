@@ -10,13 +10,6 @@ mutation notificationDeleteMailingList ($accountId: ID!, $mailingListRefInput: M
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 		}
 	}

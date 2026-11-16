@@ -13,13 +13,6 @@ mutation notificationUpdateSubscriptionGroup ($accountId: ID!, $updateSubscripti
 						id
 						name
 					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
-					}
 				}
 				integration {
 					webhookList {

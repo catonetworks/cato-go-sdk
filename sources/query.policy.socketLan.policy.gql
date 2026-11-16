@@ -202,9 +202,6 @@ query policySocketLanPolicy ($accountId: ID!, $socketLanPolicyInput: SocketLanPo
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -316,9 +313,6 @@ query policySocketLanPolicy ($accountId: ID!, $socketLanPolicyInput: SocketLanPo
 						id
 						name
 					}
-					access {
-						action
-					}
 				}
 				sections {
 					audit {
@@ -363,9 +357,6 @@ query policySocketLanPolicy ($accountId: ID!, $socketLanPolicyInput: SocketLanPo
 							publishedBy
 						}
 					}
-				}
-				access {
-					action
 				}
 			}
 		}

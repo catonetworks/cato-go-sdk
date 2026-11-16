@@ -177,9 +177,6 @@ mutation policySocketLanFirewallRemoveRule ($accountId: ID!, $socketLanPolicyMut
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					revision {
 						id

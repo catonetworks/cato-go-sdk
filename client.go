@@ -93,6 +93,10 @@ type CatoClient interface {
 	NotificationCreateSubscriptionGroup(ctx context.Context, accountID string, createSubscriptionGroupInput cato_models.CreateSubscriptionGroupInput, interceptors ...clientv2.RequestInterceptor) (*NotificationCreateSubscriptionGroup, error)
 	NotificationDeleteMailingList(ctx context.Context, accountID string, mailingListRefInput cato_models.MailingListRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationDeleteMailingList, error)
 	NotificationDeleteSubscriptionGroup(ctx context.Context, accountID string, subscriptionGroupRefInput cato_models.SubscriptionGroupRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationDeleteSubscriptionGroup, error)
+	NotificationIntegrationCreateWebhook(ctx context.Context, accountID string, createWebhookInput cato_models.CreateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationCreateWebhook, error)
+	NotificationIntegrationDeleteWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationDeleteWebhook, error)
+	NotificationIntegrationTestWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationTestWebhook, error)
+	NotificationIntegrationUpdateWebhook(ctx context.Context, accountID string, updateWebhookInput cato_models.UpdateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationUpdateWebhook, error)
 	NotificationUpdateMailingList(ctx context.Context, accountID string, updateMailingListInput cato_models.UpdateMailingListInput, interceptors ...clientv2.RequestInterceptor) (*NotificationUpdateMailingList, error)
 	NotificationUpdateSubscriptionGroup(ctx context.Context, accountID string, updateSubscriptionGroupInput cato_models.UpdateSubscriptionGroupInput, interceptors ...clientv2.RequestInterceptor) (*NotificationUpdateSubscriptionGroup, error)
 	ObjectCreateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.CreateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectCreateGlobalIPRangeBulk, error)
@@ -14716,46 +14720,9 @@ func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingLis
 	return t.Name
 }
 
-type NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit struct {
-	UpdatedBy   NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit) GetUpdatedBy() *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationCreateMailingList_Notification_CreateMailingList_MailingList struct {
 	Address []string                                                                          "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                            "json:\"id\" graphql:\"id\""
 	Name    string                                                                            "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
@@ -14772,12 +14739,6 @@ func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingLis
 		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList) GetAudit() *NotificationCreateMailingList_Notification_CreateMailingList_MailingList_Audit {
-	if t == nil {
-		t = &NotificationCreateMailingList_Notification_CreateMailingList_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationCreateMailingList_Notification_CreateMailingList_MailingList) GetID() string {
 	if t == nil {
@@ -14838,46 +14799,9 @@ func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGrou
 	return t.Name
 }
 
-type NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList struct {
 	Address []string                                                                                                        "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                                                          "json:\"id\" graphql:\"id\""
 	Name    string                                                                                                          "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                                                            "json:\"type\" graphql:\"type\""
@@ -14894,12 +14818,6 @@ func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGrou
 		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList) GetAudit() *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationCreateSubscriptionGroup_Notification_CreateSubscriptionGroup_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -15214,46 +15132,9 @@ func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingLis
 	return t.Name
 }
 
-type NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit struct {
-	UpdatedBy   NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit) GetUpdatedBy() *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList struct {
 	Address []string                                                                          "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                            "json:\"id\" graphql:\"id\""
 	Name    string                                                                            "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
@@ -15270,12 +15151,6 @@ func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingLis
 		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList) GetAudit() *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList_Audit {
-	if t == nil {
-		t = &NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationDeleteMailingList_Notification_DeleteMailingList_MailingList) GetID() string {
 	if t == nil {
@@ -15336,46 +15211,9 @@ func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGrou
 	return t.Name
 }
 
-type NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList struct {
 	Address []string                                                                                                        "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                                                          "json:\"id\" graphql:\"id\""
 	Name    string                                                                                                          "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                                                            "json:\"type\" graphql:\"type\""
@@ -15392,12 +15230,6 @@ func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGrou
 		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList) GetAudit() *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationDeleteSubscriptionGroup_Notification_DeleteSubscriptionGroup_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -15694,6 +15526,192 @@ func (t *NotificationDeleteSubscriptionGroup_Notification) GetDeleteSubscription
 	return t.DeleteSubscriptionGroup
 }
 
+type NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook struct {
+	Webhook NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook) GetWebhook() *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationCreateWebhook_Notification_Integration struct {
+	CreateWebhook *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook "json:\"createWebhook,omitempty\" graphql:\"createWebhook\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification_Integration) GetCreateWebhook() *NotificationIntegrationCreateWebhook_Notification_Integration_CreateWebhook {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification_Integration{}
+	}
+	return t.CreateWebhook
+}
+
+type NotificationIntegrationCreateWebhook_Notification struct {
+	Integration NotificationIntegrationCreateWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationCreateWebhook_Notification) GetIntegration() *NotificationIntegrationCreateWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook{}
+	}
+	return t.ID
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook struct {
+	Webhook NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook) GetWebhook() *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationDeleteWebhook_Notification_Integration struct {
+	DeleteWebhook *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook "json:\"deleteWebhook,omitempty\" graphql:\"deleteWebhook\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification_Integration) GetDeleteWebhook() *NotificationIntegrationDeleteWebhook_Notification_Integration_DeleteWebhook {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification_Integration{}
+	}
+	return t.DeleteWebhook
+}
+
+type NotificationIntegrationDeleteWebhook_Notification struct {
+	Integration NotificationIntegrationDeleteWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook_Notification) GetIntegration() *NotificationIntegrationDeleteWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook struct {
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+	Success      bool    "json:\"success\" graphql:\"success\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook) GetErrorMessage() *string {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook{}
+	}
+	return t.ErrorMessage
+}
+func (t *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook) GetSuccess() bool {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook{}
+	}
+	return t.Success
+}
+
+type NotificationIntegrationTestWebhook_Notification_Integration struct {
+	TestWebhook NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook "json:\"testWebhook\" graphql:\"testWebhook\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification_Integration) GetTestWebhook() *NotificationIntegrationTestWebhook_Notification_Integration_TestWebhook {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification_Integration{}
+	}
+	return &t.TestWebhook
+}
+
+type NotificationIntegrationTestWebhook_Notification struct {
+	Integration NotificationIntegrationTestWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationTestWebhook_Notification) GetIntegration() *NotificationIntegrationTestWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook struct {
+	Webhook NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook) GetWebhook() *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook{}
+	}
+	return &t.Webhook
+}
+
+type NotificationIntegrationUpdateWebhook_Notification_Integration struct {
+	UpdateWebhook *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook "json:\"updateWebhook,omitempty\" graphql:\"updateWebhook\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification_Integration) GetUpdateWebhook() *NotificationIntegrationUpdateWebhook_Notification_Integration_UpdateWebhook {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification_Integration{}
+	}
+	return t.UpdateWebhook
+}
+
+type NotificationIntegrationUpdateWebhook_Notification struct {
+	Integration NotificationIntegrationUpdateWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook_Notification) GetIntegration() *NotificationIntegrationUpdateWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
 type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Admin struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -15712,46 +15730,9 @@ func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingLis
 	return t.Name
 }
 
-type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit struct {
-	UpdatedBy   NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit) GetUpdatedBy() *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList struct {
 	Address []string                                                                          "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                            "json:\"id\" graphql:\"id\""
 	Name    string                                                                            "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
@@ -15768,12 +15749,6 @@ func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingLis
 		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList) GetAudit() *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList_Audit {
-	if t == nil {
-		t = &NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationUpdateMailingList_Notification_UpdateMailingList_MailingList) GetID() string {
 	if t == nil {
@@ -15834,46 +15809,9 @@ func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGrou
 	return t.Name
 }
 
-type NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList struct {
 	Address []string                                                                                                        "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                                                          "json:\"id\" graphql:\"id\""
 	Name    string                                                                                                          "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                                                            "json:\"type\" graphql:\"type\""
@@ -15890,12 +15828,6 @@ func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGrou
 		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList) GetAudit() *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationUpdateSubscriptionGroup_Notification_UpdateSubscriptionGroup_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -76217,2523 +76149,13 @@ func (t *PolicyInternetFirewallAddSection_Policy) GetInternetFirewall() *PolicyI
 	return t.InternetFirewall
 }
 
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Audit struct {
-	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Audit) GetUpdatedBy() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Audit{}
-	}
-	return t.UpdatedBy
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Audit{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock struct {
-	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
-	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
-	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingAdminEmail() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingAdminEmail
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingRevisionID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingRevisionID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingTime() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingTime
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata struct {
-	Lock *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata) GetLock() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata{}
-	}
-	return t.Lock
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source struct {
-	FloatingSubnet    []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                              "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	Site              []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site              "json:\"site\" graphql:\"site\""
-	SiteNetworkSubnet []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                              "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	User              []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User              "json:\"user\" graphql:\"user\""
-	UsersGroup        []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetFloatingSubnet() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetGlobalIPRange() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Group
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetHost() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Host
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetIP() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.IP
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetIPRange() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.IPRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetNetworkInterface() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetSite() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Site
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Subnet
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetSystemGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetUser() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.User
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetUsersGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.UsersGroup
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes struct {
-	Category     []string "json:\"category\" graphql:\"category\""
-	Manufacturer []string "json:\"manufacturer\" graphql:\"manufacturer\""
-	Model        []string "json:\"model\" graphql:\"model\""
-	Os           []string "json:\"os\" graphql:\"os\""
-	OsVersion    []string "json:\"osVersion\" graphql:\"osVersion\""
-	Type         []string "json:\"type\" graphql:\"type\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetCategory() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Category
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetManufacturer() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Manufacturer
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetModel() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Model
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetOs() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Os
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetOsVersion() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.OsVersion
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetType() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Type
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Application struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Application) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Application{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Application) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Application{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomApp struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomApp) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomApp{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomApp) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomApp{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_AppCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_AppCategory) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_AppCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_AppCategory) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_AppCategory{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomCategory) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomCategory) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomCategory{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SanctionedAppsCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SanctionedAppsCategory) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SanctionedAppsCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SanctionedAppsCategory) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SanctionedAppsCategory{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Country struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Country) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Country{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Country) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Country{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_FqdnContainer struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_FqdnContainer) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_FqdnContainer{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_FqdnContainer) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_FqdnContainer{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_IPAddressRangeContainer struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_IPAddressRangeContainer) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_IPAddressRangeContainer{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_IPAddressRangeContainer) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_IPAddressRangeContainer{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers struct {
-	FqdnContainer           []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_FqdnContainer           "json:\"fqdnContainer\" graphql:\"fqdnContainer\""
-	IPAddressRangeContainer []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_IPAddressRangeContainer "json:\"ipAddressRangeContainer\" graphql:\"ipAddressRangeContainer\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers) GetFqdnContainer() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_FqdnContainer {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers{}
-	}
-	return t.FqdnContainer
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers) GetIPAddressRangeContainer() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers_IPAddressRangeContainer {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers{}
-	}
-	return t.IPAddressRangeContainer
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination struct {
-	AppCategory            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
-	Application            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers                "json:\"containers\" graphql:\"containers\""
-	Country                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Country                "json:\"country\" graphql:\"country\""
-	CustomApp              []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
-	CustomCategory         []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
-	Domain                 []string                                                                                                                        "json:\"domain\" graphql:\"domain\""
-	Fqdn                   []string                                                                                                                        "json:\"fqdn\" graphql:\"fqdn\""
-	GlobalIPRange          []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group                  []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group                  "json:\"group\" graphql:\"group\""
-	IP                     []string                                                                                                                        "json:\"ip\" graphql:\"ip\""
-	IPRange                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
-	RemoteAsn              []scalars.Asn32                                                                                                                 "json:\"remoteAsn\" graphql:\"remoteAsn\""
-	SanctionedAppsCategory []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SanctionedAppsCategory "json:\"sanctionedAppsCategory\" graphql:\"sanctionedAppsCategory\""
-	Subnet                 []string                                                                                                                        "json:\"subnet\" graphql:\"subnet\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetAppCategory() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_AppCategory {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.AppCategory
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetApplication() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Application {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Application
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetContainers() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Containers {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return &t.Containers
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetCountry() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Country {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Country
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetCustomApp() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomApp {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.CustomApp
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetCustomCategory() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_CustomCategory {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.CustomCategory
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetDomain() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Domain
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetFqdn() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Fqdn
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetGlobalIPRange() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Group
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetIP() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.IP
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetIPRange() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.IPRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetRemoteAsn() []scalars.Asn32 {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.RemoteAsn
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetSanctionedAppsCategory() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SanctionedAppsCategory {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.SanctionedAppsCategory
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Subnet
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange struct {
-	From scalars.Port "json:\"from\" graphql:\"from\""
-	To   scalars.Port "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange) GetFrom() *scalars.Port {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange{}
-	}
-	return &t.From
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange) GetTo() *scalars.Port {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange{}
-	}
-	return &t.To
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom struct {
-	Port      []scalars.Port                                                                                                      "json:\"port,omitempty\" graphql:\"port\""
-	PortRange *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
-	Protocol  cato_models.IPProtocol                                                                                              "json:\"protocol\" graphql:\"protocol\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetPort() []scalars.Port {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return t.Port
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetPortRange() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return t.PortRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return &t.Protocol
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service struct {
-	Custom   []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom   "json:\"custom\" graphql:\"custom\""
-	Standard []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard "json:\"standard\" graphql:\"standard\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service) GetCustom() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service{}
-	}
-	return t.Custom
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service) GetStandard() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service{}
-	}
-	return t.Standard
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event struct {
-	Enabled bool "json:\"enabled\" graphql:\"enabled\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event) GetEnabled() bool {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event{}
-	}
-	return t.Enabled
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert struct {
-	Enabled           bool                                                                                                                          "json:\"enabled\" graphql:\"enabled\""
-	Frequency         cato_models.PolicyRuleTrackingFrequencyEnum                                                                                   "json:\"frequency\" graphql:\"frequency\""
-	MailingList       []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList       "json:\"mailingList\" graphql:\"mailingList\""
-	SubscriptionGroup []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup "json:\"subscriptionGroup\" graphql:\"subscriptionGroup\""
-	Webhook           []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook           "json:\"webhook\" graphql:\"webhook\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetEnabled() bool {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return t.Enabled
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetFrequency() *cato_models.PolicyRuleTrackingFrequencyEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return &t.Frequency
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetMailingList() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return t.MailingList
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetSubscriptionGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return t.SubscriptionGroup
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetWebhook() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return t.Webhook
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking struct {
-	Alert PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert "json:\"alert\" graphql:\"alert\""
-	Event PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event "json:\"event\" graphql:\"event\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking) GetAlert() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking{}
-	}
-	return &t.Alert
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking) GetEvent() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking{}
-	}
-	return &t.Event
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe) GetFrom() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe{}
-	}
-	return t.From
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe) GetTo() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe{}
-	}
-	return t.To
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring struct {
-	Days []cato_models.DayOfWeek "json:\"days\" graphql:\"days\""
-	From scalars.Time            "json:\"from\" graphql:\"from\""
-	To   scalars.Time            "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring) GetDays() []cato_models.DayOfWeek {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring{}
-	}
-	return t.Days
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring) GetFrom() *scalars.Time {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring{}
-	}
-	return &t.From
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring) GetTo() *scalars.Time {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring{}
-	}
-	return &t.To
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule struct {
-	ActiveOn        cato_models.PolicyActiveOnEnum                                                                                      "json:\"activeOn\" graphql:\"activeOn\""
-	CustomRecurring *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring "json:\"customRecurring,omitempty\" graphql:\"customRecurring\""
-	CustomTimeframe *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe "json:\"customTimeframe,omitempty\" graphql:\"customTimeframe\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule) GetActiveOn() *cato_models.PolicyActiveOnEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule{}
-	}
-	return &t.ActiveOn
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule) GetCustomRecurring() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule{}
-	}
-	return t.CustomRecurring
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule) GetCustomTimeframe() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule{}
-	}
-	return t.CustomTimeframe
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod struct {
-	EffectiveFrom    *string "json:\"effectiveFrom,omitempty\" graphql:\"effectiveFrom\""
-	ExpiresAt        *string "json:\"expiresAt,omitempty\" graphql:\"expiresAt\""
-	UseEffectiveFrom bool    "json:\"useEffectiveFrom\" graphql:\"useEffectiveFrom\""
-	UseExpiresAt     bool    "json:\"useExpiresAt\" graphql:\"useExpiresAt\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod) GetEffectiveFrom() *string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod{}
-	}
-	return t.EffectiveFrom
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod) GetExpiresAt() *string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod{}
-	}
-	return t.ExpiresAt
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod) GetUseEffectiveFrom() bool {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod{}
-	}
-	return t.UseEffectiveFrom
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod) GetUseExpiresAt() bool {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod{}
-	}
-	return t.UseExpiresAt
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source struct {
-	FloatingSubnet    []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                                         "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	Site              []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site              "json:\"site\" graphql:\"site\""
-	SiteNetworkSubnet []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                                         "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	User              []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User              "json:\"user\" graphql:\"user\""
-	UsersGroup        []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetFloatingSubnet() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetGlobalIPRange() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.Group
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetHost() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.Host
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetIP() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.IP
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetIPRange() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.IPRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetNetworkInterface() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetSite() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.Site
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetSiteNetworkSubnet() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.Subnet
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetSystemGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetUser() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.User
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetUsersGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.UsersGroup
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes struct {
-	Category     []string "json:\"category\" graphql:\"category\""
-	Manufacturer []string "json:\"manufacturer\" graphql:\"manufacturer\""
-	Model        []string "json:\"model\" graphql:\"model\""
-	Os           []string "json:\"os\" graphql:\"os\""
-	OsVersion    []string "json:\"osVersion\" graphql:\"osVersion\""
-	Type         []string "json:\"type\" graphql:\"type\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetCategory() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Category
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetManufacturer() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Manufacturer
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetModel() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Model
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetOs() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Os
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetOsVersion() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.OsVersion
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetType() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Type
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomApp struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomApp) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomApp{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomApp) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomApp{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomCategory) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomCategory) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomCategory{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SanctionedAppsCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SanctionedAppsCategory) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SanctionedAppsCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SanctionedAppsCategory) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SanctionedAppsCategory{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Country struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Country) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Country{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Country) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Country{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_FqdnContainer struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_FqdnContainer) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_FqdnContainer{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_FqdnContainer) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_FqdnContainer{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers struct {
-	FqdnContainer           []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_FqdnContainer           "json:\"fqdnContainer\" graphql:\"fqdnContainer\""
-	IPAddressRangeContainer []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer "json:\"ipAddressRangeContainer\" graphql:\"ipAddressRangeContainer\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers) GetFqdnContainer() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_FqdnContainer {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers{}
-	}
-	return t.FqdnContainer
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers) GetIPAddressRangeContainer() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers{}
-	}
-	return t.IPAddressRangeContainer
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination struct {
-	AppCategory            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
-	Application            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers                "json:\"containers\" graphql:\"containers\""
-	Country                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Country                "json:\"country\" graphql:\"country\""
-	CustomApp              []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
-	CustomCategory         []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
-	Domain                 []string                                                                                                                                   "json:\"domain\" graphql:\"domain\""
-	Fqdn                   []string                                                                                                                                   "json:\"fqdn\" graphql:\"fqdn\""
-	GlobalIPRange          []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group                  []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group                  "json:\"group\" graphql:\"group\""
-	IP                     []string                                                                                                                                   "json:\"ip\" graphql:\"ip\""
-	IPRange                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
-	RemoteAsn              []scalars.Asn32                                                                                                                            "json:\"remoteAsn\" graphql:\"remoteAsn\""
-	SanctionedAppsCategory []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SanctionedAppsCategory "json:\"sanctionedAppsCategory\" graphql:\"sanctionedAppsCategory\""
-	Subnet                 []string                                                                                                                                   "json:\"subnet\" graphql:\"subnet\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetAppCategory() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_AppCategory {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.AppCategory
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetApplication() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Application {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Application
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetContainers() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Containers {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return &t.Containers
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetCountry() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Country {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Country
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetCustomApp() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomApp {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.CustomApp
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetCustomCategory() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_CustomCategory {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.CustomCategory
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetDomain() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Domain
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetFqdn() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Fqdn
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetGlobalIPRange() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Group
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.IP
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetIPRange() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.IPRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetRemoteAsn() []scalars.Asn32 {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.RemoteAsn
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetSanctionedAppsCategory() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SanctionedAppsCategory {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.SanctionedAppsCategory
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Subnet
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange struct {
-	From scalars.Port "json:\"from\" graphql:\"from\""
-	To   scalars.Port "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange) GetFrom() *scalars.Port {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange{}
-	}
-	return &t.From
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange) GetTo() *scalars.Port {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange{}
-	}
-	return &t.To
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom struct {
-	Port      []scalars.Port                                                                                                                 "json:\"port,omitempty\" graphql:\"port\""
-	PortRange *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
-	Protocol  cato_models.IPProtocol                                                                                                         "json:\"protocol\" graphql:\"protocol\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom) GetPort() []scalars.Port {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom{}
-	}
-	return t.Port
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom) GetPortRange() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom{}
-	}
-	return t.PortRange
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom) GetProtocol() *cato_models.IPProtocol {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom{}
-	}
-	return &t.Protocol
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service struct {
-	Custom   []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom   "json:\"custom\" graphql:\"custom\""
-	Standard []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard "json:\"standard\" graphql:\"standard\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service) GetCustom() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service{}
-	}
-	return t.Custom
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service) GetStandard() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service{}
-	}
-	return t.Standard
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions struct {
-	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                   "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
-	Country               []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination           PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs              []cato_models.OperatingSystem                                                                                         "json:\"deviceOS\" graphql:\"deviceOS\""
-	Name                  string                                                                                                                "json:\"name\" graphql:\"name\""
-	Service               PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source                PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.ConnectionOrigin
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.ConnectionsOriginList
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.Country
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDestination() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.Destination
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDevice() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.Device
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDeviceAttributes() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.DeviceAttributes
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDeviceOs() []cato_models.OperatingSystem {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.DeviceOs
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.Name
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetService() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.Service
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetSource() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.Source
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_RbiProfile struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_RbiProfile) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_RbiProfile{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_RbiProfile) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_RbiProfile{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig struct {
-	RbiProfile       []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_RbiProfile       "json:\"rbiProfile\" graphql:\"rbiProfile\""
-	UserNotification []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification "json:\"userNotification\" graphql:\"userNotification\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig) GetRbiProfile() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_RbiProfile {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig{}
-	}
-	return t.RbiProfile
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig) GetUserNotification() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig{}
-	}
-	return t.UserNotification
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule struct {
-	Action                cato_models.InternetFirewallActionEnum                                                                     "json:\"action\" graphql:\"action\""
-	ActionConfig          PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod          PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                           "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                        "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
-	Country               []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description           string                                                                                                     "json:\"description\" graphql:\"description\""
-	Destination           PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device                []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs              []cato_models.OperatingSystem                                                                              "json:\"deviceOS\" graphql:\"deviceOS\""
-	Enabled               bool                                                                                                       "json:\"enabled\" graphql:\"enabled\""
-	Exceptions            []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID                    string                                                                                                     "json:\"id\" graphql:\"id\""
-	Index                 int64                                                                                                      "json:\"index\" graphql:\"index\""
-	Name                  string                                                                                                     "json:\"name\" graphql:\"name\""
-	Schedule              PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section               PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service               PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source                PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking              PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetAction() *cato_models.InternetFirewallActionEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Action
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetActionConfig() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.ActionConfig
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetActivePeriod() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.ActivePeriod
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.ConnectionOrigin
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.ConnectionsOriginList
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetCountry() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Country {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Country
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetDescription() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Description
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetDestination() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Destination {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Destination
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetDevice() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Device {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Device
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetDeviceAttributes() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.DeviceAttributes
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetDeviceOs() []cato_models.OperatingSystem {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.DeviceOs
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetEnabled() bool {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Enabled
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetExceptions() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Exceptions
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetIndex() int64 {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Index
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Name
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetSchedule() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Schedule
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetSection() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Section {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Section
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetService() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Service {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Service
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetSource() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Source {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Source
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule) GetTracking() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Tracking
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_SubPolicy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_SubPolicy) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_SubPolicy{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_SubPolicy) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_SubPolicy{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules struct {
-	Access     PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
-	Audit      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
-	Metadata   *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
-	Properties []cato_models.PolicyElementPropertiesEnum                                                       "json:\"properties\" graphql:\"properties\""
-	Rule       PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule       "json:\"rule\" graphql:\"rule\""
-	RuleType   cato_models.PolicyRuleTypeEnum                                                                  "json:\"ruleType\" graphql:\"ruleType\""
-	SubPolicy  *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules) GetAccess() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules) GetAudit() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Audit {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Audit
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules) GetMetadata() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Metadata {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return t.Metadata
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return t.Properties
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules) GetRule() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_Rule {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Rule
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules) GetRuleType() *cato_models.PolicyRuleTypeEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.RuleType
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules) GetSubPolicy() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules_SubPolicy {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return t.SubPolicy
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Audit struct {
-	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Audit) GetUpdatedBy() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Audit{}
-	}
-	return t.UpdatedBy
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Audit{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock struct {
-	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
-	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
-	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingAdminEmail() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingAdminEmail
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingRevisionID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingRevisionID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingTime() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingTime
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata struct {
-	Lock *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata) GetLock() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata{}
-	}
-	return t.Lock
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Section) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Section{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Section) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Section{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections struct {
-	Audit      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Audit     "json:\"audit\" graphql:\"audit\""
-	Metadata   *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
-	Properties []cato_models.PolicyElementPropertiesEnum                                                         "json:\"properties\" graphql:\"properties\""
-	Section    PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Section   "json:\"section\" graphql:\"section\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections) GetAudit() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Audit {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections{}
-	}
-	return &t.Audit
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections) GetMetadata() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Metadata {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections{}
-	}
-	return t.Metadata
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections{}
-	}
-	return t.Properties
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections) GetSection() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections_Section {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections{}
-	}
-	return &t.Section
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Audit struct {
-	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
-	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Audit) GetPublishedBy() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Audit{}
-	}
-	return t.PublishedBy
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Audit) GetPublishedTime() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Audit{}
-	}
-	return t.PublishedTime
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision struct {
-	Changes     int64  "json:\"changes\" graphql:\"changes\""
-	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy struct {
 	Description string "json:\"description\" graphql:\"description\""
+	Enabled     bool   "json:\"enabled\" graphql:\"enabled\""
 	ID          string "json:\"id\" graphql:\"id\""
 	Name        string "json:\"name\" graphql:\"name\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
 }
 
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision) GetChanges() int64 {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Changes
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision) GetCreatedTime() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.CreatedTime
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision) GetDescription() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Description
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Name
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit struct {
-	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
-	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit) GetPublishedBy() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit{}
-	}
-	return t.PublishedBy
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit) GetPublishedTime() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit{}
-	}
-	return t.PublishedTime
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy struct {
-	Audit       PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit "json:\"audit\" graphql:\"audit\""
-	Description string                                                                                                  "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                                    "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                                  "json:\"id\" graphql:\"id\""
-	Name        string                                                                                                  "json:\"name\" graphql:\"name\""
-	PolicyLevel cato_models.PolicyLevelEnum                                                                             "json:\"policyLevel\" graphql:\"policyLevel\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetAudit() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return &t.Audit
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetDescription() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Description
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetEnabled() bool {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Enabled
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Name
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetPolicyLevel() *cato_models.PolicyLevelEnum {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return &t.PolicyLevel
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies struct {
-	Access     PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
-	Policy     PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
-	Properties []cato_models.SubPolicyProperty                                                                   "json:\"properties\" graphql:\"properties\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies) GetAccess() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies) GetPolicy() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies_Policy {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Policy
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies) GetProperties() []cato_models.SubPolicyProperty {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return t.Properties
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
-type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy struct {
-	Access      PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Access         "json:\"access\" graphql:\"access\""
-	Audit       *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
-	Description string                                                                                        "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                          "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                        "json:\"id\" graphql:\"id\""
-	Name        string                                                                                        "json:\"name\" graphql:\"name\""
-	Revision    *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision      "json:\"revision,omitempty\" graphql:\"revision\""
-	Rules       []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules       "json:\"rules\" graphql:\"rules\""
-	Sections    []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections    "json:\"sections\" graphql:\"sections\""
-	SubPolicies []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
-}
-
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy) GetAccess() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Access {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy{}
-	}
-	return &t.Access
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy) GetAudit() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Audit {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy{}
-	}
-	return t.Audit
-}
 func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy) GetDescription() string {
 	if t == nil {
 		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy{}
@@ -78757,30 +76179,6 @@ func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy
 		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy{}
 	}
 	return t.Name
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy) GetRevision() *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Revision {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy{}
-	}
-	return t.Revision
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy) GetRules() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Rules {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy{}
-	}
-	return t.Rules
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy) GetSections() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_Sections {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy{}
-	}
-	return t.Sections
-}
-func (t *PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy) GetSubPolicies() []*PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy_SubPolicies {
-	if t == nil {
-		t = &PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Policy{}
-	}
-	return t.SubPolicies
 }
 
 type PolicyInternetFirewallAddSubPolicy_Policy_InternetFirewall_AddSubPolicy_Errors struct {
@@ -139251,19 +136649,7 @@ func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_SubP
 	return t.Name
 }
 
-type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall struct {
-	Access     PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                     "json:\"properties\" graphql:\"properties\""
@@ -139272,12 +136658,6 @@ type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall struct {
 	SubPolicy  *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall) GetAccess() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall) GetAudit() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Firewall{}
@@ -140029,19 +137409,7 @@ func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_SubPolicy) GetName
 	return t.Name
 }
 
-type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule struct {
-	Access     PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                       "json:\"properties\" graphql:\"properties\""
@@ -140050,12 +137418,6 @@ type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule struct {
 	SubPolicy  *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule) GetAccess() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule) GetAudit() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule{}
@@ -140433,2267 +137795,13 @@ func (t *PolicySocketLanAddSection_Policy) GetSocketLan() *PolicySocketLanAddSec
 	return t.SocketLan
 }
 
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit struct {
-	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit) GetUpdatedBy() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit{}
-	}
-	return t.UpdatedBy
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock struct {
-	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
-	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
-	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingAdminEmail() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingAdminEmail
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingRevisionID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingRevisionID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata struct {
-	Lock *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata) GetLock() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata_Lock {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata{}
-	}
-	return t.Lock
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Section) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Section{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Section) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Section{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit struct {
-	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit) GetUpdatedBy() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit{}
-	}
-	return t.UpdatedBy
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock struct {
-	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
-	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
-	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock) GetLockingAdminEmail() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock{}
-	}
-	return t.LockingAdminEmail
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock) GetLockingRevisionID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock{}
-	}
-	return t.LockingRevisionID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock) GetLockingTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock{}
-	}
-	return t.LockingTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata struct {
-	Lock *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata) GetLock() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata_Lock {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata{}
-	}
-	return t.Lock
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Section) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Section{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Section) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Section{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_IPRange{}
-	}
-	return t.To
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Group) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Group{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Group) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Group{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Site) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Site{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Site) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Site{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Host) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Host{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Host) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Host{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source struct {
-	FloatingSubnet    []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                              "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	Mac               []string                                                                                                              "json:\"mac\" graphql:\"mac\""
-	NetworkInterface  []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	Site              []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Site              "json:\"site\" graphql:\"site\""
-	SiteNetworkSubnet []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                              "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	Vlan              []scalars.Vlan                                                                                                        "json:\"vlan\" graphql:\"vlan\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetFloatingSubnet() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_FloatingSubnet {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetGlobalIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_GlobalIPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Group {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.Group
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetHost() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Host {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.Host
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetIP() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.IP
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_IPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.IPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetMac() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.Mac
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetNetworkInterface() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_NetworkInterface {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetSite() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_Site {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.Site
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetSubnet() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.Subnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetSystemGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source_SystemGroup {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source) GetVlan() []scalars.Vlan {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source{}
-	}
-	return t.Vlan
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_IPRange{}
-	}
-	return t.To
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Site) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Site{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Site) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Site{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Host) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Host{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Host) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Host{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Group) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Group{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Group) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Group{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination struct {
-	FloatingSubnet    []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                                   "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	Site              []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Site              "json:\"site\" graphql:\"site\""
-	SiteNetworkSubnet []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                                   "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	Vlan              []scalars.Vlan                                                                                                             "json:\"vlan\" graphql:\"vlan\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_FloatingSubnet {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_GlobalIPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Group {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.Group
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetHost() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Host {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.Host
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetIP() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.IP
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_IPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.IPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetNetworkInterface() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_NetworkInterface {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetSite() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_Site {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.Site
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetSubnet() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.Subnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetSystemGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination_SystemGroup {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination) GetVlan() []scalars.Vlan {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination{}
-	}
-	return t.Vlan
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_Application struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_Application) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_Application{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_Application) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_Application{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_CustomApp struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_CustomApp) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_CustomApp{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_CustomApp) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_CustomApp{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_IPRange{}
-	}
-	return t.To
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application struct {
-	Application   []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_Application   "json:\"application\" graphql:\"application\""
-	CustomApp     []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_CustomApp     "json:\"customApp\" graphql:\"customApp\""
-	Domain        []string                                                                                                               "json:\"domain\" graphql:\"domain\""
-	Fqdn          []string                                                                                                               "json:\"fqdn\" graphql:\"fqdn\""
-	GlobalIPRange []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_GlobalIPRange "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	IP            []string                                                                                                               "json:\"ip\" graphql:\"ip\""
-	IPRange       []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_IPRange       "json:\"ipRange\" graphql:\"ipRange\""
-	Subnet        []string                                                                                                               "json:\"subnet\" graphql:\"subnet\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application) GetApplication() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_Application {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application{}
-	}
-	return t.Application
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application) GetCustomApp() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_CustomApp {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application{}
-	}
-	return t.CustomApp
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application) GetDomain() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application{}
-	}
-	return t.Domain
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application) GetFqdn() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application{}
-	}
-	return t.Fqdn
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application) GetGlobalIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_GlobalIPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application) GetIP() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application{}
-	}
-	return t.IP
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application) GetIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application_IPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application{}
-	}
-	return t.IPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application) GetSubnet() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application{}
-	}
-	return t.Subnet
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Simple struct {
-	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Simple{}
-	}
-	return &t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Standard struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Standard) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Standard{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Standard) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Standard{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom_PortRange struct {
-	From scalars.Port "json:\"from\" graphql:\"from\""
-	To   scalars.Port "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom_PortRange) GetFrom() *scalars.Port {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom_PortRange{}
-	}
-	return &t.From
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom_PortRange) GetTo() *scalars.Port {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom_PortRange{}
-	}
-	return &t.To
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom struct {
-	Port      []scalars.Port                                                                                                      "json:\"port,omitempty\" graphql:\"port\""
-	PortRange *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
-	Protocol  cato_models.IPProtocol                                                                                              "json:\"protocol\" graphql:\"protocol\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom) GetPort() []scalars.Port {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom{}
-	}
-	return t.Port
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom) GetPortRange() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom_PortRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom{}
-	}
-	return t.PortRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom{}
-	}
-	return &t.Protocol
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service struct {
-	Custom   []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom   "json:\"custom\" graphql:\"custom\""
-	Simple   []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Simple   "json:\"simple\" graphql:\"simple\""
-	Standard []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Standard "json:\"standard\" graphql:\"standard\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service) GetCustom() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Custom {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service{}
-	}
-	return t.Custom
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service) GetSimple() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Simple {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service{}
-	}
-	return t.Simple
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service) GetStandard() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service_Standard {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service{}
-	}
-	return t.Standard
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Event struct {
-	Enabled bool "json:\"enabled\" graphql:\"enabled\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Event) GetEnabled() bool {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Event{}
-	}
-	return t.Enabled
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_SubscriptionGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_SubscriptionGroup) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_SubscriptionGroup{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_SubscriptionGroup) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_SubscriptionGroup{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_Webhook struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_Webhook) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_Webhook{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_Webhook) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_Webhook{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_MailingList struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_MailingList) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_MailingList{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_MailingList) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_MailingList{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert struct {
-	Enabled           bool                                                                                                                          "json:\"enabled\" graphql:\"enabled\""
-	Frequency         cato_models.PolicyRuleTrackingFrequencyEnum                                                                                   "json:\"frequency\" graphql:\"frequency\""
-	MailingList       []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_MailingList       "json:\"mailingList\" graphql:\"mailingList\""
-	SubscriptionGroup []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_SubscriptionGroup "json:\"subscriptionGroup\" graphql:\"subscriptionGroup\""
-	Webhook           []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_Webhook           "json:\"webhook\" graphql:\"webhook\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert) GetEnabled() bool {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert{}
-	}
-	return t.Enabled
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert) GetFrequency() *cato_models.PolicyRuleTrackingFrequencyEnum {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert{}
-	}
-	return &t.Frequency
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert) GetMailingList() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_MailingList {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert{}
-	}
-	return t.MailingList
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert) GetSubscriptionGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_SubscriptionGroup {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert{}
-	}
-	return t.SubscriptionGroup
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert) GetWebhook() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert_Webhook {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert{}
-	}
-	return t.Webhook
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking struct {
-	Alert PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert "json:\"alert\" graphql:\"alert\""
-	Event PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Event "json:\"event\" graphql:\"event\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking) GetAlert() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Alert {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking{}
-	}
-	return &t.Alert
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking) GetEvent() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking_Event {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking{}
-	}
-	return &t.Event
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule struct {
-	Action      cato_models.SocketLanFirewallAction                                                                   "json:\"action\" graphql:\"action\""
-	Application PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application "json:\"application\" graphql:\"application\""
-	Description string                                                                                                "json:\"description\" graphql:\"description\""
-	Destination PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination "json:\"destination\" graphql:\"destination\""
-	Direction   cato_models.SocketLanFirewallDirection                                                                "json:\"direction\" graphql:\"direction\""
-	Enabled     bool                                                                                                  "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                                "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                                 "json:\"index\" graphql:\"index\""
-	Name        string                                                                                                "json:\"name\" graphql:\"name\""
-	Section     *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Section    "json:\"section,omitempty\" graphql:\"section\""
-	Service     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service     "json:\"service\" graphql:\"service\""
-	Source      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source      "json:\"source\" graphql:\"source\""
-	Tracking    PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking    "json:\"tracking\" graphql:\"tracking\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetAction() *cato_models.SocketLanFirewallAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return &t.Action
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetApplication() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Application {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return &t.Application
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetDescription() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return t.Description
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetDestination() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Destination {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return &t.Destination
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetDirection() *cato_models.SocketLanFirewallDirection {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return &t.Direction
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetEnabled() bool {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return t.Enabled
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetIndex() int64 {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return t.Index
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return t.Name
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetSection() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Section {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return t.Section
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetService() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Service {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return &t.Service
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetSource() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Source {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return &t.Source
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule) GetTracking() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule{}
-	}
-	return &t.Tracking
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
-	Audit      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
-	Metadata   *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
-	Properties []cato_models.PolicyElementPropertiesEnum                                                       "json:\"properties\" graphql:\"properties\""
-	Rule       PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule       "json:\"rule\" graphql:\"rule\""
-	RuleType   cato_models.PolicyRuleTypeEnum                                                                  "json:\"ruleType\" graphql:\"ruleType\""
-	SubPolicy  *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Audit {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Audit
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetMetadata() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Metadata {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return t.Metadata
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetProperties() []cato_models.PolicyElementPropertiesEnum {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return t.Properties
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetRule() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_Rule {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Rule
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetRuleType() *cato_models.PolicyRuleTypeEnum {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.RuleType
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall) GetSubPolicy() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return t.SubPolicy
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Site) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Site{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Site) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Site{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Group) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Group{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Group) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Group{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site struct {
-	Group []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Group "json:\"group\" graphql:\"group\""
-	Site  []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Site  "json:\"site\" graphql:\"site\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site) GetGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Group {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site{}
-	}
-	return t.Group
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site) GetSite() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site_Site {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site{}
-	}
-	return t.Site
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_IPRange{}
-	}
-	return t.To
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Group) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Group{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Group) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Group{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Host) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Host{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Host) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Host{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source struct {
-	FloatingSubnet    []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	SiteNetworkSubnet []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	Vlan              []scalars.Vlan                                                                                          "json:\"vlan\" graphql:\"vlan\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetFloatingSubnet() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetGlobalIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Group {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Group
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetHost() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_Host {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Host
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetIP() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.IP
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_IPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.IPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetNetworkInterface() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetSubnet() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Subnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetSystemGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source) GetVlan() []scalars.Vlan {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Vlan
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange{}
-	}
-	return t.To
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Host) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Host{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Host) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Host{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Group) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Group{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Group) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Group{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination struct {
-	FloatingSubnet    []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                     "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	SiteNetworkSubnet []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                     "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	Vlan              []scalars.Vlan                                                                                               "json:\"vlan\" graphql:\"vlan\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Group {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Group
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetHost() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_Host {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Host
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetIP() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.IP
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetIPRange() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.IPRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetNetworkInterface() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetSubnet() []string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Subnet
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetSystemGroup() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination) GetVlan() []scalars.Vlan {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Vlan
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Simple struct {
-	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Simple{}
-	}
-	return &t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange struct {
-	From scalars.Port "json:\"from\" graphql:\"from\""
-	To   scalars.Port "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange) GetFrom() *scalars.Port {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange{}
-	}
-	return &t.From
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange) GetTo() *scalars.Port {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange{}
-	}
-	return &t.To
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom struct {
-	Port      []scalars.Port                                                                                        "json:\"port,omitempty\" graphql:\"port\""
-	PortRange *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
-	Protocol  cato_models.IPProtocol                                                                                "json:\"protocol\" graphql:\"protocol\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetPort() []scalars.Port {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return t.Port
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetPortRange() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return t.PortRange
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return &t.Protocol
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service struct {
-	Custom []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
-	Simple []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service) GetCustom() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Custom {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service{}
-	}
-	return t.Custom
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service) GetSimple() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service_Simple {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service{}
-	}
-	return t.Simple
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Nat struct {
-	Enabled bool                         "json:\"enabled\" graphql:\"enabled\""
-	NatType cato_models.SocketLanNatType "json:\"natType\" graphql:\"natType\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Nat) GetEnabled() bool {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Nat{}
-	}
-	return t.Enabled
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Nat) GetNatType() *cato_models.SocketLanNatType {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Nat{}
-	}
-	return &t.NatType
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule struct {
-	Description string                                                                                  "json:\"description\" graphql:\"description\""
-	Destination PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination "json:\"destination\" graphql:\"destination\""
-	Direction   cato_models.SocketLanDirection                                                          "json:\"direction\" graphql:\"direction\""
-	Enabled     bool                                                                                    "json:\"enabled\" graphql:\"enabled\""
-	Firewall    []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall "json:\"firewall\" graphql:\"firewall\""
-	ID          string                                                                                  "json:\"id\" graphql:\"id\""
-	Index       int64                                                                                   "json:\"index\" graphql:\"index\""
-	Name        string                                                                                  "json:\"name\" graphql:\"name\""
-	Nat         PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Nat         "json:\"nat\" graphql:\"nat\""
-	Section     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Section     "json:\"section\" graphql:\"section\""
-	Service     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service     "json:\"service\" graphql:\"service\""
-	Site        PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site        "json:\"site\" graphql:\"site\""
-	Source      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source      "json:\"source\" graphql:\"source\""
-	Transport   cato_models.SocketLanTransportType                                                      "json:\"transport\" graphql:\"transport\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetDescription() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Description
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetDestination() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Destination {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Destination
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetDirection() *cato_models.SocketLanDirection {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Direction
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetEnabled() bool {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Enabled
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetFirewall() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Firewall {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Firewall
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetIndex() int64 {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Index
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Name
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetNat() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Nat {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Nat
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetSection() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Section {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Section
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetService() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Service {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Service
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetSite() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Site {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Site
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetSource() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule_Source {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Source
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule) GetTransport() *cato_models.SocketLanTransportType {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Transport
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_SubPolicy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_SubPolicy) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_SubPolicy{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_SubPolicy) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_SubPolicy{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules struct {
-	Access     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
-	Audit      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
-	Metadata   *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
-	Properties []cato_models.PolicyElementPropertiesEnum                                         "json:\"properties\" graphql:\"properties\""
-	Rule       PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule       "json:\"rule\" graphql:\"rule\""
-	RuleType   cato_models.PolicyRuleTypeEnum                                                    "json:\"ruleType\" graphql:\"ruleType\""
-	SubPolicy  *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetAccess() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetAudit() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Audit {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Audit
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetMetadata() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Metadata {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
-	}
-	return t.Metadata
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
-	}
-	return t.Properties
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetRule() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_Rule {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Rule
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetRuleType() *cato_models.PolicyRuleTypeEnum {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.RuleType
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules) GetSubPolicy() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules_SubPolicy {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules{}
-	}
-	return t.SubPolicy
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Audit struct {
-	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Audit) GetUpdatedBy() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Audit{}
-	}
-	return t.UpdatedBy
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Audit{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock struct {
-	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
-	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
-	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingAdminEmail() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingAdminEmail
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingRevisionID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingRevisionID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata struct {
-	Lock *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata) GetLock() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata_Lock {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata{}
-	}
-	return t.Lock
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Section) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Section{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Section) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Section{}
-	}
-	return t.Name
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections struct {
-	Audit      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Audit     "json:\"audit\" graphql:\"audit\""
-	Metadata   *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
-	Properties []cato_models.PolicyElementPropertiesEnum                                           "json:\"properties\" graphql:\"properties\""
-	Section    PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Section   "json:\"section\" graphql:\"section\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections) GetAudit() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Audit {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections{}
-	}
-	return &t.Audit
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections) GetMetadata() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Metadata {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections{}
-	}
-	return t.Metadata
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections{}
-	}
-	return t.Properties
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections) GetSection() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections_Section {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections{}
-	}
-	return &t.Section
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit struct {
-	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
-	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit) GetPublishedBy() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit{}
-	}
-	return t.PublishedBy
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit) GetPublishedTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit{}
-	}
-	return t.PublishedTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision struct {
-	Changes     int64  "json:\"changes\" graphql:\"changes\""
-	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy struct {
 	Description string "json:\"description\" graphql:\"description\""
+	Enabled     bool   "json:\"enabled\" graphql:\"enabled\""
 	ID          string "json:\"id\" graphql:\"id\""
 	Name        string "json:\"name\" graphql:\"name\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
 }
 
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision) GetChanges() int64 {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Changes
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision) GetCreatedTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision{}
-	}
-	return t.CreatedTime
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision) GetDescription() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Description
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Name
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy_Audit struct {
-	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
-	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy_Audit) GetPublishedBy() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy_Audit{}
-	}
-	return t.PublishedBy
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy_Audit) GetPublishedTime() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy_Audit{}
-	}
-	return t.PublishedTime
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy struct {
-	Audit       PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy_Audit "json:\"audit\" graphql:\"audit\""
-	Description string                                                                                    "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                      "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                    "json:\"id\" graphql:\"id\""
-	Name        string                                                                                    "json:\"name\" graphql:\"name\""
-	PolicyLevel cato_models.PolicyLevelEnum                                                               "json:\"policyLevel\" graphql:\"policyLevel\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy) GetAudit() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy_Audit {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return &t.Audit
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy) GetDescription() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Description
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy) GetEnabled() bool {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Enabled
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy) GetID() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.ID
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy) GetName() string {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Name
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy) GetPolicyLevel() *cato_models.PolicyLevelEnum {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return &t.PolicyLevel
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies struct {
-	Access     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
-	Policy     PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
-	Properties []cato_models.SubPolicyProperty                                                     "json:\"properties\" graphql:\"properties\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies) GetAccess() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies) GetPolicy() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies_Policy {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Policy
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies) GetProperties() []cato_models.SubPolicyProperty {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return t.Properties
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
-type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy struct {
-	Access      PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access         "json:\"access\" graphql:\"access\""
-	Audit       *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
-	Description string                                                                          "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                            "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                          "json:\"id\" graphql:\"id\""
-	Name        string                                                                          "json:\"name\" graphql:\"name\""
-	Revision    *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision      "json:\"revision,omitempty\" graphql:\"revision\""
-	Rules       []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules       "json:\"rules\" graphql:\"rules\""
-	Sections    []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections    "json:\"sections\" graphql:\"sections\""
-	SubPolicies []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
-}
-
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetAccess() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
-	}
-	return &t.Access
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetAudit() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Audit {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
-	}
-	return t.Audit
-}
 func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetDescription() string {
 	if t == nil {
 		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
@@ -142717,30 +137825,6 @@ func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetNa
 		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
 	}
 	return t.Name
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetRevision() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Revision {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
-	}
-	return t.Revision
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetRules() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Rules {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
-	}
-	return t.Rules
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetSections() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_Sections {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
-	}
-	return t.Sections
-}
-func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetSubPolicies() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy_SubPolicies {
-	if t == nil {
-		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
-	}
-	return t.SubPolicies
 }
 
 type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Errors struct {
@@ -143923,19 +139007,7 @@ func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevisi
 	return t.Name
 }
 
-type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                                       "json:\"properties\" graphql:\"properties\""
@@ -143944,12 +139016,6 @@ type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_P
 	SubPolicy  *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Firewall{}
@@ -144701,19 +139767,7 @@ func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevisi
 	return t.Name
 }
 
-type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules struct {
-	Access     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                         "json:\"properties\" graphql:\"properties\""
@@ -144722,12 +139776,6 @@ type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_P
 	SubPolicy  *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules) GetAccess() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules{}
@@ -144997,29 +140045,11 @@ func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevisi
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies struct {
-	Access     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                                     "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies) GetAccess() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies) GetPolicy() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies{}
@@ -145033,19 +140063,7 @@ func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevisi
 	return t.Properties
 }
 
-type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy struct {
-	Access                  PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access                   "json:\"access\" graphql:\"access\""
 	AuditSocketLanPolicy    *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
 	Description             string                                                                                                    "json:\"description\" graphql:\"description\""
 	Enabled                 bool                                                                                                      "json:\"enabled\" graphql:\"enabled\""
@@ -145057,12 +140075,6 @@ type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_P
 	SubPolicies             []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_SubPolicies           "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetAccess() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
@@ -146298,19 +141310,7 @@ func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevi
 	return t.Name
 }
 
-type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                                         "json:\"properties\" graphql:\"properties\""
@@ -146319,12 +141319,6 @@ type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision
 	SubPolicy  *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Firewall{}
@@ -147076,19 +142070,7 @@ func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevi
 	return t.Name
 }
 
-type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules struct {
-	Access     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                           "json:\"properties\" graphql:\"properties\""
@@ -147097,12 +142079,6 @@ type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision
 	SubPolicy  *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules) GetAccess() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules{}
@@ -147372,29 +142348,11 @@ func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevi
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies struct {
-	Access     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                                       "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies) GetAccess() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies) GetPolicy() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies{}
@@ -147408,19 +142366,7 @@ func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevi
 	return t.Properties
 }
 
-type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy struct {
-	Access                  PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access                   "json:\"access\" graphql:\"access\""
 	AuditSocketLanPolicy    *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
 	Description             string                                                                                                      "json:\"description\" graphql:\"description\""
 	Enabled                 bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
@@ -147432,12 +142378,6 @@ type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision
 	SubPolicies             []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_SubPolicies           "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetAccess() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
@@ -148601,19 +143541,7 @@ func (t *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_S
 	return t.Name
 }
 
-type PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule struct {
-	Access     PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                        "json:\"properties\" graphql:\"properties\""
@@ -148622,12 +143550,6 @@ type PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule struc
 	SubPolicy  *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule) GetAccess() *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule) GetAudit() *PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanFirewallAddRule_Policy_SocketLan_Firewall_AddRule_Rule{}
@@ -149837,19 +144759,7 @@ func (t *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule
 	return t.Name
 }
 
-type PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule struct {
-	Access     PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                          "json:\"properties\" graphql:\"properties\""
@@ -149858,12 +144768,6 @@ type PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule str
 	SubPolicy  *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule) GetAccess() *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule) GetAudit() *PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanFirewallMoveRule_Policy_SocketLan_Firewall_MoveRule_Rule{}
@@ -151073,19 +145977,7 @@ func (t *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_
 	return t.Name
 }
 
-type PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule struct {
-	Access     PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                              "json:\"properties\" graphql:\"properties\""
@@ -151094,12 +145986,6 @@ type PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule
 	SubPolicy  *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule) GetAccess() *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule) GetAudit() *PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanFirewallRemoveRule_Policy_SocketLan_Firewall_RemoveRule_Rule{}
@@ -152309,19 +147195,7 @@ func (t *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_
 	return t.Name
 }
 
-type PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule struct {
-	Access     PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                              "json:\"properties\" graphql:\"properties\""
@@ -152330,12 +147204,6 @@ type PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule
 	SubPolicy  *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule) GetAccess() *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule) GetAudit() *PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanFirewallUpdateRule_Policy_SocketLan_Firewall_UpdateRule_Rule{}
@@ -153617,19 +148485,7 @@ func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Su
 	return t.Name
 }
 
-type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall struct {
-	Access     PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                       "json:\"properties\" graphql:\"properties\""
@@ -153638,12 +148494,6 @@ type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall struct
 	SubPolicy  *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall) GetAccess() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall) GetAudit() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Firewall{}
@@ -154395,19 +149245,7 @@ func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_SubPolicy) GetNa
 	return t.Name
 }
 
-type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule struct {
-	Access     PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                         "json:\"properties\" graphql:\"properties\""
@@ -154416,12 +149254,6 @@ type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule struct {
 	SubPolicy  *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule) GetAccess() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule) GetAudit() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule{}
@@ -155914,19 +150746,7 @@ func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevi
 	return t.Name
 }
 
-type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                                         "json:\"properties\" graphql:\"properties\""
@@ -155935,12 +150755,6 @@ type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision
 	SubPolicy  *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Firewall{}
@@ -156692,19 +151506,7 @@ func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevi
 	return t.Name
 }
 
-type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules struct {
-	Access     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                           "json:\"properties\" graphql:\"properties\""
@@ -156713,12 +151515,6 @@ type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision
 	SubPolicy  *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules) GetAccess() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules{}
@@ -156988,29 +151784,11 @@ func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevi
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies struct {
-	Access     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                                       "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies) GetAccess() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies) GetPolicy() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies{}
@@ -157024,19 +151802,7 @@ func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevi
 	return t.Properties
 }
 
-type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy struct {
-	Access                  PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access                   "json:\"access\" graphql:\"access\""
 	AuditSocketLanPolicy    *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
 	Description             string                                                                                                      "json:\"description\" graphql:\"description\""
 	Enabled                 bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
@@ -157048,12 +151814,6 @@ type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision
 	SubPolicies             []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_SubPolicies           "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetAccess() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
@@ -158289,19 +153049,7 @@ func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewal
 	return t.Name
 }
 
-type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall struct {
-	Access     PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                           "json:\"properties\" graphql:\"properties\""
@@ -158310,12 +153058,6 @@ type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall st
 	SubPolicy  *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall) GetAccess() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall) GetAudit() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Firewall{}
@@ -159067,19 +153809,7 @@ func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_SubPolicy) G
 	return t.Name
 }
 
-type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule struct {
-	Access     PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                             "json:\"properties\" graphql:\"properties\""
@@ -159088,12 +153818,6 @@ type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule struct {
 	SubPolicy  *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule) GetAccess() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule) GetAudit() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule{}
@@ -160586,19 +155310,7 @@ func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_
 	return t.Name
 }
 
-type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                             "json:\"properties\" graphql:\"properties\""
@@ -160607,12 +155319,6 @@ type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rule
 	SubPolicy  *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Rule_Firewall{}
@@ -161364,19 +156070,7 @@ func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_
 	return t.Name
 }
 
-type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules struct {
-	Access     PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                               "json:\"properties\" graphql:\"properties\""
@@ -161385,12 +156079,6 @@ type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rule
 	SubPolicy  *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules) GetAccess() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules) GetAudit() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Rules{}
@@ -161660,29 +156348,11 @@ func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies struct {
-	Access     PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                           "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies) GetAccess() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies) GetPolicy() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies{}
@@ -161696,19 +156366,7 @@ func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_
 	return t.Properties
 }
 
-type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy struct {
-	Access      PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access         "json:\"access\" graphql:\"access\""
 	Audit       *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
 	Description string                                                                                "json:\"description\" graphql:\"description\""
 	Enabled     bool                                                                                  "json:\"enabled\" graphql:\"enabled\""
@@ -161720,12 +156378,6 @@ type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy stru
 	SubPolicies []*PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy) GetAccess() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy) GetAudit() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy_Audit {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Policy{}
@@ -162961,19 +157613,7 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rule
 	return t.Name
 }
 
-type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                         "json:\"properties\" graphql:\"properties\""
@@ -162982,12 +157622,6 @@ type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Ru
 	SubPolicy  *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall{}
@@ -163739,19 +158373,7 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rule
 	return t.Name
 }
 
-type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules struct {
-	Access     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                           "json:\"properties\" graphql:\"properties\""
@@ -163760,12 +158382,6 @@ type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules st
 	SubPolicy  *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules) GetAccess() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules) GetAudit() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules{}
@@ -164035,29 +158651,11 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubP
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies struct {
-	Access     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                       "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies) GetAccess() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies) GetPolicy() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies{}
@@ -164071,19 +158669,7 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubP
 	return t.Properties
 }
 
-type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy struct {
-	Access      PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access         "json:\"access\" graphql:\"access\""
 	Audit       *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
 	Description string                                                                            "json:\"description\" graphql:\"description\""
 	Enabled     bool                                                                              "json:\"enabled\" graphql:\"enabled\""
@@ -164095,12 +158681,6 @@ type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy struct {
 	SubPolicies []*PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy) GetAccess() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy) GetAudit() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Audit {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy{}
@@ -165336,19 +159916,7 @@ func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_
 	return t.Name
 }
 
-type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                                       "json:\"properties\" graphql:\"properties\""
@@ -165357,12 +159925,6 @@ type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule
 	SubPolicy  *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Firewall{}
@@ -166114,19 +160676,7 @@ func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_
 	return t.Name
 }
 
-type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules struct {
-	Access     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                         "json:\"properties\" graphql:\"properties\""
@@ -166135,12 +160685,6 @@ type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules stru
 	SubPolicy  *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules) GetAccess() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules) GetAudit() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules{}
@@ -166410,29 +160954,11 @@ func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPol
 	return &t.PolicyLevel
 }
 
-type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies struct {
-	Access     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
 	Policy     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
 	Properties []cato_models.SubPolicyProperty                                                     "json:\"properties\" graphql:\"properties\""
 }
 
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies) GetAccess() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies) GetPolicy() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies_Policy {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies{}
@@ -166446,19 +160972,7 @@ func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPol
 	return t.Properties
 }
 
-type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy struct {
-	Access                  PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access                   "json:\"access\" graphql:\"access\""
 	AuditSocketLanPolicy    *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
 	Description             string                                                                                    "json:\"description\" graphql:\"description\""
 	Enabled                 bool                                                                                      "json:\"enabled\" graphql:\"enabled\""
@@ -166470,12 +160984,6 @@ type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy struct {
 	SubPolicies             []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_SubPolicies           "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetAccess() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetAuditSocketLanPolicy() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
@@ -167711,19 +162219,7 @@ func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewal
 	return t.Name
 }
 
-type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall struct {
-	Access     PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                           "json:\"properties\" graphql:\"properties\""
@@ -167732,12 +162228,6 @@ type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall st
 	SubPolicy  *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall) GetAccess() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall) GetAudit() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Firewall{}
@@ -168489,19 +162979,7 @@ func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_SubPolicy) G
 	return t.Name
 }
 
-type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule struct {
-	Access     PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                             "json:\"properties\" graphql:\"properties\""
@@ -168510,12 +162988,6 @@ type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule struct {
 	SubPolicy  *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule) GetAccess() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Access {
-	if t == nil {
-		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule) GetAudit() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit {
 	if t == nil {
 		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule{}
@@ -190947,2876 +185419,13 @@ func (t *PolicyWanFirewallAddSection_Policy) GetWanFirewall() *PolicyWanFirewall
 	return t.WanFirewall
 }
 
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Audit struct {
-	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Audit) GetUpdatedBy() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Audit{}
-	}
-	return t.UpdatedBy
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Audit{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock struct {
-	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
-	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
-	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingAdminEmail() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingAdminEmail
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingRevisionID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingRevisionID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock) GetLockingTime() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock{}
-	}
-	return t.LockingTime
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata struct {
-	Lock *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata) GetLock() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata_Lock {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata{}
-	}
-	return t.Lock
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source struct {
-	FloatingSubnet    []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                    "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	Site              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site              "json:\"site\" graphql:\"site\""
-	SiteNetworkSubnet []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                    "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	User              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User              "json:\"user\" graphql:\"user\""
-	UsersGroup        []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetFloatingSubnet() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_FloatingSubnet {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetGlobalIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_GlobalIPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Group {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Group
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetHost() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Host {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Host
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetIP() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.IP
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_IPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.IPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetNetworkInterface() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_NetworkInterface {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetSite() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_Site {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Site
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.Subnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetSystemGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_SystemGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetUser() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_User {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.User
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source) GetUsersGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source_UsersGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source{}
-	}
-	return t.UsersGroup
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes struct {
-	Category     []string "json:\"category\" graphql:\"category\""
-	Manufacturer []string "json:\"manufacturer\" graphql:\"manufacturer\""
-	Model        []string "json:\"model\" graphql:\"model\""
-	Os           []string "json:\"os\" graphql:\"os\""
-	OsVersion    []string "json:\"osVersion\" graphql:\"osVersion\""
-	Type         []string "json:\"type\" graphql:\"type\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetCategory() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Category
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetManufacturer() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Manufacturer
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetModel() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Model
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetOs() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Os
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetOsVersion() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.OsVersion
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes) GetType() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes{}
-	}
-	return t.Type
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Host) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Host{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Host) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Host{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Site) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Site{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Site) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Site{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_User struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_User) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_User{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_User) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_User{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_UsersGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_UsersGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_UsersGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_UsersGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_UsersGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination struct {
-	FloatingSubnet    []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                         "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	Site              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Site              "json:\"site\" graphql:\"site\""
-	SiteNetworkSubnet []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                         "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	User              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_User              "json:\"user\" graphql:\"user\""
-	UsersGroup        []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetFloatingSubnet() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_FloatingSubnet {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetGlobalIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_GlobalIPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Group {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Group
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetHost() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Host {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Host
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetIP() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.IP
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_IPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.IPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetNetworkInterface() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_NetworkInterface {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetSite() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_Site {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Site
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetSiteNetworkSubnet() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.Subnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetSystemGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_SystemGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetUser() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_User {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.User
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination) GetUsersGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination_UsersGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination{}
-	}
-	return t.UsersGroup
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_Application struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_Application) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_Application{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_Application) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_Application{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_AppCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_AppCategory) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_AppCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_AppCategory) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_AppCategory{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomApp struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomApp) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomApp{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomApp) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomApp{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomCategory) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomCategory) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomCategory{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_SanctionedAppsCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_SanctionedAppsCategory) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_SanctionedAppsCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_SanctionedAppsCategory) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_SanctionedAppsCategory{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application struct {
-	AppCategory            []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
-	Application            []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_Application            "json:\"application\" graphql:\"application\""
-	CustomApp              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomApp              "json:\"customApp\" graphql:\"customApp\""
-	CustomCategory         []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
-	Domain                 []string                                                                                                              "json:\"domain\" graphql:\"domain\""
-	Fqdn                   []string                                                                                                              "json:\"fqdn\" graphql:\"fqdn\""
-	GlobalIPRange          []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	IP                     []string                                                                                                              "json:\"ip\" graphql:\"ip\""
-	IPRange                []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
-	SanctionedAppsCategory []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory\" graphql:\"sanctionedAppsCategory\""
-	Subnet                 []string                                                                                                              "json:\"subnet\" graphql:\"subnet\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetAppCategory() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_AppCategory {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.AppCategory
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetApplication() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_Application {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.Application
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetCustomApp() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomApp {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.CustomApp
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetCustomCategory() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_CustomCategory {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.CustomCategory
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetDomain() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.Domain
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetFqdn() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.Fqdn
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetGlobalIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_GlobalIPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetIP() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.IP
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_IPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.IPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetSanctionedAppsCategory() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application_SanctionedAppsCategory {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.SanctionedAppsCategory
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application{}
-	}
-	return t.Subnet
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange struct {
-	From scalars.Port "json:\"from\" graphql:\"from\""
-	To   scalars.Port "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange) GetFrom() *scalars.Port {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange{}
-	}
-	return &t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange) GetTo() *scalars.Port {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange{}
-	}
-	return &t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom struct {
-	Port      []scalars.Port                                                                                            "json:\"port,omitempty\" graphql:\"port\""
-	PortRange *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
-	Protocol  cato_models.IPProtocol                                                                                    "json:\"protocol\" graphql:\"protocol\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetPort() []scalars.Port {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return t.Port
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetPortRange() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom_PortRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return t.PortRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom{}
-	}
-	return &t.Protocol
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service struct {
-	Custom   []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom   "json:\"custom\" graphql:\"custom\""
-	Standard []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard "json:\"standard\" graphql:\"standard\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service) GetCustom() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Custom {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service{}
-	}
-	return t.Custom
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service) GetStandard() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service_Standard {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service{}
-	}
-	return t.Standard
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event struct {
-	Enabled bool "json:\"enabled\" graphql:\"enabled\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event) GetEnabled() bool {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event{}
-	}
-	return t.Enabled
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert struct {
-	Enabled           bool                                                                                                                "json:\"enabled\" graphql:\"enabled\""
-	Frequency         cato_models.PolicyRuleTrackingFrequencyEnum                                                                         "json:\"frequency\" graphql:\"frequency\""
-	MailingList       []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList       "json:\"mailingList\" graphql:\"mailingList\""
-	SubscriptionGroup []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup "json:\"subscriptionGroup\" graphql:\"subscriptionGroup\""
-	Webhook           []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook           "json:\"webhook\" graphql:\"webhook\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetEnabled() bool {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return t.Enabled
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetFrequency() *cato_models.PolicyRuleTrackingFrequencyEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return &t.Frequency
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetMailingList() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_MailingList {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return t.MailingList
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetSubscriptionGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_SubscriptionGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return t.SubscriptionGroup
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert) GetWebhook() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert_Webhook {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert{}
-	}
-	return t.Webhook
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking struct {
-	Alert PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert "json:\"alert\" graphql:\"alert\""
-	Event PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event "json:\"event\" graphql:\"event\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking) GetAlert() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Alert {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking{}
-	}
-	return &t.Alert
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking) GetEvent() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking_Event {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking{}
-	}
-	return &t.Event
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe) GetFrom() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe{}
-	}
-	return t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe) GetTo() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe{}
-	}
-	return t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring struct {
-	Days []cato_models.DayOfWeek "json:\"days\" graphql:\"days\""
-	From scalars.Time            "json:\"from\" graphql:\"from\""
-	To   scalars.Time            "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring) GetDays() []cato_models.DayOfWeek {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring{}
-	}
-	return t.Days
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring) GetFrom() *scalars.Time {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring{}
-	}
-	return &t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring) GetTo() *scalars.Time {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring{}
-	}
-	return &t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule struct {
-	ActiveOn        cato_models.PolicyActiveOnEnum                                                                            "json:\"activeOn\" graphql:\"activeOn\""
-	CustomRecurring *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring "json:\"customRecurring,omitempty\" graphql:\"customRecurring\""
-	CustomTimeframe *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe "json:\"customTimeframe,omitempty\" graphql:\"customTimeframe\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule) GetActiveOn() *cato_models.PolicyActiveOnEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule{}
-	}
-	return &t.ActiveOn
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule) GetCustomRecurring() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomRecurring {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule{}
-	}
-	return t.CustomRecurring
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule) GetCustomTimeframe() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule_CustomTimeframe {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule{}
-	}
-	return t.CustomTimeframe
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod struct {
-	EffectiveFrom    *string "json:\"effectiveFrom,omitempty\" graphql:\"effectiveFrom\""
-	ExpiresAt        *string "json:\"expiresAt,omitempty\" graphql:\"expiresAt\""
-	UseEffectiveFrom bool    "json:\"useEffectiveFrom\" graphql:\"useEffectiveFrom\""
-	UseExpiresAt     bool    "json:\"useExpiresAt\" graphql:\"useExpiresAt\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod) GetEffectiveFrom() *string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod{}
-	}
-	return t.EffectiveFrom
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod) GetExpiresAt() *string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod{}
-	}
-	return t.ExpiresAt
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod) GetUseEffectiveFrom() bool {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod{}
-	}
-	return t.UseEffectiveFrom
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod) GetUseExpiresAt() bool {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod{}
-	}
-	return t.UseExpiresAt
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source struct {
-	FloatingSubnet    []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                               "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	Site              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site              "json:\"site\" graphql:\"site\""
-	SiteNetworkSubnet []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                               "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	User              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User              "json:\"user\" graphql:\"user\""
-	UsersGroup        []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetFloatingSubnet() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_FloatingSubnet {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetGlobalIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_GlobalIPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Group {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.Group
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetHost() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Host {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.Host
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetIP() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.IP
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_IPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.IPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetNetworkInterface() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_NetworkInterface {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetSite() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_Site {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.Site
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetSiteNetworkSubnet() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.Subnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetSystemGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_SystemGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetUser() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_User {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.User
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source) GetUsersGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source_UsersGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source{}
-	}
-	return t.UsersGroup
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Host struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Host) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Host{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Host) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Host{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Site) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Site{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Site) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Site{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_NetworkInterface struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_NetworkInterface) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_NetworkInterface{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_NetworkInterface) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_NetworkInterface{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SiteNetworkSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SiteNetworkSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SiteNetworkSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SiteNetworkSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SiteNetworkSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_FloatingSubnet struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_FloatingSubnet) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_FloatingSubnet{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_FloatingSubnet) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_FloatingSubnet{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_User struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_User) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_User{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_User) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_User{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_UsersGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_UsersGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_UsersGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_UsersGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_UsersGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SystemGroup struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SystemGroup) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SystemGroup{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SystemGroup) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SystemGroup{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination struct {
-	FloatingSubnet    []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
-	GlobalIPRange     []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	Group             []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group             "json:\"group\" graphql:\"group\""
-	Host              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Host              "json:\"host\" graphql:\"host\""
-	IP                []string                                                                                                                    "json:\"ip\" graphql:\"ip\""
-	IPRange           []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
-	NetworkInterface  []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
-	Site              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Site              "json:\"site\" graphql:\"site\""
-	SiteNetworkSubnet []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
-	Subnet            []string                                                                                                                    "json:\"subnet\" graphql:\"subnet\""
-	SystemGroup       []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
-	User              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_User              "json:\"user\" graphql:\"user\""
-	UsersGroup        []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetFloatingSubnet() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_FloatingSubnet {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.FloatingSubnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetGlobalIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Group {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Group
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetHost() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Host {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Host
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetIP() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.IP
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_IPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.IPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetNetworkInterface() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_NetworkInterface {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.NetworkInterface
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetSite() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_Site {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Site
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetSiteNetworkSubnet() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SiteNetworkSubnet {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.SiteNetworkSubnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Subnet
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetSystemGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_SystemGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.SystemGroup
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetUser() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_User {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.User
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination) GetUsersGroup() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination_UsersGroup {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.UsersGroup
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes struct {
-	Category     []string "json:\"category\" graphql:\"category\""
-	Manufacturer []string "json:\"manufacturer\" graphql:\"manufacturer\""
-	Model        []string "json:\"model\" graphql:\"model\""
-	Os           []string "json:\"os\" graphql:\"os\""
-	OsVersion    []string "json:\"osVersion\" graphql:\"osVersion\""
-	Type         []string "json:\"type\" graphql:\"type\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetCategory() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Category
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetManufacturer() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Manufacturer
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetModel() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Model
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetOs() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Os
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetOsVersion() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.OsVersion
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes) GetType() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes{}
-	}
-	return t.Type
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_Application struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_Application) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_Application{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_Application) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_Application{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_AppCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_AppCategory) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_AppCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_AppCategory) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_AppCategory{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomApp struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomApp) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomApp{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomApp) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomApp{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomCategory) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomCategory) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomCategory{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_SanctionedAppsCategory struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_SanctionedAppsCategory) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_SanctionedAppsCategory{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_SanctionedAppsCategory) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_SanctionedAppsCategory{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_IPRange struct {
-	From string "json:\"from\" graphql:\"from\""
-	To   string "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_IPRange) GetFrom() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_IPRange{}
-	}
-	return t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_IPRange) GetTo() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_IPRange{}
-	}
-	return t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application struct {
-	AppCategory            []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
-	Application            []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_Application            "json:\"application\" graphql:\"application\""
-	CustomApp              []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomApp              "json:\"customApp\" graphql:\"customApp\""
-	CustomCategory         []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
-	Domain                 []string                                                                                                                         "json:\"domain\" graphql:\"domain\""
-	Fqdn                   []string                                                                                                                         "json:\"fqdn\" graphql:\"fqdn\""
-	GlobalIPRange          []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
-	IP                     []string                                                                                                                         "json:\"ip\" graphql:\"ip\""
-	IPRange                []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
-	SanctionedAppsCategory []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory\" graphql:\"sanctionedAppsCategory\""
-	Subnet                 []string                                                                                                                         "json:\"subnet\" graphql:\"subnet\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetAppCategory() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_AppCategory {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.AppCategory
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetApplication() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_Application {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.Application
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetCustomApp() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomApp {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.CustomApp
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetCustomCategory() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_CustomCategory {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.CustomCategory
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetDomain() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.Domain
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetFqdn() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.Fqdn
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetGlobalIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_GlobalIPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.GlobalIPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetIP() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.IP
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetIPRange() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_IPRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.IPRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetSanctionedAppsCategory() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application_SanctionedAppsCategory {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.SanctionedAppsCategory
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application) GetSubnet() []string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application{}
-	}
-	return t.Subnet
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange struct {
-	From scalars.Port "json:\"from\" graphql:\"from\""
-	To   scalars.Port "json:\"to\" graphql:\"to\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange) GetFrom() *scalars.Port {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange{}
-	}
-	return &t.From
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange) GetTo() *scalars.Port {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange{}
-	}
-	return &t.To
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom struct {
-	Port      []scalars.Port                                                                                                       "json:\"port,omitempty\" graphql:\"port\""
-	PortRange *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
-	Protocol  cato_models.IPProtocol                                                                                               "json:\"protocol\" graphql:\"protocol\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom) GetPort() []scalars.Port {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom{}
-	}
-	return t.Port
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom) GetPortRange() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom_PortRange {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom{}
-	}
-	return t.PortRange
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom) GetProtocol() *cato_models.IPProtocol {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom{}
-	}
-	return &t.Protocol
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service struct {
-	Custom   []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom   "json:\"custom\" graphql:\"custom\""
-	Standard []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard "json:\"standard\" graphql:\"standard\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service) GetCustom() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Custom {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service{}
-	}
-	return t.Custom
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service) GetStandard() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service_Standard {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service{}
-	}
-	return t.Standard
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions struct {
-	Application           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                         "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
-	Country               []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country       "json:\"country\" graphql:\"country\""
-	Destination           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination      "json:\"destination\" graphql:\"destination\""
-	Device                []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs              []cato_models.OperatingSystem                                                                               "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction             cato_models.WanFirewallDirectionEnum                                                                        "json:\"direction\" graphql:\"direction\""
-	Name                  string                                                                                                      "json:\"name\" graphql:\"name\""
-	Service               PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service          "json:\"service\" graphql:\"service\""
-	Source                PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source           "json:\"source\" graphql:\"source\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetApplication() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Application {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.Application
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.ConnectionOrigin
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.ConnectionsOriginList
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetCountry() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Country {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.Country
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDestination() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Destination {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.Destination
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDevice() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Device {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.Device
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDeviceAttributes() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_DeviceAttributes {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.DeviceAttributes
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDeviceOs() []cato_models.OperatingSystem {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.DeviceOs
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetDirection() *cato_models.WanFirewallDirectionEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.Direction
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return t.Name
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetService() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Service {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.Service
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions) GetSource() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions_Source {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions{}
-	}
-	return &t.Source
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig struct {
-	UserNotification []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification "json:\"userNotification\" graphql:\"userNotification\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig) GetUserNotification() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig_UserNotification {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig{}
-	}
-	return t.UserNotification
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule struct {
-	Action                cato_models.WanFirewallActionEnum                                                                "json:\"action\" graphql:\"action\""
-	ActionConfig          PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig     "json:\"actionConfig\" graphql:\"actionConfig\""
-	ActivePeriod          PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod     "json:\"activePeriod\" graphql:\"activePeriod\""
-	Application           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application      "json:\"application\" graphql:\"application\""
-	ConnectionOrigin      cato_models.ConnectionOriginEnum                                                                 "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                              "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
-	Country               []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country       "json:\"country\" graphql:\"country\""
-	Description           string                                                                                           "json:\"description\" graphql:\"description\""
-	Destination           PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination      "json:\"destination\" graphql:\"destination\""
-	Device                []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device        "json:\"device\" graphql:\"device\""
-	DeviceAttributes      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes "json:\"deviceAttributes\" graphql:\"deviceAttributes\""
-	DeviceOs              []cato_models.OperatingSystem                                                                    "json:\"deviceOS\" graphql:\"deviceOS\""
-	Direction             cato_models.WanFirewallDirectionEnum                                                             "json:\"direction\" graphql:\"direction\""
-	Enabled               bool                                                                                             "json:\"enabled\" graphql:\"enabled\""
-	Exceptions            []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions    "json:\"exceptions\" graphql:\"exceptions\""
-	ID                    string                                                                                           "json:\"id\" graphql:\"id\""
-	Index                 int64                                                                                            "json:\"index\" graphql:\"index\""
-	Name                  string                                                                                           "json:\"name\" graphql:\"name\""
-	Schedule              PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule         "json:\"schedule\" graphql:\"schedule\""
-	Section               PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
-	Service               PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service          "json:\"service\" graphql:\"service\""
-	Source                PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source           "json:\"source\" graphql:\"source\""
-	Tracking              PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking         "json:\"tracking\" graphql:\"tracking\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Action
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetActionConfig() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActionConfig {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.ActionConfig
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetActivePeriod() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_ActivePeriod {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.ActivePeriod
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetApplication() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Application {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Application
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetConnectionOrigin() *cato_models.ConnectionOriginEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.ConnectionOrigin
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.ConnectionsOriginList
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetCountry() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Country {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Country
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetDescription() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Description
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetDestination() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Destination {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Destination
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetDevice() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Device {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Device
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetDeviceAttributes() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_DeviceAttributes {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.DeviceAttributes
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetDeviceOs() []cato_models.OperatingSystem {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.DeviceOs
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetDirection() *cato_models.WanFirewallDirectionEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Direction
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetEnabled() bool {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Enabled
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetExceptions() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Exceptions {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Exceptions
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetIndex() int64 {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Index
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return t.Name
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetSchedule() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Schedule {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Schedule
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetSection() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Section {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Section
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetService() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Service {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Service
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetSource() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Source {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Source
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule) GetTracking() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule_Tracking {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule{}
-	}
-	return &t.Tracking
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_SubPolicy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_SubPolicy) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_SubPolicy{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_SubPolicy) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_SubPolicy{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules struct {
-	Access     PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
-	Audit      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
-	Metadata   *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
-	Properties []cato_models.PolicyElementPropertiesEnum                                             "json:\"properties\" graphql:\"properties\""
-	Rule       PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule       "json:\"rule\" graphql:\"rule\""
-	RuleType   cato_models.PolicyRuleTypeEnum                                                        "json:\"ruleType\" graphql:\"ruleType\""
-	SubPolicy  *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules) GetAccess() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Access
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules) GetAudit() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Audit {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Audit
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules) GetMetadata() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Metadata {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return t.Metadata
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return t.Properties
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules) GetRule() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_Rule {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.Rule
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules) GetRuleType() *cato_models.PolicyRuleTypeEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return &t.RuleType
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules) GetSubPolicy() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules_SubPolicy {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules{}
-	}
-	return t.SubPolicy
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Audit struct {
-	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Audit) GetUpdatedBy() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Audit{}
-	}
-	return t.UpdatedBy
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Audit{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock struct {
-	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
-	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
-	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingAdminEmail() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingAdminEmail
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingRevisionID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingRevisionID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock) GetLockingTime() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock{}
-	}
-	return t.LockingTime
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata struct {
-	Lock *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata) GetLock() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata_Lock {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata{}
-	}
-	return t.Lock
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Section) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Section{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Section) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Section{}
-	}
-	return t.Name
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections struct {
-	Audit      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Audit     "json:\"audit\" graphql:\"audit\""
-	Metadata   *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
-	Properties []cato_models.PolicyElementPropertiesEnum                                               "json:\"properties\" graphql:\"properties\""
-	Section    PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Section   "json:\"section\" graphql:\"section\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections) GetAudit() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Audit {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections{}
-	}
-	return &t.Audit
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections) GetMetadata() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Metadata {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections{}
-	}
-	return t.Metadata
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections{}
-	}
-	return t.Properties
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections) GetSection() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections_Section {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections{}
-	}
-	return &t.Section
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Audit struct {
-	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
-	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Audit) GetPublishedBy() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Audit{}
-	}
-	return t.PublishedBy
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Audit) GetPublishedTime() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Audit{}
-	}
-	return t.PublishedTime
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision struct {
-	Changes     int64  "json:\"changes\" graphql:\"changes\""
-	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy struct {
 	Description string "json:\"description\" graphql:\"description\""
+	Enabled     bool   "json:\"enabled\" graphql:\"enabled\""
 	ID          string "json:\"id\" graphql:\"id\""
 	Name        string "json:\"name\" graphql:\"name\""
-	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
 }
 
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision) GetChanges() int64 {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Changes
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision) GetCreatedTime() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.CreatedTime
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision) GetDescription() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Description
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.Name
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision) GetUpdatedTime() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision{}
-	}
-	return t.UpdatedTime
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit struct {
-	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
-	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit) GetPublishedBy() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit{}
-	}
-	return t.PublishedBy
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit) GetPublishedTime() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit{}
-	}
-	return t.PublishedTime
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy struct {
-	Audit       PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit "json:\"audit\" graphql:\"audit\""
-	Description string                                                                                        "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                          "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                                        "json:\"id\" graphql:\"id\""
-	Name        string                                                                                        "json:\"name\" graphql:\"name\""
-	PolicyLevel cato_models.PolicyLevelEnum                                                                   "json:\"policyLevel\" graphql:\"policyLevel\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetAudit() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy_Audit {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return &t.Audit
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetDescription() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Description
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetEnabled() bool {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Enabled
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetID() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.ID
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetName() string {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return t.Name
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy) GetPolicyLevel() *cato_models.PolicyLevelEnum {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy{}
-	}
-	return &t.PolicyLevel
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Access{}
-	}
-	return &t.Action
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies struct {
-	Access     PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
-	Policy     PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
-	Properties []cato_models.SubPolicyProperty                                                         "json:\"properties\" graphql:\"properties\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies) GetAccess() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Access {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Access
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies) GetPolicy() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies_Policy {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return &t.Policy
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies) GetProperties() []cato_models.SubPolicyProperty {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies{}
-	}
-	return t.Properties
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Access{}
-	}
-	return &t.Action
-}
-
-type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy struct {
-	Access      PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Access         "json:\"access\" graphql:\"access\""
-	Audit       *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
-	Description string                                                                              "json:\"description\" graphql:\"description\""
-	Enabled     bool                                                                                "json:\"enabled\" graphql:\"enabled\""
-	ID          string                                                                              "json:\"id\" graphql:\"id\""
-	Name        string                                                                              "json:\"name\" graphql:\"name\""
-	Revision    *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision      "json:\"revision,omitempty\" graphql:\"revision\""
-	Rules       []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules       "json:\"rules\" graphql:\"rules\""
-	Sections    []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections    "json:\"sections\" graphql:\"sections\""
-	SubPolicies []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
-}
-
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy) GetAccess() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Access {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy{}
-	}
-	return &t.Access
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy) GetAudit() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Audit {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy{}
-	}
-	return t.Audit
-}
 func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy) GetDescription() string {
 	if t == nil {
 		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy{}
@@ -193840,30 +185449,6 @@ func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy) G
 		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy{}
 	}
 	return t.Name
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy) GetRevision() *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Revision {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy{}
-	}
-	return t.Revision
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy) GetRules() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Rules {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy{}
-	}
-	return t.Rules
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy) GetSections() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_Sections {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy{}
-	}
-	return t.Sections
-}
-func (t *PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy) GetSubPolicies() []*PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy_SubPolicies {
-	if t == nil {
-		t = &PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Policy{}
-	}
-	return t.SubPolicies
 }
 
 type PolicyWanFirewallAddSubPolicy_Policy_WanFirewall_AddSubPolicy_Errors struct {
@@ -305882,46 +297467,9 @@ func (t *Notification_Notification_MailingListList_Items_Admin) GetName() string
 	return t.Name
 }
 
-type Notification_Notification_MailingListList_Items_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Notification_Notification_MailingListList_Items_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *Notification_Notification_MailingListList_Items_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type Notification_Notification_MailingListList_Items_Audit struct {
-	UpdatedBy   Notification_Notification_MailingListList_Items_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                          "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *Notification_Notification_MailingListList_Items_Audit) GetUpdatedBy() *Notification_Notification_MailingListList_Items_Audit_UpdatedBy {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *Notification_Notification_MailingListList_Items_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type Notification_Notification_MailingListList_Items struct {
 	Address []string                                                 "json:\"address\" graphql:\"address\""
 	Admin   []*Notification_Notification_MailingListList_Items_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   Notification_Notification_MailingListList_Items_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                   "json:\"id\" graphql:\"id\""
 	Name    string                                                   "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                     "json:\"type\" graphql:\"type\""
@@ -305938,12 +297486,6 @@ func (t *Notification_Notification_MailingListList_Items) GetAdmin() []*Notifica
 		t = &Notification_Notification_MailingListList_Items{}
 	}
 	return t.Admin
-}
-func (t *Notification_Notification_MailingListList_Items) GetAudit() *Notification_Notification_MailingListList_Items_Audit {
-	if t == nil {
-		t = &Notification_Notification_MailingListList_Items{}
-	}
-	return &t.Audit
 }
 func (t *Notification_Notification_MailingListList_Items) GetID() string {
 	if t == nil {
@@ -306011,46 +297553,9 @@ func (t *Notification_Notification_MailingList_Admin) GetName() string {
 	return t.Name
 }
 
-type Notification_Notification_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Notification_Notification_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &Notification_Notification_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *Notification_Notification_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &Notification_Notification_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type Notification_Notification_MailingList_Audit struct {
-	UpdatedBy   Notification_Notification_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *Notification_Notification_MailingList_Audit) GetUpdatedBy() *Notification_Notification_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &Notification_Notification_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *Notification_Notification_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &Notification_Notification_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type Notification_Notification_MailingList struct {
 	Address []string                                       "json:\"address\" graphql:\"address\""
 	Admin   []*Notification_Notification_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   Notification_Notification_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                         "json:\"id\" graphql:\"id\""
 	Name    string                                         "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType           "json:\"type\" graphql:\"type\""
@@ -306067,12 +297572,6 @@ func (t *Notification_Notification_MailingList) GetAdmin() []*Notification_Notif
 		t = &Notification_Notification_MailingList{}
 	}
 	return t.Admin
-}
-func (t *Notification_Notification_MailingList) GetAudit() *Notification_Notification_MailingList_Audit {
-	if t == nil {
-		t = &Notification_Notification_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *Notification_Notification_MailingList) GetID() string {
 	if t == nil {
@@ -307045,46 +298544,9 @@ func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Admin
 	return t.Name
 }
 
-type Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit struct {
-	UpdatedBy   Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                            "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedBy() *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type Notification_Notification_SubscriptionGroupList_Items_MailingList struct {
 	Address []string                                                                   "json:\"address\" graphql:\"address\""
 	Admin   []*Notification_Notification_SubscriptionGroupList_Items_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                     "json:\"id\" graphql:\"id\""
 	Name    string                                                                     "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                       "json:\"type\" graphql:\"type\""
@@ -307101,12 +298563,6 @@ func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList) GetA
 		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList{}
 	}
 	return t.Admin
-}
-func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList) GetAudit() *Notification_Notification_SubscriptionGroupList_Items_MailingList_Audit {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroupList_Items_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *Notification_Notification_SubscriptionGroupList_Items_MailingList) GetID() string {
 	if t == nil {
@@ -307428,46 +298884,9 @@ func (t *Notification_Notification_SubscriptionGroup_MailingList_Admin) GetName(
 	return t.Name
 }
 
-type Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type Notification_Notification_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                  "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *Notification_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *Notification_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *Notification_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type Notification_Notification_SubscriptionGroup_MailingList struct {
 	Address []string                                                         "json:\"address\" graphql:\"address\""
 	Admin   []*Notification_Notification_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   Notification_Notification_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                           "json:\"id\" graphql:\"id\""
 	Name    string                                                           "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                             "json:\"type\" graphql:\"type\""
@@ -307484,12 +298903,6 @@ func (t *Notification_Notification_SubscriptionGroup_MailingList) GetAdmin() []*
 		t = &Notification_Notification_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *Notification_Notification_SubscriptionGroup_MailingList) GetAudit() *Notification_Notification_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &Notification_Notification_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *Notification_Notification_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -308546,100 +299959,10 @@ func (t *NotificationIntegrationWebhookFields_Notification) GetIntegration() *No
 	return &t.Integration
 }
 
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth struct {
-	Username string "json:\"username\" graphql:\"username\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth) GetUsername() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth{}
-	}
-	return t.Username
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth{}
-	}
-	return t.Name
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Name
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Value
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders{}
-	}
-	return t.Name
-}
-
-type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth struct {
-	PlainHeaders  []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
-	SecretHeaders []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
-}
-
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth{}
-	}
-	return t.PlainHeaders
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth{}
-	}
-	return t.SecretHeaders
-}
-
 type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth struct {
-	BasicAuth         NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
-	CustomHeaderAuth  NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
-	CustomHeadersAuth NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
-	AuthType          cato_models.AuthType                                                                                 "json:\"authType\" graphql:\"authType\""
+	AuthType cato_models.AuthType "json:\"authType\" graphql:\"authType\""
 }
 
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetBasicAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.BasicAuth
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetCustomHeaderAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.CustomHeaderAuth
-}
-func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetCustomHeadersAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth {
-	if t == nil {
-		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
-	}
-	return &t.CustomHeadersAuth
-}
 func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetAuthType() *cato_models.AuthType {
 	if t == nil {
 		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
@@ -308826,46 +300149,9 @@ func (t *NotificationMailingList_Notification_MailingList_Admin) GetName() strin
 	return t.Name
 }
 
-type NotificationMailingList_Notification_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationMailingList_Notification_MailingList_Audit struct {
-	UpdatedBy   NotificationMailingList_Notification_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                           "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationMailingList_Notification_MailingList_Audit) GetUpdatedBy() *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationMailingList_Notification_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationMailingList_Notification_MailingList struct {
 	Address []string                                                  "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationMailingList_Notification_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationMailingList_Notification_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                    "json:\"id\" graphql:\"id\""
 	Name    string                                                    "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                      "json:\"type\" graphql:\"type\""
@@ -308882,12 +300168,6 @@ func (t *NotificationMailingList_Notification_MailingList) GetAdmin() []*Notific
 		t = &NotificationMailingList_Notification_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationMailingList_Notification_MailingList) GetAudit() *NotificationMailingList_Notification_MailingList_Audit {
-	if t == nil {
-		t = &NotificationMailingList_Notification_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationMailingList_Notification_MailingList) GetID() string {
 	if t == nil {
@@ -308937,46 +300217,9 @@ func (t *NotificationMailingListList_Notification_MailingListList_Items_Admin) G
 	return t.Name
 }
 
-type NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationMailingListList_Notification_MailingListList_Items_Audit struct {
-	UpdatedBy   NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                         "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit) GetUpdatedBy() *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationMailingListList_Notification_MailingListList_Items struct {
 	Address []string                                                                "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationMailingListList_Notification_MailingListList_Items_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationMailingListList_Notification_MailingListList_Items_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                  "json:\"id\" graphql:\"id\""
 	Name    string                                                                  "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                    "json:\"type\" graphql:\"type\""
@@ -308993,12 +300236,6 @@ func (t *NotificationMailingListList_Notification_MailingListList_Items) GetAdmi
 		t = &NotificationMailingListList_Notification_MailingListList_Items{}
 	}
 	return t.Admin
-}
-func (t *NotificationMailingListList_Notification_MailingListList_Items) GetAudit() *NotificationMailingListList_Notification_MailingListList_Items_Audit {
-	if t == nil {
-		t = &NotificationMailingListList_Notification_MailingListList_Items{}
-	}
-	return &t.Audit
 }
 func (t *NotificationMailingListList_Notification_MailingListList_Items) GetID() string {
 	if t == nil {
@@ -309077,46 +300314,9 @@ func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingLis
 	return t.Name
 }
 
-type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit struct {
-	UpdatedBy   NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList struct {
 	Address []string                                                                          "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                            "json:\"id\" graphql:\"id\""
 	Name    string                                                                            "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
@@ -309133,12 +300333,6 @@ func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingLis
 		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetAudit() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit {
-	if t == nil {
-		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetID() string {
 	if t == nil {
@@ -309442,46 +300636,9 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 	return t.Name
 }
 
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetID() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
-	}
-	return t.ID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit struct {
-	UpdatedBy   NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
-	UpdatedTime string                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedBy() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
-	}
-	return &t.UpdatedBy
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedTime() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
-	}
-	return t.UpdatedTime
-}
-
 type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList struct {
 	Address []string                                                                                        "json:\"address\" graphql:\"address\""
 	Admin   []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin "json:\"admin\" graphql:\"admin\""
-	Audit   NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
 	ID      string                                                                                          "json:\"id\" graphql:\"id\""
 	Name    string                                                                                          "json:\"name\" graphql:\"name\""
 	Type    cato_models.MailingListAddressesType                                                            "json:\"type\" graphql:\"type\""
@@ -309498,12 +300655,6 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
 	}
 	return t.Admin
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetAudit() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
-	}
-	return &t.Audit
 }
 func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetID() string {
 	if t == nil {
@@ -309524,231 +300675,8 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 	return &t.Type
 }
 
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth struct {
-	Username string "json:\"username\" graphql:\"username\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth) GetUsername() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth{}
-	}
-	return t.Username
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders struct {
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders{}
-	}
-	return t.Name
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth struct {
-	PlainHeaders  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
-	SecretHeaders []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth{}
-	}
-	return t.PlainHeaders
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth{}
-	}
-	return t.SecretHeaders
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth struct {
-	BasicAuth         NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
-	CustomHeaderAuth  NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
-	CustomHeadersAuth NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
-	AuthType          cato_models.AuthType                                                                                                      "json:\"authType\" graphql:\"authType\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetBasicAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.BasicAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetCustomHeaderAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.CustomHeaderAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetCustomHeadersAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.CustomHeadersAuth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetAuthType() *cato_models.AuthType {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
-	}
-	return &t.AuthType
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping struct {
-	Key   string "json:\"key\" graphql:\"key\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping) GetKey() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping{}
-	}
-	return t.Key
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping) GetValue() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping{}
-	}
-	return t.Value
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList struct {
-	Auth             NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth               "json:\"auth\" graphql:\"auth\""
-	Body             string                                                                                                                "json:\"body\" graphql:\"body\""
-	Enabled          bool                                                                                                                  "json:\"enabled\" graphql:\"enabled\""
-	Header           []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header          "json:\"header\" graphql:\"header\""
-	ID               string                                                                                                                "json:\"id\" graphql:\"id\""
-	Name             string                                                                                                                "json:\"name\" graphql:\"name\""
-	RelatedWebhookID *string                                                                                                               "json:\"relatedWebhookId,omitempty\" graphql:\"relatedWebhookId\""
-	RequestMethod    cato_models.WebhookRequestMethod                                                                                      "json:\"requestMethod\" graphql:\"requestMethod\""
-	ResponseMapping  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
-	URL              string                                                                                                                "json:\"url\" graphql:\"url\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return &t.Auth
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetBody() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Body
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetEnabled() bool {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Enabled
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetHeader() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Header
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetID() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.ID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetName() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.Name
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetRelatedWebhookID() *string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.RelatedWebhookID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetRequestMethod() *cato_models.WebhookRequestMethod {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return &t.RequestMethod
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetResponseMapping() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.ResponseMapping
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetURL() string {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
-	}
-	return t.URL
-}
-
-type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration struct {
-	WebhookList []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList "json:\"webhookList\" graphql:\"webhookList\""
-}
-
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration) GetWebhookList() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration{}
-	}
-	return t.WebhookList
-}
-
 type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items struct {
 	ID          string                                                                                    "json:\"id\" graphql:\"id\""
-	Integration NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration    "json:\"integration\" graphql:\"integration\""
 	MailingList []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList "json:\"mailingList\" graphql:\"mailingList\""
 	Name        string                                                                                    "json:\"name\" graphql:\"name\""
 }
@@ -309758,12 +300686,6 @@ func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_It
 		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
 	}
 	return t.ID
-}
-func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetIntegration() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration {
-	if t == nil {
-		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
-	}
-	return &t.Integration
 }
 func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetMailingList() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList {
 	if t == nil {
@@ -330219,19 +321141,7 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_SubPo
 	return t.Name
 }
 
-type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall struct {
-	Access     PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                                    "json:\"properties\" graphql:\"properties\""
@@ -330240,12 +321150,6 @@ type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall struct {
 	SubPolicy  *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall) GetAccess() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Access {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall_Audit {
 	if t == nil {
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule_Firewall{}
@@ -330997,19 +321901,7 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy) GetName(
 	return t.Name
 }
 
-type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules struct {
-	Access     PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access     "json:\"access\" graphql:\"access\""
 	Audit      PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
 	Metadata   *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Metadata  "json:\"metadata,omitempty\" graphql:\"metadata\""
 	Properties []cato_models.PolicyElementPropertiesEnum                      "json:\"properties\" graphql:\"properties\""
@@ -331018,12 +321910,6 @@ type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules struct {
 	SubPolicy  *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetAccess() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Access {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit {
 	if t == nil {
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
@@ -331311,19 +322197,7 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies) GetPolicy() 
 	return &t.Policy
 }
 
-type PolicySocketLanPolicy_Policy_SocketLan_Policy_Access struct {
-	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
-}
-
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Access) GetAction() *cato_models.RBACAction {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Access{}
-	}
-	return &t.Action
-}
-
 type PolicySocketLanPolicy_Policy_SocketLan_Policy struct {
-	Access      PolicySocketLanPolicy_Policy_SocketLan_Policy_Access         "json:\"access\" graphql:\"access\""
 	Audit       *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
 	Description string                                                       "json:\"description\" graphql:\"description\""
 	Enabled     bool                                                         "json:\"enabled\" graphql:\"enabled\""
@@ -331335,12 +322209,6 @@ type PolicySocketLanPolicy_Policy_SocketLan_Policy struct {
 	SubPolicies []*PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
-func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetAccess() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Access {
-	if t == nil {
-		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy{}
-	}
-	return &t.Access
-}
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit {
 	if t == nil {
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy{}
@@ -368884,6 +359752,50 @@ func (t *NotificationDeleteSubscriptionGroup) GetNotification() *NotificationDel
 	return t.Notification
 }
 
+type NotificationIntegrationCreateWebhook struct {
+	Notification *NotificationIntegrationCreateWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationCreateWebhook) GetNotification() *NotificationIntegrationCreateWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationCreateWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationDeleteWebhook struct {
+	Notification *NotificationIntegrationDeleteWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationDeleteWebhook) GetNotification() *NotificationIntegrationDeleteWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationDeleteWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationTestWebhook struct {
+	Notification *NotificationIntegrationTestWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationTestWebhook) GetNotification() *NotificationIntegrationTestWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationTestWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationUpdateWebhook struct {
+	Notification *NotificationIntegrationUpdateWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationUpdateWebhook) GetNotification() *NotificationIntegrationUpdateWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationUpdateWebhook{}
+	}
+	return t.Notification
+}
+
 type NotificationUpdateMailingList struct {
 	Notification *NotificationUpdateMailingList_Notification "json:\"notification,omitempty\" graphql:\"notification\""
 }
@@ -379628,13 +370540,6 @@ const NotificationCreateMailingListDocument = `mutation notificationCreateMailin
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 		}
 	}
@@ -379673,13 +370578,6 @@ const NotificationCreateSubscriptionGroupDocument = `mutation notificationCreate
 					admin {
 						id
 						name
-					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
 					}
 				}
 				integration {
@@ -379755,13 +370653,6 @@ const NotificationDeleteMailingListDocument = `mutation notificationDeleteMailin
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 		}
 	}
@@ -379800,13 +370691,6 @@ const NotificationDeleteSubscriptionGroupDocument = `mutation notificationDelete
 					admin {
 						id
 						name
-					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
 					}
 				}
 				integration {
@@ -379870,6 +370754,131 @@ func (c *Client) NotificationDeleteSubscriptionGroup(ctx context.Context, accoun
 	return &res, nil
 }
 
+const NotificationIntegrationCreateWebhookDocument = `mutation notificationIntegrationCreateWebhook ($accountId: ID!, $createWebhookInput: CreateWebhookInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			createWebhook(input: $createWebhookInput) {
+				webhook {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationCreateWebhook(ctx context.Context, accountID string, createWebhookInput cato_models.CreateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationCreateWebhook, error) {
+	vars := map[string]any{
+		"accountId":          accountID,
+		"createWebhookInput": createWebhookInput,
+	}
+
+	var res NotificationIntegrationCreateWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationCreateWebhook", NotificationIntegrationCreateWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationDeleteWebhookDocument = `mutation notificationIntegrationDeleteWebhook ($accountId: ID!, $webhookIntegrationRefInput: WebhookIntegrationRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			deleteWebhook(input: $webhookIntegrationRefInput) {
+				webhook {
+					id
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationDeleteWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationDeleteWebhook, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"webhookIntegrationRefInput": webhookIntegrationRefInput,
+	}
+
+	var res NotificationIntegrationDeleteWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationDeleteWebhook", NotificationIntegrationDeleteWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationTestWebhookDocument = `mutation notificationIntegrationTestWebhook ($accountId: ID!, $webhookIntegrationRefInput: WebhookIntegrationRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			testWebhook(input: $webhookIntegrationRefInput) {
+				success
+				errorMessage
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationTestWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationTestWebhook, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"webhookIntegrationRefInput": webhookIntegrationRefInput,
+	}
+
+	var res NotificationIntegrationTestWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationTestWebhook", NotificationIntegrationTestWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationUpdateWebhookDocument = `mutation notificationIntegrationUpdateWebhook ($accountId: ID!, $updateWebhookInput: UpdateWebhookInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			updateWebhook(input: $updateWebhookInput) {
+				webhook {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationUpdateWebhook(ctx context.Context, accountID string, updateWebhookInput cato_models.UpdateWebhookInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationUpdateWebhook, error) {
+	vars := map[string]any{
+		"accountId":          accountID,
+		"updateWebhookInput": updateWebhookInput,
+	}
+
+	var res NotificationIntegrationUpdateWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationUpdateWebhook", NotificationIntegrationUpdateWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const NotificationUpdateMailingListDocument = `mutation notificationUpdateMailingList ($accountId: ID!, $updateMailingListInput: UpdateMailingListInput!) {
 	notification(accountId: $accountId) {
 		updateMailingList(input: $updateMailingListInput) {
@@ -379881,13 +370890,6 @@ const NotificationUpdateMailingListDocument = `mutation notificationUpdateMailin
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 		}
@@ -379927,13 +370929,6 @@ const NotificationUpdateSubscriptionGroupDocument = `mutation notificationUpdate
 					admin {
 						id
 						name
-					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
 					}
 				}
 				integration {
@@ -391194,410 +382189,6 @@ const PolicyInternetFirewallAddSubPolicyDocument = `mutation policyInternetFirew
 					name
 					description
 					enabled
-					rules {
-						audit {
-							updatedTime
-							updatedBy
-						}
-						metadata {
-							lock {
-								lockingAdminEmail
-								lockingTime
-								lockingRevisionId
-							}
-						}
-						rule {
-							id
-							name
-							description
-							index
-							section {
-								id
-								name
-							}
-							enabled
-							source {
-								ip
-								host {
-									id
-									name
-								}
-								site {
-									id
-									name
-								}
-								subnet
-								ipRange {
-									from
-									to
-								}
-								globalIpRange {
-									id
-									name
-								}
-								networkInterface {
-									id
-									name
-								}
-								siteNetworkSubnet {
-									id
-									name
-								}
-								floatingSubnet {
-									id
-									name
-								}
-								user {
-									id
-									name
-								}
-								usersGroup {
-									id
-									name
-								}
-								group {
-									id
-									name
-								}
-								systemGroup {
-									id
-									name
-								}
-							}
-							connectionOrigin
-							country {
-								id
-								name
-							}
-							device {
-								id
-								name
-							}
-							deviceOS
-							deviceAttributes {
-								category
-								type
-								model
-								manufacturer
-								os
-								osVersion
-							}
-							destination {
-								application {
-									id
-									name
-								}
-								customApp {
-									id
-									name
-								}
-								appCategory {
-									id
-									name
-								}
-								customCategory {
-									id
-									name
-								}
-								sanctionedAppsCategory {
-									id
-									name
-								}
-								country {
-									id
-									name
-								}
-								domain
-								fqdn
-								ip
-								subnet
-								ipRange {
-									from
-									to
-								}
-								globalIpRange {
-									id
-									name
-								}
-								remoteAsn
-								containers {
-									fqdnContainer {
-										id
-										name
-									}
-									ipAddressRangeContainer {
-										id
-										name
-									}
-								}
-								group {
-									id
-									name
-								}
-							}
-							service {
-								standard {
-									id
-									name
-								}
-								custom {
-									port
-									portRange {
-										from
-										to
-									}
-									protocol
-								}
-							}
-							action
-							tracking {
-								event {
-									enabled
-								}
-								alert {
-									enabled
-									frequency
-									subscriptionGroup {
-										id
-										name
-									}
-									webhook {
-										id
-										name
-									}
-									mailingList {
-										id
-										name
-									}
-								}
-							}
-							schedule {
-								activeOn
-								customTimeframe {
-									from
-									to
-								}
-								customRecurring {
-									from
-									to
-									days
-								}
-							}
-							activePeriod {
-								useEffectiveFrom
-								effectiveFrom
-								useExpiresAt
-								expiresAt
-							}
-							exceptions {
-								name
-								source {
-									ip
-									host {
-										id
-										name
-									}
-									site {
-										id
-										name
-									}
-									subnet
-									ipRange {
-										from
-										to
-									}
-									globalIpRange {
-										id
-										name
-									}
-									networkInterface {
-										id
-										name
-									}
-									siteNetworkSubnet {
-										id
-										name
-									}
-									floatingSubnet {
-										id
-										name
-									}
-									user {
-										id
-										name
-									}
-									usersGroup {
-										id
-										name
-									}
-									group {
-										id
-										name
-									}
-									systemGroup {
-										id
-										name
-									}
-								}
-								deviceOS
-								country {
-									id
-									name
-								}
-								device {
-									id
-									name
-								}
-								deviceAttributes {
-									category
-									type
-									model
-									manufacturer
-									os
-									osVersion
-								}
-								destination {
-									application {
-										id
-										name
-									}
-									customApp {
-										id
-										name
-									}
-									appCategory {
-										id
-										name
-									}
-									customCategory {
-										id
-										name
-									}
-									sanctionedAppsCategory {
-										id
-										name
-									}
-									country {
-										id
-										name
-									}
-									domain
-									fqdn
-									ip
-									subnet
-									ipRange {
-										from
-										to
-									}
-									globalIpRange {
-										id
-										name
-									}
-									remoteAsn
-									containers {
-										fqdnContainer {
-											id
-											name
-										}
-										ipAddressRangeContainer {
-											id
-											name
-										}
-									}
-									group {
-										id
-										name
-									}
-								}
-								service {
-									standard {
-										id
-										name
-									}
-									custom {
-										port
-										portRange {
-											from
-											to
-										}
-										protocol
-									}
-								}
-								connectionOrigin
-								connectionsOriginList
-							}
-							actionConfig {
-								userNotification {
-									id
-									name
-								}
-								rbiProfile {
-									id
-									name
-								}
-							}
-							connectionsOriginList
-						}
-						properties
-						ruleType
-						subPolicy {
-							id
-							name
-						}
-						access {
-							action
-						}
-					}
-					sections {
-						audit {
-							updatedTime
-							updatedBy
-						}
-						metadata {
-							lock {
-								lockingAdminEmail
-								lockingTime
-								lockingRevisionId
-							}
-						}
-						section {
-							id
-							name
-						}
-						properties
-					}
-					audit {
-						publishedTime
-						publishedBy
-					}
-					revision {
-						id
-						name
-						description
-						changes
-						createdTime
-						updatedTime
-					}
-					subPolicies {
-						policy {
-							id
-							name
-							description
-							enabled
-							policyLevel
-							audit {
-								publishedTime
-								publishedBy
-							}
-						}
-						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
-					}
 				}
 				status
 				errors {
@@ -403157,9 +393748,6 @@ const PolicySocketLanAddRuleDocument = `mutation policySocketLanAddRule ($socket
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -403271,9 +393859,6 @@ const PolicySocketLanAddRuleDocument = `mutation policySocketLanAddRule ($socket
 						id
 						name
 					}
-					access {
-						action
-					}
 				}
 				revision {
 					id
@@ -403382,370 +393967,6 @@ const PolicySocketLanAddSubPolicyDocument = `mutation policySocketLanAddSubPolic
 					name
 					description
 					enabled
-					rules {
-						audit {
-							updatedTime
-							updatedBy
-						}
-						metadata {
-							lock {
-								lockingAdminEmail
-								lockingTime
-								lockingRevisionId
-							}
-						}
-						rule {
-							id
-							name
-							description
-							index
-							section {
-								id
-								name
-							}
-							enabled
-							firewall {
-								audit {
-									updatedTime
-									updatedBy
-								}
-								metadata {
-									lock {
-										lockingAdminEmail
-										lockingTime
-										lockingRevisionId
-									}
-								}
-								rule {
-									id
-									name
-									description
-									index
-									section {
-										id
-										name
-									}
-									enabled
-									source {
-										vlan
-										mac
-										ipRange {
-											from
-											to
-										}
-										group {
-											id
-											name
-										}
-										subnet
-										site {
-											id
-											name
-										}
-										networkInterface {
-											id
-											name
-										}
-										systemGroup {
-											id
-											name
-										}
-										host {
-											id
-											name
-										}
-										ip
-										globalIpRange {
-											id
-											name
-										}
-										floatingSubnet {
-											id
-											name
-										}
-										siteNetworkSubnet {
-											id
-											name
-										}
-									}
-									destination {
-										vlan
-										ipRange {
-											from
-											to
-										}
-										subnet
-										site {
-											id
-											name
-										}
-										networkInterface {
-											id
-											name
-										}
-										systemGroup {
-											id
-											name
-										}
-										host {
-											id
-											name
-										}
-										ip
-										globalIpRange {
-											id
-											name
-										}
-										group {
-											id
-											name
-										}
-										floatingSubnet {
-											id
-											name
-										}
-										siteNetworkSubnet {
-											id
-											name
-										}
-									}
-									direction
-									application {
-										application {
-											id
-											name
-										}
-										customApp {
-											id
-											name
-										}
-										domain
-										fqdn
-										ip
-										subnet
-										ipRange {
-											from
-											to
-										}
-										globalIpRange {
-											id
-											name
-										}
-									}
-									service {
-										simple {
-											name
-										}
-										standard {
-											id
-											name
-										}
-										custom {
-											port
-											portRange {
-												from
-												to
-											}
-											protocol
-										}
-									}
-									action
-									tracking {
-										event {
-											enabled
-										}
-										alert {
-											enabled
-											frequency
-											subscriptionGroup {
-												id
-												name
-											}
-											webhook {
-												id
-												name
-											}
-											mailingList {
-												id
-												name
-											}
-										}
-									}
-								}
-								properties
-								ruleType
-								subPolicy {
-									id
-									name
-								}
-								access {
-									action
-								}
-							}
-							site {
-								site {
-									id
-									name
-								}
-								group {
-									id
-									name
-								}
-							}
-							source {
-								vlan
-								ipRange {
-									from
-									to
-								}
-								group {
-									id
-									name
-								}
-								subnet
-								networkInterface {
-									id
-									name
-								}
-								systemGroup {
-									id
-									name
-								}
-								host {
-									id
-									name
-								}
-								ip
-								globalIpRange {
-									id
-									name
-								}
-								floatingSubnet {
-									id
-									name
-								}
-								siteNetworkSubnet {
-									id
-									name
-								}
-							}
-							destination {
-								vlan
-								ipRange {
-									from
-									to
-								}
-								subnet
-								networkInterface {
-									id
-									name
-								}
-								systemGroup {
-									id
-									name
-								}
-								host {
-									id
-									name
-								}
-								ip
-								globalIpRange {
-									id
-									name
-								}
-								group {
-									id
-									name
-								}
-								floatingSubnet {
-									id
-									name
-								}
-								siteNetworkSubnet {
-									id
-									name
-								}
-							}
-							direction
-							service {
-								simple {
-									name
-								}
-								custom {
-									port
-									portRange {
-										from
-										to
-									}
-									protocol
-								}
-							}
-							nat {
-								enabled
-								natType
-							}
-							transport
-						}
-						properties
-						ruleType
-						subPolicy {
-							id
-							name
-						}
-						access {
-							action
-						}
-					}
-					sections {
-						audit {
-							updatedTime
-							updatedBy
-						}
-						metadata {
-							lock {
-								lockingAdminEmail
-								lockingTime
-								lockingRevisionId
-							}
-						}
-						section {
-							id
-							name
-						}
-						properties
-					}
-					audit {
-						publishedTime
-						publishedBy
-					}
-					revision {
-						id
-						name
-						description
-						changes
-						createdTime
-						updatedTime
-					}
-					subPolicies {
-						policy {
-							id
-							name
-							description
-							enabled
-							policyLevel
-							audit {
-								publishedTime
-								publishedBy
-							}
-						}
-						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
-					}
 				}
 				status
 				errors {
@@ -403982,9 +394203,6 @@ const PolicySocketLanCreatePolicyRevisionDocument = `mutation policySocketLanCre
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -404096,9 +394314,6 @@ const PolicySocketLanCreatePolicyRevisionDocument = `mutation policySocketLanCre
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -404143,12 +394358,6 @@ const PolicySocketLanCreatePolicyRevisionDocument = `mutation policySocketLanCre
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -404386,9 +394595,6 @@ const PolicySocketLanDiscardPolicyRevisionDocument = `mutation policySocketLanDi
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -404500,9 +394706,6 @@ const PolicySocketLanDiscardPolicyRevisionDocument = `mutation policySocketLanDi
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -404547,12 +394750,6 @@ const PolicySocketLanDiscardPolicyRevisionDocument = `mutation policySocketLanDi
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -404763,9 +394960,6 @@ const PolicySocketLanFirewallAddRuleDocument = `mutation policySocketLanFirewall
 						subPolicy {
 							id
 							name
-						}
-						access {
-							action
 						}
 					}
 					revision {
@@ -404986,9 +395180,6 @@ const PolicySocketLanFirewallMoveRuleDocument = `mutation policySocketLanFirewal
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					revision {
 						id
@@ -405208,9 +395399,6 @@ const PolicySocketLanFirewallRemoveRuleDocument = `mutation policySocketLanFirew
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					revision {
 						id
@@ -405429,9 +395617,6 @@ const PolicySocketLanFirewallUpdateRuleDocument = `mutation policySocketLanFirew
 						subPolicy {
 							id
 							name
-						}
-						access {
-							action
 						}
 					}
 					revision {
@@ -405673,9 +395858,6 @@ const PolicySocketLanMoveRuleDocument = `mutation policySocketLanMoveRule ($poli
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -405786,9 +395968,6 @@ const PolicySocketLanMoveRuleDocument = `mutation policySocketLanMoveRule ($poli
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {
@@ -406094,9 +396273,6 @@ const PolicySocketLanPublishPolicyRevisionDocument = `mutation policySocketLanPu
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -406208,9 +396384,6 @@ const PolicySocketLanPublishPolicyRevisionDocument = `mutation policySocketLanPu
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -406255,12 +396428,6 @@ const PolicySocketLanPublishPolicyRevisionDocument = `mutation policySocketLanPu
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -406493,9 +396660,6 @@ const PolicySocketLanRemoveRuleDocument = `mutation policySocketLanRemoveRule ($
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -406606,9 +396770,6 @@ const PolicySocketLanRemoveRuleDocument = `mutation policySocketLanRemoveRule ($
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {
@@ -406914,9 +397075,6 @@ const PolicySocketLanRemoveSubPolicyDocument = `mutation policySocketLanRemoveSu
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -407028,9 +397186,6 @@ const PolicySocketLanRemoveSubPolicyDocument = `mutation policySocketLanRemoveSu
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -407075,12 +397230,6 @@ const PolicySocketLanRemoveSubPolicyDocument = `mutation policySocketLanRemoveSu
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -407318,9 +397467,6 @@ const PolicySocketLanReorderPolicyDocument = `mutation policySocketLanReorderPol
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -407432,9 +397578,6 @@ const PolicySocketLanReorderPolicyDocument = `mutation policySocketLanReorderPol
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -407479,12 +397622,6 @@ const PolicySocketLanReorderPolicyDocument = `mutation policySocketLanReorderPol
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -407722,9 +397859,6 @@ const PolicySocketLanUpdatePolicyDocument = `mutation policySocketLanUpdatePolic
 									id
 									name
 								}
-								access {
-									action
-								}
 							}
 							site {
 								site {
@@ -407836,9 +397970,6 @@ const PolicySocketLanUpdatePolicyDocument = `mutation policySocketLanUpdatePolic
 							id
 							name
 						}
-						access {
-							action
-						}
 					}
 					sections {
 						audit {
@@ -407883,12 +398014,6 @@ const PolicySocketLanUpdatePolicyDocument = `mutation policySocketLanUpdatePolic
 							}
 						}
 						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
 					}
 				}
 				status
@@ -408121,9 +398246,6 @@ const PolicySocketLanUpdateRuleDocument = `mutation policySocketLanUpdateRule ($
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -408234,9 +398356,6 @@ const PolicySocketLanUpdateRuleDocument = `mutation policySocketLanUpdateRule ($
 					subPolicy {
 						id
 						name
-					}
-					access {
-						action
 					}
 				}
 				revision {
@@ -412790,466 +402909,6 @@ const PolicyWanFirewallAddSubPolicyDocument = `mutation policyWanFirewallAddSubP
 					name
 					description
 					enabled
-					rules {
-						audit {
-							updatedTime
-							updatedBy
-						}
-						metadata {
-							lock {
-								lockingAdminEmail
-								lockingTime
-								lockingRevisionId
-							}
-						}
-						rule {
-							id
-							name
-							description
-							index
-							section {
-								id
-								name
-							}
-							enabled
-							source {
-								host {
-									id
-									name
-								}
-								site {
-									id
-									name
-								}
-								subnet
-								ip
-								ipRange {
-									from
-									to
-								}
-								globalIpRange {
-									id
-									name
-								}
-								networkInterface {
-									id
-									name
-								}
-								siteNetworkSubnet {
-									id
-									name
-								}
-								floatingSubnet {
-									id
-									name
-								}
-								user {
-									id
-									name
-								}
-								usersGroup {
-									id
-									name
-								}
-								group {
-									id
-									name
-								}
-								systemGroup {
-									id
-									name
-								}
-							}
-							connectionOrigin
-							country {
-								id
-								name
-							}
-							device {
-								id
-								name
-							}
-							deviceOS
-							deviceAttributes {
-								category
-								type
-								model
-								manufacturer
-								os
-								osVersion
-							}
-							destination {
-								host {
-									id
-									name
-								}
-								site {
-									id
-									name
-								}
-								subnet
-								ip
-								ipRange {
-									from
-									to
-								}
-								globalIpRange {
-									id
-									name
-								}
-								networkInterface {
-									id
-									name
-								}
-								siteNetworkSubnet {
-									id
-									name
-								}
-								floatingSubnet {
-									id
-									name
-								}
-								user {
-									id
-									name
-								}
-								usersGroup {
-									id
-									name
-								}
-								group {
-									id
-									name
-								}
-								systemGroup {
-									id
-									name
-								}
-							}
-							application {
-								application {
-									id
-									name
-								}
-								appCategory {
-									id
-									name
-								}
-								customApp {
-									id
-									name
-								}
-								customCategory {
-									id
-									name
-								}
-								sanctionedAppsCategory {
-									id
-									name
-								}
-								domain
-								fqdn
-								ip
-								subnet
-								ipRange {
-									from
-									to
-								}
-								globalIpRange {
-									id
-									name
-								}
-							}
-							service {
-								standard {
-									id
-									name
-								}
-								custom {
-									port
-									portRange {
-										from
-										to
-									}
-									protocol
-								}
-							}
-							action
-							tracking {
-								event {
-									enabled
-								}
-								alert {
-									enabled
-									frequency
-									subscriptionGroup {
-										id
-										name
-									}
-									webhook {
-										id
-										name
-									}
-									mailingList {
-										id
-										name
-									}
-								}
-							}
-							schedule {
-								activeOn
-								customTimeframe {
-									from
-									to
-								}
-								customRecurring {
-									from
-									to
-									days
-								}
-							}
-							activePeriod {
-								useEffectiveFrom
-								effectiveFrom
-								useExpiresAt
-								expiresAt
-							}
-							direction
-							exceptions {
-								name
-								source {
-									host {
-										id
-										name
-									}
-									site {
-										id
-										name
-									}
-									subnet
-									ip
-									ipRange {
-										from
-										to
-									}
-									globalIpRange {
-										id
-										name
-									}
-									networkInterface {
-										id
-										name
-									}
-									siteNetworkSubnet {
-										id
-										name
-									}
-									floatingSubnet {
-										id
-										name
-									}
-									user {
-										id
-										name
-									}
-									usersGroup {
-										id
-										name
-									}
-									group {
-										id
-										name
-									}
-									systemGroup {
-										id
-										name
-									}
-								}
-								deviceOS
-								destination {
-									host {
-										id
-										name
-									}
-									site {
-										id
-										name
-									}
-									subnet
-									ip
-									ipRange {
-										from
-										to
-									}
-									globalIpRange {
-										id
-										name
-									}
-									networkInterface {
-										id
-										name
-									}
-									siteNetworkSubnet {
-										id
-										name
-									}
-									floatingSubnet {
-										id
-										name
-									}
-									user {
-										id
-										name
-									}
-									usersGroup {
-										id
-										name
-									}
-									group {
-										id
-										name
-									}
-									systemGroup {
-										id
-										name
-									}
-								}
-								country {
-									id
-									name
-								}
-								device {
-									id
-									name
-								}
-								deviceAttributes {
-									category
-									type
-									model
-									manufacturer
-									os
-									osVersion
-								}
-								application {
-									application {
-										id
-										name
-									}
-									appCategory {
-										id
-										name
-									}
-									customApp {
-										id
-										name
-									}
-									customCategory {
-										id
-										name
-									}
-									sanctionedAppsCategory {
-										id
-										name
-									}
-									domain
-									fqdn
-									ip
-									subnet
-									ipRange {
-										from
-										to
-									}
-									globalIpRange {
-										id
-										name
-									}
-								}
-								service {
-									standard {
-										id
-										name
-									}
-									custom {
-										port
-										portRange {
-											from
-											to
-										}
-										protocol
-									}
-								}
-								connectionOrigin
-								direction
-								connectionsOriginList
-							}
-							actionConfig {
-								userNotification {
-									id
-									name
-								}
-							}
-							connectionsOriginList
-						}
-						properties
-						ruleType
-						subPolicy {
-							id
-							name
-						}
-						access {
-							action
-						}
-					}
-					sections {
-						audit {
-							updatedTime
-							updatedBy
-						}
-						metadata {
-							lock {
-								lockingAdminEmail
-								lockingTime
-								lockingRevisionId
-							}
-						}
-						section {
-							id
-							name
-						}
-						properties
-					}
-					audit {
-						publishedTime
-						publishedBy
-					}
-					revision {
-						id
-						name
-						description
-						changes
-						createdTime
-						updatedTime
-					}
-					subPolicies {
-						policy {
-							id
-							name
-							description
-							enabled
-							policyLevel
-							audit {
-								publishedTime
-								publishedBy
-							}
-						}
-						properties
-						access {
-							action
-						}
-					}
-					access {
-						action
-					}
 				}
 				status
 				errors {
@@ -438003,13 +427662,6 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 					id
 					name
 				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
 			}
 			paging {
 				total
@@ -438023,13 +427675,6 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 			admin {
 				id
 				name
-			}
-			audit {
-				updatedTime
-				updatedBy {
-					id
-					name
-				}
 			}
 		}
 		integration {
@@ -438197,13 +427842,6 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 						id
 						name
 					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
-					}
 				}
 				integration {
 					webhookList {
@@ -438258,13 +427896,6 @@ const NotificationDocument = `query notification ($accountId: ID!, $mailingListR
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 			integration {
@@ -438554,21 +428185,6 @@ const NotificationIntegrationWebhookListDocument = `query notificationIntegratio
 					requestMethod
 					auth {
 						authType
-						... on BasicAuth {
-							username
-						}
-						... on CustomHeaderAuth {
-							name
-						}
-						... on CustomHeadersAuth {
-							plainHeaders {
-								name
-								value
-							}
-							secretHeaders {
-								name
-							}
-						}
 					}
 					header {
 						name
@@ -438618,13 +428234,6 @@ const NotificationMailingListDocument = `query notificationMailingList ($account
 				id
 				name
 			}
-			audit {
-				updatedTime
-				updatedBy {
-					id
-					name
-				}
-			}
 		}
 	}
 }
@@ -438659,13 +428268,6 @@ const NotificationMailingListListDocument = `query notificationMailingListList (
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 			paging {
@@ -438706,13 +428308,6 @@ const NotificationSubscriptionGroupDocument = `query notificationSubscriptionGro
 				admin {
 					id
 					name
-				}
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
 				}
 			}
 			integration {
@@ -438789,50 +428384,6 @@ const NotificationSubscriptionGroupListDocument = `query notificationSubscriptio
 					admin {
 						id
 						name
-					}
-					audit {
-						updatedTime
-						updatedBy {
-							id
-							name
-						}
-					}
-				}
-				integration {
-					webhookList {
-						id
-						name
-						enabled
-						url
-						requestMethod
-						auth {
-							authType
-							... on BasicAuth {
-								username
-							}
-							... on CustomHeaderAuth {
-								name
-							}
-							... on CustomHeadersAuth {
-								plainHeaders {
-									name
-									value
-								}
-								secretHeaders {
-									name
-								}
-							}
-						}
-						header {
-							name
-							value
-						}
-						body
-						responseMapping {
-							key
-							value
-						}
-						relatedWebhookId
 					}
 				}
 			}
@@ -442540,9 +432091,6 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 								id
 								name
 							}
-							access {
-								action
-							}
 						}
 						site {
 							site {
@@ -442654,9 +432202,6 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 						id
 						name
 					}
-					access {
-						action
-					}
 				}
 				sections {
 					audit {
@@ -442701,9 +432246,6 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 							publishedBy
 						}
 					}
-				}
-				access {
-					action
 				}
 			}
 		}
@@ -450424,6 +439966,10 @@ var DocumentOperationNames = map[string]string{
 	NotificationCreateSubscriptionGroupDocument:                  "notificationCreateSubscriptionGroup",
 	NotificationDeleteMailingListDocument:                        "notificationDeleteMailingList",
 	NotificationDeleteSubscriptionGroupDocument:                  "notificationDeleteSubscriptionGroup",
+	NotificationIntegrationCreateWebhookDocument:                 "notificationIntegrationCreateWebhook",
+	NotificationIntegrationDeleteWebhookDocument:                 "notificationIntegrationDeleteWebhook",
+	NotificationIntegrationTestWebhookDocument:                   "notificationIntegrationTestWebhook",
+	NotificationIntegrationUpdateWebhookDocument:                 "notificationIntegrationUpdateWebhook",
 	NotificationUpdateMailingListDocument:                        "notificationUpdateMailingList",
 	NotificationUpdateSubscriptionGroupDocument:                  "notificationUpdateSubscriptionGroup",
 	ObjectCreateGlobalIPRangeBulkDocument:                        "objectCreateGlobalIpRangeBulk",
