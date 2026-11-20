@@ -980,7 +980,8 @@ type ApplicationControlApplication {
   application: ApplicationRef
   applicationType: [ApplicationType!]!
   customApp: CustomApplicationRef
-  customCategory: CustomCategoryRef
+  customCategory: CustomCategoryRef @deprecated(reason: "Use an advanced group instead.")
+  group: GroupRef
   sanctionedAppsCategory: SanctionedAppsCategoryRef
 }
 
@@ -1876,13 +1877,13 @@ type ClientConnectivityRulePayload implements IPolicyRulePayload {
   rule: ClientConnectivityRule!
 }
 
-""" Users or user groups that the policy will apply on """
+""" Users or user groups that the rule applies to. """
 type ClientConnectivitySource {
   user: [UserRef!]!
   usersGroup: [UsersGroupRef!]!
 }
 
-""" Public ISP IP Range for source matching """
+""" Public ISP IP Range for source matching. """
 type ClientConnectivitySourceRange {
   globalIpRange: GlobalIpRangeRef!
 }
@@ -2564,6 +2565,7 @@ type DynamicIpAllocationPolicyQueries {
   revisions: PolicyRevisionsPayload @beta
 }
 
+""" A Global IP Range object referenced by a Dynamic IP Allocation rule. """
 type DynamicIpAllocationRange {
   globalIpRange: GlobalIpRangeRef!
 }
@@ -2596,6 +2598,7 @@ type DynamicIpAllocationRulePayload implements IPolicyRulePayload {
   rule: DynamicIpAllocationRule!
 }
 
+""" Users and user groups that the rule applies to. """
 type DynamicIpAllocationSource {
   user: [UserRef!]!
   usersGroup: [UsersGroupRef!]!
@@ -4397,15 +4400,15 @@ type NetworkConfigDhcpDeleteRelayGroupPayload {
 
 """ DHCP write operations for the account. """
 type NetworkConfigDhcpMutations {
-  createOption(input: NetworkConfigDhcpCreateOptionInput!): NetworkConfigDhcpCreateOptionPayload @rollout @beta
-  createRelayGroup(input: NetworkConfigDhcpCreateRelayGroupInput!): NetworkConfigDhcpCreateRelayGroupPayload @rollout @beta
-  deleteOption(input: NetworkConfigDhcpDeleteOptionInput!): NetworkConfigDhcpDeleteOptionPayload @rollout @beta
-  deleteRelayGroup(input: NetworkConfigDhcpDeleteRelayGroupInput!): NetworkConfigDhcpDeleteRelayGroupPayload @rollout @beta
-  setOption(input: NetworkConfigDhcpSetOptionInput!): NetworkConfigDhcpSetOptionPayload @rollout @beta
-  setRelayGroup(input: NetworkConfigDhcpSetRelayGroupInput!): NetworkConfigDhcpSetRelayGroupPayload @rollout @beta
-  updateOption(input: NetworkConfigDhcpUpdateOptionInput!): NetworkConfigDhcpUpdateOptionPayload @rollout @beta
-  updateRelayGroup(input: NetworkConfigDhcpUpdateRelayGroupInput!): NetworkConfigDhcpUpdateRelayGroupPayload @rollout @beta
-  updateSettings(input: NetworkConfigDhcpUpdateSettingsInput!): NetworkConfigDhcpUpdateSettingsPayload @rollout @beta
+  createOption(input: NetworkConfigDhcpCreateOptionInput!): NetworkConfigDhcpCreateOptionPayload
+  createRelayGroup(input: NetworkConfigDhcpCreateRelayGroupInput!): NetworkConfigDhcpCreateRelayGroupPayload
+  deleteOption(input: NetworkConfigDhcpDeleteOptionInput!): NetworkConfigDhcpDeleteOptionPayload
+  deleteRelayGroup(input: NetworkConfigDhcpDeleteRelayGroupInput!): NetworkConfigDhcpDeleteRelayGroupPayload
+  setOption(input: NetworkConfigDhcpSetOptionInput!): NetworkConfigDhcpSetOptionPayload
+  setRelayGroup(input: NetworkConfigDhcpSetRelayGroupInput!): NetworkConfigDhcpSetRelayGroupPayload
+  updateOption(input: NetworkConfigDhcpUpdateOptionInput!): NetworkConfigDhcpUpdateOptionPayload
+  updateRelayGroup(input: NetworkConfigDhcpUpdateRelayGroupInput!): NetworkConfigDhcpUpdateRelayGroupPayload
+  updateSettings(input: NetworkConfigDhcpUpdateSettingsInput!): NetworkConfigDhcpUpdateSettingsPayload
 }
 
 """ A single DHCP option (a code/value pair advertised to DHCP clients). """
@@ -4431,11 +4434,11 @@ type NetworkConfigDhcpProfileRef implements ObjectRef {
 
 """ DHCP read operations for the account. """
 type NetworkConfigDhcpQueries {
-  option(input: NetworkConfigDhcpOptionRefInput!): NetworkConfigDhcpOption @rollout @beta
-  optionList(input: NetworkConfigDhcpOptionListInput! = {sort:{tag:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDhcpOptionListPayload @rollout @beta
-  relayGroup(input: NetworkConfigDhcpRelayGroupRefInput!): NetworkConfigDhcpRelayGroup @rollout @beta
-  relayGroupList(input: NetworkConfigDhcpRelayGroupListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDhcpRelayGroupListPayload @rollout @beta
-  settings: NetworkConfigDhcpSettings @rollout @beta
+  option(input: NetworkConfigDhcpOptionRefInput!): NetworkConfigDhcpOption
+  optionList(input: NetworkConfigDhcpOptionListInput! = {sort:{tag:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDhcpOptionListPayload
+  relayGroup(input: NetworkConfigDhcpRelayGroupRefInput!): NetworkConfigDhcpRelayGroup
+  relayGroupList(input: NetworkConfigDhcpRelayGroupListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDhcpRelayGroupListPayload
+  settings: NetworkConfigDhcpSettings
 }
 
 """ DHCP relay configuration for the account. """
@@ -4540,31 +4543,31 @@ type NetworkConfigDnsForwardingRuleListPayload {
 
 """ DNS write operations for the account. """
 type NetworkConfigDnsMutations {
-  createForwardingRule(input: NetworkConfigDnsCreateForwardingRuleInput!): NetworkConfigDnsCreateForwardingRulePayload @rollout @beta
+  createForwardingRule(input: NetworkConfigDnsCreateForwardingRuleInput!): NetworkConfigDnsCreateForwardingRulePayload
   createServerSet(input: NetworkConfigDnsCreateServerSetInput!): NetworkConfigDnsCreateServerSetPayload @rollout @beta
   createSuffixSet(input: NetworkConfigDnsCreateSuffixSetInput!): NetworkConfigDnsCreateSuffixSetPayload @rollout @beta
-  deleteForwardingRule(input: NetworkConfigDnsDeleteForwardingRuleInput!): NetworkConfigDnsDeleteForwardingRulePayload @rollout @beta
+  deleteForwardingRule(input: NetworkConfigDnsDeleteForwardingRuleInput!): NetworkConfigDnsDeleteForwardingRulePayload
   deleteServerSet(input: NetworkConfigDnsDeleteServerSetInput!): NetworkConfigDnsDeleteServerSetPayload @rollout @beta
   deleteSuffixSet(input: NetworkConfigDnsDeleteSuffixSetInput!): NetworkConfigDnsDeleteSuffixSetPayload @rollout @beta
-  removeSiteSettings(input: NetworkConfigDnsRemoveSiteSettingsInput!): NetworkConfigDnsRemoveSiteSettingsPayload @rollout @beta
-  setForwardingRule(input: NetworkConfigDnsSetForwardingRuleInput!): NetworkConfigDnsSetForwardingRulePayload @rollout @beta
+  removeSiteSettings(input: NetworkConfigDnsRemoveSiteSettingsInput!): NetworkConfigDnsRemoveSiteSettingsPayload
+  setForwardingRule(input: NetworkConfigDnsSetForwardingRuleInput!): NetworkConfigDnsSetForwardingRulePayload
   setServerSet(input: NetworkConfigDnsSetServerSetInput!): NetworkConfigDnsSetServerSetPayload @rollout @beta
   setSuffixSet(input: NetworkConfigDnsSetSuffixSetInput!): NetworkConfigDnsSetSuffixSetPayload @rollout @beta
-  updateForwardingRule(input: NetworkConfigDnsUpdateForwardingRuleInput!): NetworkConfigDnsUpdateForwardingRulePayload @rollout @beta
+  updateForwardingRule(input: NetworkConfigDnsUpdateForwardingRuleInput!): NetworkConfigDnsUpdateForwardingRulePayload
   updateServerSet(input: NetworkConfigDnsUpdateServerSetInput!): NetworkConfigDnsUpdateServerSetPayload @rollout @beta
-  updateSettings(input: NetworkConfigDnsUpdateSettingsInput!): NetworkConfigDnsUpdateSettingsPayload @rollout @beta
-  updateSiteSettings(input: NetworkConfigDnsUpdateSiteSettingsInput!): NetworkConfigDnsUpdateSiteSettingsPayload @rollout @beta
+  updateSettings(input: NetworkConfigDnsUpdateSettingsInput!): NetworkConfigDnsUpdateSettingsPayload
+  updateSiteSettings(input: NetworkConfigDnsUpdateSiteSettingsInput!): NetworkConfigDnsUpdateSiteSettingsPayload
   updateSuffixSet(input: NetworkConfigDnsUpdateSuffixSetInput!): NetworkConfigDnsUpdateSuffixSetPayload @rollout @beta
 }
 
 """ DNS read operations for the account. """
 type NetworkConfigDnsQueries {
-  forwardingRule(input: NetworkConfigDnsForwardingRuleRefInput!): NetworkConfigDnsForwardingRule @rollout @beta
-  forwardingRuleList(input: NetworkConfigDnsForwardingRuleListInput! = {sort:{domain:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDnsForwardingRuleListPayload @rollout @beta
+  forwardingRule(input: NetworkConfigDnsForwardingRuleRefInput!): NetworkConfigDnsForwardingRule
+  forwardingRuleList(input: NetworkConfigDnsForwardingRuleListInput! = {sort:{domain:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDnsForwardingRuleListPayload
   serverSet(input: NetworkConfigDnsServerSetRefInput!): NetworkConfigDnsServerSet @rollout @beta
   serverSetList(input: NetworkConfigDnsServerSetListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDnsServerSetListPayload @rollout @beta
-  settings: NetworkConfigDnsSettings @rollout @beta
-  siteSettings(site: SiteRefInput!): NetworkConfigDnsSiteSettings @rollout @beta
+  settings: NetworkConfigDnsSettings
+  siteSettings(site: SiteRefInput!): NetworkConfigDnsSiteSettings
   suffixSet(input: NetworkConfigDnsSuffixSetRefInput!): NetworkConfigDnsSuffixSet @rollout @beta
   suffixSetList(input: NetworkConfigDnsSuffixSetListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDnsSuffixSetListPayload @rollout @beta
 }
@@ -4672,14 +4675,14 @@ type NetworkConfigDnsUpdateSuffixSetPayload {
 
 """ Network-configuration write operations. """
 type NetworkConfigMutations {
-  dhcp: NetworkConfigDhcpMutations!
-  dns: NetworkConfigDnsMutations!
+  dhcp: NetworkConfigDhcpMutations! @ga
+  dns: NetworkConfigDnsMutations! @ga
 }
 
 """ Network-configuration read operations. """
 type NetworkConfigQueries {
-  dhcp: NetworkConfigDhcpQueries!
-  dns: NetworkConfigDnsQueries!
+  dhcp: NetworkConfigDhcpQueries! @ga
+  dns: NetworkConfigDnsQueries! @ga
 }
 
 """ A reference to an existing SNMP profile. """
@@ -5815,10 +5818,12 @@ type PrivateAccessPolicy implements IPolicy {
   sections: [PolicySectionPayload!]!
 }
 
+""" Action performed when traffic matches a Private Access rule. """
 type PrivateAccessPolicyAction {
   action: PrivateAccessPolicyActionEnum!
 }
 
+""" Private Applications matched by a Private Access rule. """
 type PrivateAccessPolicyApplication {
   application: [PrivateApplicationRef!]!
 }
@@ -5849,6 +5854,7 @@ type PrivateAccessPolicyQueries {
   revisions: PolicyRevisionsPayload @beta
 }
 
+""" Users, user groups, and system groups matched as sources by a Private Access rule. """
 type PrivateAccessPolicySource {
   systemGroup: [SystemGroupRef!]!
   user: [UserRef!]!
@@ -5890,6 +5896,7 @@ type PrivateAccessRulePayload implements IPolicyRulePayload {
   rule: PrivateAccessRule!
 }
 
+""" User risk-score criteria matched by a Private Access rule. """
 type PrivateAccessUserAttributes implements UserAttributes {
   riskScore: RiskScoreCondition!
 }
@@ -6433,7 +6440,7 @@ type SdpStaticIpAllocationRulePayload implements IPolicyRulePayload {
   rule: SdpStaticIpAllocationRule!
 }
 
-""" User that the static IP allocation rule will apply to """
+""" User that the static IP allocation rule will apply to. """
 type SdpStaticIpAllocationSource {
   user: UserRef
 }
@@ -7501,7 +7508,7 @@ type SocketVersionInfo {
   version: String!
 }
 
-""" Destination match criteria set """
+""" Destination match criteria set. """
 type SplitTunnelDestination {
   application: [ApplicationRef!]!
   domain: [Domain!]!
@@ -7509,6 +7516,7 @@ type SplitTunnelDestination {
   globalIpRange: [GlobalIpRangeRef!]!
 }
 
+""" Domains used by the Split Tunnel rule’s DNS configuration. """
 type SplitTunnelDnsExclusion {
   domain: [Domain!]!
 }
@@ -7547,6 +7555,11 @@ type SplitTunnelPolicyQueries {
   revisions: PolicyRevisionsPayload @beta
 }
 
+type SplitTunnelPolicyRef implements ObjectRef & PolicyRef {
+  id: ID!
+  name: String!
+}
+
 type SplitTunnelRule implements IPolicyRule {
   action: SplitTunnelActionEnum!
   country: [CountryRef!]!
@@ -7579,12 +7592,13 @@ type SplitTunnelRulePayload implements IPolicyRulePayload {
   rule: SplitTunnelRule!
 }
 
-""" Returns the settings for Source of an Split Tunnel rule """
+""" Returns the source settings for a Split Tunnel rule. """
 type SplitTunnelSource {
   user: [UserRef!]!
   usersGroup: [UsersGroupRef!]!
 }
 
+""" Source-network type used as matching criteria by a Split Tunnel rule. """
 type SplitTunnelSourceNetwork {
   sourceNetworkType: SplitTunnelSourceNetworkTypeEnum!
 }
@@ -9067,13 +9081,13 @@ type ZtnaAlwaysOnRulePayload implements IPolicyRulePayload {
   rule: ZtnaAlwaysOnRule!
 }
 
-""" Returns the settings for Source of an Always On rule """
+""" Returns the source settings for an Always On rule. """
 type ZtnaAlwaysOnSource {
   user: [UserRef!]!
   usersGroup: [UsersGroupRef!]!
 }
 
-""" Return the disconnection duration time """
+""" The disconnection duration. """
 type ZtnaAlwaysOnTime {
   time: Int!
   unit: ZtnaAlwaysOnTimeUnit!
@@ -9085,6 +9099,7 @@ type ZtnaAppConnector {
   groupName: String!
   id: ID!
   isRegistered: Boolean!
+  lanInterface: ZtnaAppConnectorLanInterface! @rollout
   location: ZtnaAppConnectorLocation!
   name: String!
   pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocation!]!
@@ -9162,6 +9177,21 @@ type ZtnaAppConnectorInterfaceSnapshot {
   connectivity: ZtnaAppConnectorInterfaceConnectivityInfo
   id: ID!
   interfaceType: ZtnaAppConnectorInterfaceType!
+}
+
+""" LAN interface addressing of a ZTNA App Connector """
+type ZtnaAppConnectorLanInterface {
+  ipAssignment: ZtnaAppConnectorIpAssignmentMode!
+  staticAddress: ZtnaAppConnectorLanStaticAddress
+}
+
+""" Static LAN interface addressing of a ZTNA App Connector """
+type ZtnaAppConnectorLanStaticAddress {
+  gateway: IPAddress!
+  localIp: IPAddress!
+  primaryDnsServer: IPAddress!
+  secondaryDnsServer: IPAddress
+  subnet: NetworkSubnet!
 }
 
 type ZtnaAppConnectorListPayload {
@@ -9621,6 +9651,7 @@ input AddZtnaAppConnectorBwLicenseInput {
 input AddZtnaAppConnectorInput {
   description: String
   groupName: String!
+  lanInterface: ZtnaAppConnectorLanInterfaceInput @rollout
   location: ZtnaAppConnectorLocationInput!
   name: String!
   pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocationInput!]
@@ -9921,7 +9952,8 @@ input ApplicationControlApplicationInput {
   application: ApplicationRefInput
   applicationType: [ApplicationType!]! = []
   customApp: CustomApplicationRefInput
-  customCategory: CustomCategoryRefInput
+  customCategory: CustomCategoryRefInput @deprecated(reason: "Use an advanced group instead.")
+  group: GroupRefInput
   sanctionedAppsCategory: SanctionedAppsCategoryRefInput
 }
 
@@ -9967,7 +9999,8 @@ input ApplicationControlApplicationUpdateInput {
   application: ApplicationRefInput
   applicationType: [ApplicationType!]
   customApp: CustomApplicationRefInput
-  customCategory: CustomCategoryRefInput
+  customCategory: CustomCategoryRefInput @deprecated(reason: "Use an advanced group instead.")
+  group: GroupRefInput
   sanctionedAppsCategory: SanctionedAppsCategoryRefInput
 }
 
@@ -10614,18 +10647,18 @@ input ClientConnectivityRemoveRuleInput {
   id: ID!
 }
 
-""" Users or user groups that the policy will apply on """
+""" Users or user groups that the rule applies to. """
 input ClientConnectivitySourceInput {
   user: [UserRefInput!]! = []
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
-""" Public ISP IP Range for source matching """
+""" Public ISP IP Range for source matching. """
 input ClientConnectivitySourceRangeInput {
   globalIpRange: GlobalIpRangeRefInput!
 }
 
-""" Users or user groups that the policy will apply on """
+""" Users or user groups that the rule applies to. """
 input ClientConnectivitySourceUpdateInput {
   user: [UserRefInput!]
   usersGroup: [UsersGroupRefInput!]
@@ -11286,10 +11319,12 @@ input DynamicIpAllocationPolicyUpdateInput {
   state: PolicyToggleState
 }
 
+""" A Global IP Range object referenced by a Dynamic IP Allocation rule. """
 input DynamicIpAllocationRangeInput {
   globalIpRange: GlobalIpRangeRefInput!
 }
 
+""" A Global IP Range object referenced by a Dynamic IP Allocation rule. """
 input DynamicIpAllocationRangeUpdateInput {
   globalIpRange: GlobalIpRangeRefInput
 }
@@ -11298,11 +11333,13 @@ input DynamicIpAllocationRemoveRuleInput {
   id: ID!
 }
 
+""" Users and user groups that the rule applies to. """
 input DynamicIpAllocationSourceInput {
   user: [UserRefInput!]! = []
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
+""" Users and user groups that the rule applies to. """
 input DynamicIpAllocationSourceUpdateInput {
   user: [UserRefInput!]
   usersGroup: [UsersGroupRefInput!]
@@ -12033,7 +12070,7 @@ input LastMileBwInput {
 
 """ Input for starting a self-service trial on the account. """
 input LicensingStartServiceTrialInput {
-  durationDays: Int!
+  durationDays: Int
   service: LicenseSku!
 }
 
@@ -13132,18 +13169,22 @@ input PrivateAccessAddRuleInput {
   rule: PrivateAccessAddRuleDataInput!
 }
 
+""" Action performed when traffic matches a Private Access rule. """
 input PrivateAccessPolicyActionInput {
   action: PrivateAccessPolicyActionEnum! = ALLOW
 }
 
+""" Action performed when traffic matches a Private Access rule. """
 input PrivateAccessPolicyActionUpdateInput {
   action: PrivateAccessPolicyActionEnum
 }
 
+""" Private Applications matched by a Private Access rule. """
 input PrivateAccessPolicyApplicationInput {
   application: [PrivateApplicationRefInput!]! = []
 }
 
+""" Private Applications matched by a Private Access rule. """
 input PrivateAccessPolicyApplicationUpdateInput {
   application: [PrivateApplicationRefInput!]
 }
@@ -13156,12 +13197,14 @@ input PrivateAccessPolicyMutationInput {
   revision: PolicyMutationRevisionInput
 }
 
+""" Users, user groups, and system groups matched as sources by a Private Access rule. """
 input PrivateAccessPolicySourceInput {
   systemGroup: [SystemGroupRefInput!]! = []
   user: [UserRefInput!]! = []
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
+""" Users, user groups, and system groups matched as sources by a Private Access rule. """
 input PrivateAccessPolicySourceUpdateInput {
   systemGroup: [SystemGroupRefInput!]
   user: [UserRefInput!]
@@ -13199,10 +13242,12 @@ input PrivateAccessUpdateRuleInput {
   rule: PrivateAccessUpdateRuleDataInput!
 }
 
+""" User risk-score criteria matched by a Private Access rule. """
 input PrivateAccessUserAttributesInput {
   riskScore: RiskScoreConditionInput! = {category:ANY,operator:GTE}
 }
 
+""" User risk-score criteria matched by a Private Access rule. """
 input PrivateAccessUserAttributesUpdateInput {
   riskScore: RiskScoreConditionUpdateInput
 }
@@ -13544,12 +13589,12 @@ input SdpStaticIpAllocationRemoveRuleInput {
   id: ID!
 }
 
-""" User that the static IP allocation rule will apply to """
+""" User that the static IP allocation rule will apply to. """
 input SdpStaticIpAllocationSourceInput {
   user: UserRefInput
 }
 
-""" User that the static IP allocation rule will apply to """
+""" User that the static IP allocation rule will apply to. """
 input SdpStaticIpAllocationSourceUpdateInput {
   user: UserRefInput
 }
@@ -14517,7 +14562,7 @@ input SplitTunnelAddRuleInput {
   rule: SplitTunnelAddRuleDataInput!
 }
 
-""" Destination match criteria set """
+""" Destination match criteria set. """
 input SplitTunnelDestinationInput {
   application: [ApplicationRefInput!]! = []
   domain: [Domain!]! = []
@@ -14525,7 +14570,7 @@ input SplitTunnelDestinationInput {
   globalIpRange: [GlobalIpRangeRefInput!]! = []
 }
 
-""" Destination match criteria set """
+""" Destination match criteria set. """
 input SplitTunnelDestinationUpdateInput {
   application: [ApplicationRefInput!]
   domain: [Domain!]
@@ -14533,10 +14578,12 @@ input SplitTunnelDestinationUpdateInput {
   globalIpRange: [GlobalIpRangeRefInput!]
 }
 
+""" Domains used by the Split Tunnel rule’s DNS configuration. """
 input SplitTunnelDnsExclusionInput {
   domain: [Domain!]! = []
 }
 
+""" Domains used by the Split Tunnel rule’s DNS configuration. """
 input SplitTunnelDnsExclusionUpdateInput {
   domain: [Domain!]
 }
@@ -14557,21 +14604,23 @@ input SplitTunnelRemoveRuleInput {
   id: ID!
 }
 
-""" Input of the settings for Source of an Split Tunnel rule """
+""" Input of the source settings for a Split Tunnel rule. """
 input SplitTunnelSourceInput {
   user: [UserRefInput!]! = []
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
+""" Source-network type used as matching criteria by a Split Tunnel rule. """
 input SplitTunnelSourceNetworkInput {
   sourceNetworkType: SplitTunnelSourceNetworkTypeEnum! = ANY
 }
 
+""" Source-network type used as matching criteria by a Split Tunnel rule. """
 input SplitTunnelSourceNetworkUpdateInput {
   sourceNetworkType: SplitTunnelSourceNetworkTypeEnum
 }
 
-""" Input of the settings for Source of an Split Tunnel rule """
+""" Input of the source settings for a Split Tunnel rule. """
 input SplitTunnelSourceUpdateInput {
   user: [UserRefInput!]
   usersGroup: [UsersGroupRefInput!]
@@ -15456,6 +15505,7 @@ input UpdateZtnaAppConnectorInput {
   description: String
   groupName: String
   id: ID!
+  lanInterface: ZtnaAppConnectorLanInterfaceInput @rollout
   location: ZtnaAppConnectorLocationInput
   name: String
   preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput
@@ -16161,25 +16211,25 @@ input ZtnaAlwaysOnRemoveRuleInput {
   id: ID!
 }
 
-""" Input of the settings for Source of an Always On rule """
+""" Input of the source settings for an Always On rule. """
 input ZtnaAlwaysOnSourceInput {
   user: [UserRefInput!]! = []
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
-""" Input of the settings for Source of an Always On rule """
+""" Input of the source settings for an Always On rule. """
 input ZtnaAlwaysOnSourceUpdateInput {
   user: [UserRefInput!]
   usersGroup: [UsersGroupRefInput!]
 }
 
-""" Return the disconnection duration time """
+""" The disconnection duration. """
 input ZtnaAlwaysOnTimeInput {
   time: Int!
   unit: ZtnaAlwaysOnTimeUnit! = MINUTES
 }
 
-""" Return the disconnection duration time """
+""" The disconnection duration. """
 input ZtnaAlwaysOnTimeUpdateInput {
   time: Int
   unit: ZtnaAlwaysOnTimeUnit
@@ -16241,6 +16291,21 @@ input ZtnaAppConnectorGroupSnapshotFilterInput {
 input ZtnaAppConnectorGroupSnapshotInput {
   filter: ZtnaAppConnectorGroupSnapshotFilterInput
   paging: PagingInput = {limit:100,from:0}
+}
+
+""" LAN interface addressing of a ZTNA App Connector """
+input ZtnaAppConnectorLanInterfaceInput {
+  ipAssignment: ZtnaAppConnectorIpAssignmentMode!
+  staticAddress: ZtnaAppConnectorLanStaticAddressInput
+}
+
+""" Static LAN interface addressing of a ZTNA App Connector """
+input ZtnaAppConnectorLanStaticAddressInput {
+  gateway: IPAddress!
+  localIp: IPAddress!
+  primaryDnsServer: IPAddress!
+  secondaryDnsServer: IPAddress
+  subnet: NetworkSubnet!
 }
 
 input ZtnaAppConnectorListFilterInput {
@@ -16653,13 +16718,13 @@ enum AntiMalwareFileHashAction {
   BYPASS
 }
 
-""" Specifies the level of protection against tampering """
+""" Specifies the level of protection against tampering. """
 enum AntiTamperModeEnum {
-  """ Tampering attempts are logged, but changes are permitted """
+  """ Tampering attempts are logged, but changes are permitted. """
   MONITOR
-  """ No protection. Users are allowed to make changes """
+  """ No protection. Users are allowed to make changes. """
   OFF
-  """ Changes are blocked. Users are not allowed to make modifications """
+  """ Changes are blocked. Users are not allowed to make modifications. """
   PROTECT
 }
 
@@ -17273,33 +17338,33 @@ enum CellularNetworkType {
   TYPE_UNKNOWN
 }
 
-""" The action applied by the client connectivity if the rule is matched """
+""" The action applied by the Client Connectivity policy when the rule matches. """
 enum ClientConnectivityActionEnum {
-  """ Allow WAN and Internet """
+  """ Allow WAN and Internet. """
   ALLOW
-  """ Allow Internet """
+  """ Allow Internet. """
   ALLOW_INTERNET
-  """ Block """
+  """ Block WAN and Internet traffic. """
   BLOCK
 }
 
-""" Describe how reliable the user's authentication is """
+""" Describes how reliable the user's authentication is. """
 enum ClientConnectivityConfidenceLevelEnum {
-  """ The user has authenticated the Client and the Cato token is either valid or expired """
+  """ The user has authenticated the Client and the Cato token is either valid or expired. """
   ANY
-  """ High Confidence - User authenticated and the token is valid """
+  """ High Confidence - User authenticated and the token is valid. """
   HIGH
-  """ Low Confidence - User authenticated, but the token has expired """
+  """ Low Confidence - User authenticated, but the token has expired. """
   LOW
 }
 
-""" Defines Origin of the connection """
+""" Defines the origin of the connection. """
 enum ClientConnectivityOriginEnum {
-  """ Any connection origin """
+  """ Any connection origin. """
   ANY
-  """ User is connecting from the client """
+  """ User is connecting from the client. """
   REMOTE
-  """ User is connecting from the browser extension """
+  """ User is connecting from the browser extension. """
   REMOTE_EXTENSION
 }
 
@@ -17636,6 +17701,8 @@ enum EventFieldName {
   actor_type
   """ Active Directory name. CMA Name: Active Directory Name """
   ad_name
+  """ ID of the Cato Management Application admin that performed the action. CMA Name: Admin ID """
+  admin_id
   """ Entities the analyst investigation found to be affected, one JSON object per entity. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
   affected_entities
   """ The estimated risk level of the AI threat. CMA Name: Ai App Risk Level """
@@ -17660,6 +17727,8 @@ enum EventFieldName {
   anti_tamper_bypass_method
   """ Anti Tamper Bypass Result. CMA Name: Anti Tamper Bypass Result """
   anti_tamper_bypass_result
+  """ ID of the public API Key in the Cato Management Application. CMA Name: API Key ID """
+  api_key_id
   """ The name of the API, e.g. eventsFeed. CMA Name: Api Name """
   api_name
   """ Specifies whether the API is a query (read) or a mutation (create/update/delete). CMA Name: Api Type """
@@ -17686,7 +17755,7 @@ enum EventFieldName {
   audit_id
   """ Reason the interactive client authentication browser used a fallback engine. CMA Name: Auth Browser Fallback Reason """
   auth_browser_fallback_reason
-  """ Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN. CMA Name: Authentication Method """
+  """ Authentication method. For connectivity events: unauthenticated, OATH2, LDAP or VPN. For Cato MCP server access: API Key or OAuth. CMA Name: Authentication Method """
   auth_method
   """ Examples: MFA or password. CMA Name: Authentication Type """
   authentication_type
@@ -17909,7 +17978,7 @@ enum EventFieldName {
   email_subject
   """ The ID for the endpoint. CMA Name: Endpoint ID """
   endpoint_id
-  """ Outcome of the user's response to an Access Policy engagement prompt (Continue, Redirect, Block). CMA Name: Engagement Outcome Action """
+  """ Outcome of the user's response to an engagement prompt. CMA Name: Engagement Outcome Action """
   engagement_outcome_action
   """ The engine type associated with the event. CMA Name: Engine Type """
   engine_type
@@ -18055,6 +18124,8 @@ enum EventFieldName {
   logged_in_user
   """ Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic). CMA Name: Login Type """
   login_type
+  """ Machine-readable posture block context. CMA Name: Machine Readable Posture """
+  machine_readable_posture
   """ Matched count for each DLP data types found to the event. CMA Name: Matched Count """
   matched_count
   """ Matched counts for each DLP data types found to the event. CMA Name: Matched Counts """
@@ -18123,6 +18194,8 @@ enum EventFieldName {
   projects
   """ Prompt Page Selected Action. CMA Name: Prompt Action """
   prompt_action
+  """ Version of the protocol used. CMA Name: Protocol Version """
+  protocol_version
   """ The name of the provider, for example cloud provider - AWS. CMA Name: Provider Name """
   provider_name
   """ Public source IP. CMA Name: Public Source IP """
@@ -18355,7 +18428,7 @@ enum EventFieldName {
   user_awareness_method
   """ User ID. CMA Name: User ID """
   user_id
-  """ Freeform justification text entered by the user in response to an Access Policy engagement prompt. CMA Name: User Justification """
+  """ The option the user chose, or the text they entered, in response to an engagement prompt. CMA Name: User Justification """
   user_justification
   """ User that generated the event. CMA Name: User Name """
   user_name
@@ -18369,6 +18442,12 @@ enum EventFieldName {
   user_status
   """ The vendor that identified the incident, such as Cato or Microsoft. CMA Name: Vendor """
   vendor
+  """ ID of the application that performed the activity, as reported by the vendor. CMA Name: Vendor Actor App ID """
+  vendor_actor_app_id
+  """ Name of the application that performed the activity, as reported by the vendor. CMA Name: Vendor Actor App Name """
+  vendor_actor_app_name
+  """ Type of the actor as reported by the application. CMA Name: Vendor Actor Type """
+  vendor_actor_type
   """ Shows the id of the target user involved in an activity. CMA Name: Vendor Collaborator ID """
   vendor_collaborator_id
   """ Vendor Device Id. CMA Name: Vendor Device ID """
@@ -19359,25 +19438,29 @@ enum PostureSuppressedStatus {
   ENABLED
 }
 
+""" Actions available when traffic matches a Private Access rule. """
 enum PrivateAccessPolicyActionEnum {
+  """ Allow access to the matched private applications. """
   ALLOW
+  """ Block access to the matched private applications. """
   BLOCK
 }
 
-""" Defines Origin of the connection """
+""" Defines the origin of the connection. """
 enum PrivateAccessPolicyOriginEnum {
+  """ Any connection origin. """
   ANY
-  """ Any Remote option """
+  """ Any remote connection origin. """
   REMOTE
-  """ User is connecting from the Enterprise Browser """
+  """ User is connecting from the Enterprise Browser. """
   REMOTE_BROWSER
-  """ User is connecting from the SDP client """
+  """ User is connecting from the SDP client. """
   REMOTE_CLIENT
-  """ User is connecting from the Browser Extension """
+  """ User is connecting from the Browser Extension. """
   REMOTE_EXTENSION
-  """ User is connecting from the Application Portal """
+  """ User is connecting from the Application Portal. """
   REMOTE_PORTAL
-  """ User is connecting from Site """
+  """ User is connecting from Site. """
   SITE
 }
 
@@ -19971,39 +20054,45 @@ enum SortOrder {
   DESC
 }
 
-""" The action applied by the split tunnel if the rule is matched """
+""" The action applied by the Split Tunnel policy when the rule matches. """
 enum SplitTunnelActionEnum {
-  """ Route all traffic to Cato - Will be Deprecated by ROUTE_ALL_TO_CATO_EXCEPT """
+  """ Route all traffic to Cato - Will be Deprecated by ROUTE_ALL_TO_CATO_EXCEPT. """
   EXCLUDE
-  """ Route all traffic Out-of-Tunnel - Will be Deprecated by ROUTE_ONLY_SELECTED """
+  """ Route all traffic Out-of-Tunnel - Will be Deprecated by ROUTE_ONLY_SELECTED. """
   INCLUDE
+  """ Disable split tunneling for matching users. """
   OFF
-  """ Route all traffic to Cato """
+  """ Route all traffic to Cato. """
   ROUTE_ALL_TO_CATO_EXCEPT
-  """ Route all traffic Out-of-Tunnel """
+  """ Route all traffic Out-of-Tunnel. """
   ROUTE_ONLY_SELECTED
-  """ User choose routing preference """
+  """ The user chooses the routing preference. """
   USER_DEFINED
 }
 
+""" Coverage choices that determine which traffic a Split Tunnel rule affects. """
 enum SplitTunnelCoverageEnum {
-  """ All Ports and Protocols """
+  """ All Ports and Protocols. """
   ALL
-  """ Web-only (PAC based) """
+  """ Web-only (PAC based). """
   WEB_ONLY
 }
 
-""" The action applied by the split tunnel if the rule is matched """
+""" Whether local LAN routes or the Cato tunnel take priority. """
 enum SplitTunnelRoutingPriorityEnum {
+  """ Prioritize local LAN routes over the Cato tunnel. """
   LAN
+  """ Prioritize the Cato tunnel over local LAN routes. """
   TUNNEL
 }
 
+""" Source-network categories available as Split Tunnel rule criteria. """
 enum SplitTunnelSourceNetworkTypeEnum {
+  """ Any source network. """
   ANY
-  """ Any Managed Network """
+  """ Any Managed Network. """
   ANY_MANAGED_NETWORK
-  """ Any Unmanaged Network """
+  """ Any Unmanaged Network. """
   ANY_UNMANAGED_NETWORK
 }
 
@@ -20421,19 +20510,19 @@ enum WifiSsidCategory {
   GUEST
 }
 
-""" The action applied by the Always on policy if the rule is matched """
+""" The action applied by the Always On policy when the rule matches. """
 enum ZtnaAlwaysOnRuleActionEnum {
-  """ Enforce always on policy. """
+  """ Enforce the Always On policy. """
   ENFORCE
-  """ On demand always on policy. """
+  """ Always On is applied on demand. """
   IGNORE
 }
 
-""" Return the time unit of the duration time """
+""" The time unit of the disconnection duration. """
 enum ZtnaAlwaysOnTimeUnit {
-  """ Time in hours """
+  """ Time in hours. """
   HOURS
-  """ Time in minutes """
+  """ Time in minutes. """
   MINUTES
 }
 
@@ -20445,6 +20534,14 @@ enum ZtnaAppConnectorConnectivityStatus {
 enum ZtnaAppConnectorInterfaceType {
   CATO
   LAN
+}
+
+""" IP assignment mode of a ZTNA App Connector's LAN interface """
+enum ZtnaAppConnectorIpAssignmentMode {
+  """ Address, gateway and DNS servers are leased from a DHCP server """
+  DHCP
+  """ Address, gateway and DNS servers are configured statically """
+  STATIC
 }
 
 enum ZtnaAppConnectorSnapshotProbingStatus {

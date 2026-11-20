@@ -27127,6 +27127,24 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 	return t.Name
 }
 
+type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -27151,6 +27169,7 @@ type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule
 	ApplicationType        []cato_models.ApplicationType                                                                                                   "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -27183,6 +27202,12 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application) GetGroup() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -28330,6 +28355,24 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 	return t.Name
 }
 
+type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -28354,6 +28397,7 @@ type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule
 	ApplicationType        []cato_models.ApplicationType                                                                                            "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -28386,6 +28430,12 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application) GetGroup() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -29683,6 +29733,24 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 	return t.Name
 }
 
+type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -29707,6 +29775,7 @@ type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule
 	ApplicationType        []cato_models.ApplicationType                                                                                            "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -29739,6 +29808,12 @@ func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_
 		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application) GetGroup() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -31493,6 +31568,24 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 	return t.Name
 }
 
+type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -31517,6 +31610,7 @@ type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_Crea
 	ApplicationType        []cato_models.ApplicationType                                                                                                                                     "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -31549,6 +31643,12 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application) GetGroup() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -32696,6 +32796,24 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 	return t.Name
 }
 
+type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -32720,6 +32838,7 @@ type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_Crea
 	ApplicationType        []cato_models.ApplicationType                                                                                                                              "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -32752,6 +32871,12 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application) GetGroup() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -34049,6 +34174,24 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 	return t.Name
 }
 
+type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -34073,6 +34216,7 @@ type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_Crea
 	ApplicationType        []cato_models.ApplicationType                                                                                                                              "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -34105,6 +34249,12 @@ func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_
 		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application) GetGroup() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -35809,6 +35959,24 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 	return t.Name
 }
 
+type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -35833,6 +36001,7 @@ type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_Dis
 	ApplicationType        []cato_models.ApplicationType                                                                                                                                       "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -35865,6 +36034,12 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application) GetGroup() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -37012,6 +37187,24 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 	return t.Name
 }
 
+type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -37036,6 +37229,7 @@ type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_Dis
 	ApplicationType        []cato_models.ApplicationType                                                                                                                                "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -37068,6 +37262,12 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application) GetGroup() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -38365,6 +38565,24 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 	return t.Name
 }
 
+type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -38389,6 +38607,7 @@ type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_Dis
 	ApplicationType        []cato_models.ApplicationType                                                                                                                                "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -38421,6 +38640,12 @@ func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl
 		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application) GetGroup() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -40125,6 +40350,24 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 	return t.Name
 }
 
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -40149,6 +40392,7 @@ type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Ru
 	ApplicationType        []cato_models.ApplicationType                                                                                                     "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -40181,6 +40425,12 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application) GetGroup() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -41328,6 +41578,24 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 	return t.Name
 }
 
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -41352,6 +41620,7 @@ type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Ru
 	ApplicationType        []cato_models.ApplicationType                                                                                              "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -41384,6 +41653,12 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application) GetGroup() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -42681,6 +42956,24 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 	return t.Name
 }
 
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -42705,6 +42998,7 @@ type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Ru
 	ApplicationType        []cato_models.ApplicationType                                                                                              "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -42737,6 +43031,12 @@ func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rul
 		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application) GetGroup() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -44491,6 +44791,24 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 	return t.Name
 }
 
+type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -44515,6 +44833,7 @@ type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_Pub
 	ApplicationType        []cato_models.ApplicationType                                                                                                                                       "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -44547,6 +44866,12 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application) GetGroup() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -45694,6 +46019,24 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 	return t.Name
 }
 
+type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -45718,6 +46061,7 @@ type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_Pub
 	ApplicationType        []cato_models.ApplicationType                                                                                                                                "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -45750,6 +46094,12 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application) GetGroup() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -47047,6 +47397,24 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 	return t.Name
 }
 
+type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -47071,6 +47439,7 @@ type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_Pub
 	ApplicationType        []cato_models.ApplicationType                                                                                                                                "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -47103,6 +47472,12 @@ func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl
 		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application) GetGroup() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -48807,6 +49182,24 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 	return t.Name
 }
 
+type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -48831,6 +49224,7 @@ type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rul
 	ApplicationType        []cato_models.ApplicationType                                                                                                         "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -48863,6 +49257,12 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application) GetGroup() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -50010,6 +50410,24 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 	return t.Name
 }
 
+type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -50034,6 +50452,7 @@ type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rul
 	ApplicationType        []cato_models.ApplicationType                                                                                                  "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -50066,6 +50485,12 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application) GetGroup() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -51363,6 +51788,24 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 	return t.Name
 }
 
+type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -51387,6 +51830,7 @@ type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rul
 	ApplicationType        []cato_models.ApplicationType                                                                                                  "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -51419,6 +51863,12 @@ func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule
 		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application) GetGroup() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -53173,6 +53623,24 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 	return t.Name
 }
 
+type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -53197,6 +53665,7 @@ type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy
 	ApplicationType        []cato_models.ApplicationType                                                                                                                     "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -53229,6 +53698,12 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application) GetGroup() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -54376,6 +54851,24 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 	return t.Name
 }
 
+type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -54400,6 +54893,7 @@ type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy
 	ApplicationType        []cato_models.ApplicationType                                                                                                              "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -54432,6 +54926,12 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application) GetGroup() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -55729,6 +56229,24 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 	return t.Name
 }
 
+type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -55753,6 +56271,7 @@ type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy
 	ApplicationType        []cato_models.ApplicationType                                                                                                              "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -55785,6 +56304,12 @@ func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePo
 		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application) GetGroup() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -57489,6 +58014,24 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 	return t.Name
 }
 
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -57513,6 +58056,7 @@ type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rul
 	ApplicationType        []cato_models.ApplicationType                                                                                                         "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -57545,6 +58089,12 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application) GetGroup() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -58692,6 +59242,24 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 	return t.Name
 }
 
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -58716,6 +59284,7 @@ type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rul
 	ApplicationType        []cato_models.ApplicationType                                                                                                  "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -58748,6 +59317,12 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application) GetGroup() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -60045,6 +60620,24 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 	return t.Name
 }
 
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -60069,6 +60662,7 @@ type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rul
 	ApplicationType        []cato_models.ApplicationType                                                                                                  "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -60101,6 +60695,12 @@ func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule
 		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application) GetGroup() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application) GetSanctionedAppsCategory() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -271894,12 +272494,70 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnecto
 	return t.LicenseID
 }
 
+type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress struct {
+	Gateway            string  "json:\"gateway\" graphql:\"gateway\""
+	LocalIP            string  "json:\"localIp\" graphql:\"localIp\""
+	PrimaryDNSServer   string  "json:\"primaryDnsServer\" graphql:\"primaryDnsServer\""
+	SecondaryDNSServer *string "json:\"secondaryDnsServer,omitempty\" graphql:\"secondaryDnsServer\""
+	Subnet             string  "json:\"subnet\" graphql:\"subnet\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetGateway() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Gateway
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetLocalIP() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.LocalIP
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetPrimaryDNSServer() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.PrimaryDNSServer
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSecondaryDNSServer() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.SecondaryDNSServer
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSubnet() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Subnet
+}
+
+type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface struct {
+	IPAssignment  cato_models.ZtnaAppConnectorIPAssignmentMode                                                                          "json:\"ipAssignment\" graphql:\"ipAssignment\""
+	StaticAddress *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress "json:\"staticAddress,omitempty\" graphql:\"staticAddress\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface) GetIPAssignment() *cato_models.ZtnaAppConnectorIPAssignmentMode {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return &t.IPAssignment
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface) GetStaticAddress() *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return t.StaticAddress
+}
+
 type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector struct {
 	CreatedAt                 *string                                                                                                                "json:\"createdAt,omitempty\" graphql:\"createdAt\""
 	Description               *string                                                                                                                "json:\"description,omitempty\" graphql:\"description\""
 	GroupName                 string                                                                                                                 "json:\"groupName\" graphql:\"groupName\""
 	ID                        string                                                                                                                 "json:\"id\" graphql:\"id\""
 	IsRegistered              bool                                                                                                                   "json:\"isRegistered\" graphql:\"isRegistered\""
+	LanInterface              ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface                 "json:\"lanInterface\" graphql:\"lanInterface\""
 	Location                  ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
 	Name                      string                                                                                                                 "json:\"name\" graphql:\"name\""
 	PooledBandwidthAllocation []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
@@ -271942,6 +272600,12 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnecto
 		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.IsRegistered
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector) GetLanInterface() *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_LanInterface {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.LanInterface
 }
 func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector) GetLocation() *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_Location {
 	if t == nil {
@@ -272347,12 +273011,70 @@ func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignS
 	return t.LicenseID
 }
 
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress struct {
+	Gateway            string  "json:\"gateway\" graphql:\"gateway\""
+	LocalIP            string  "json:\"localIp\" graphql:\"localIp\""
+	PrimaryDNSServer   string  "json:\"primaryDnsServer\" graphql:\"primaryDnsServer\""
+	SecondaryDNSServer *string "json:\"secondaryDnsServer,omitempty\" graphql:\"secondaryDnsServer\""
+	Subnet             string  "json:\"subnet\" graphql:\"subnet\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetGateway() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Gateway
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetLocalIP() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.LocalIP
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetPrimaryDNSServer() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.PrimaryDNSServer
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSecondaryDNSServer() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.SecondaryDNSServer
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSubnet() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Subnet
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface struct {
+	IPAssignment  cato_models.ZtnaAppConnectorIPAssignmentMode                                                                                                "json:\"ipAssignment\" graphql:\"ipAssignment\""
+	StaticAddress *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress "json:\"staticAddress,omitempty\" graphql:\"staticAddress\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface) GetIPAssignment() *cato_models.ZtnaAppConnectorIPAssignmentMode {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return &t.IPAssignment
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface) GetStaticAddress() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return t.StaticAddress
+}
+
 type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector struct {
 	CreatedAt                 *string                                                                                                                                      "json:\"createdAt,omitempty\" graphql:\"createdAt\""
 	Description               *string                                                                                                                                      "json:\"description,omitempty\" graphql:\"description\""
 	GroupName                 string                                                                                                                                       "json:\"groupName\" graphql:\"groupName\""
 	ID                        string                                                                                                                                       "json:\"id\" graphql:\"id\""
 	IsRegistered              bool                                                                                                                                         "json:\"isRegistered\" graphql:\"isRegistered\""
+	LanInterface              ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface                 "json:\"lanInterface\" graphql:\"lanInterface\""
 	Location                  ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
 	Name                      string                                                                                                                                       "json:\"name\" graphql:\"name\""
 	PooledBandwidthAllocation []*ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
@@ -272395,6 +273117,12 @@ func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignS
 		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.IsRegistered
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetLanInterface() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_LanInterface {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.LanInterface
 }
 func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetLocation() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location {
 	if t == nil {
@@ -272754,12 +273482,70 @@ func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppCo
 	return t.LicenseID
 }
 
+type ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress struct {
+	Gateway            string  "json:\"gateway\" graphql:\"gateway\""
+	LocalIP            string  "json:\"localIp\" graphql:\"localIp\""
+	PrimaryDNSServer   string  "json:\"primaryDnsServer\" graphql:\"primaryDnsServer\""
+	SecondaryDNSServer *string "json:\"secondaryDnsServer,omitempty\" graphql:\"secondaryDnsServer\""
+	Subnet             string  "json:\"subnet\" graphql:\"subnet\""
+}
+
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetGateway() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Gateway
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetLocalIP() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.LocalIP
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetPrimaryDNSServer() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.PrimaryDNSServer
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSecondaryDNSServer() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.SecondaryDNSServer
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSubnet() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Subnet
+}
+
+type ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface struct {
+	IPAssignment  cato_models.ZtnaAppConnectorIPAssignmentMode                                                                                "json:\"ipAssignment\" graphql:\"ipAssignment\""
+	StaticAddress *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress "json:\"staticAddress,omitempty\" graphql:\"staticAddress\""
+}
+
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface) GetIPAssignment() *cato_models.ZtnaAppConnectorIPAssignmentMode {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return &t.IPAssignment
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface) GetStaticAddress() *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return t.StaticAddress
+}
+
 type ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector struct {
 	CreatedAt                 *string                                                                                                                      "json:\"createdAt,omitempty\" graphql:\"createdAt\""
 	Description               *string                                                                                                                      "json:\"description,omitempty\" graphql:\"description\""
 	GroupName                 string                                                                                                                       "json:\"groupName\" graphql:\"groupName\""
 	ID                        string                                                                                                                       "json:\"id\" graphql:\"id\""
 	IsRegistered              bool                                                                                                                         "json:\"isRegistered\" graphql:\"isRegistered\""
+	LanInterface              ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface                 "json:\"lanInterface\" graphql:\"lanInterface\""
 	Location                  ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
 	Name                      string                                                                                                                       "json:\"name\" graphql:\"name\""
 	PooledBandwidthAllocation []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
@@ -272802,6 +273588,12 @@ func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppCo
 		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.IsRegistered
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector) GetLanInterface() *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_LanInterface {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.LanInterface
 }
 func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector) GetLocation() *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_Location {
 	if t == nil {
@@ -273135,12 +273927,70 @@ func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Una
 	return t.LicenseID
 }
 
+type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress struct {
+	Gateway            string  "json:\"gateway\" graphql:\"gateway\""
+	LocalIP            string  "json:\"localIp\" graphql:\"localIp\""
+	PrimaryDNSServer   string  "json:\"primaryDnsServer\" graphql:\"primaryDnsServer\""
+	SecondaryDNSServer *string "json:\"secondaryDnsServer,omitempty\" graphql:\"secondaryDnsServer\""
+	Subnet             string  "json:\"subnet\" graphql:\"subnet\""
+}
+
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetGateway() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Gateway
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetLocalIP() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.LocalIP
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetPrimaryDNSServer() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.PrimaryDNSServer
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSecondaryDNSServer() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.SecondaryDNSServer
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSubnet() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Subnet
+}
+
+type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface struct {
+	IPAssignment  cato_models.ZtnaAppConnectorIPAssignmentMode                                                                                                        "json:\"ipAssignment\" graphql:\"ipAssignment\""
+	StaticAddress *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress "json:\"staticAddress,omitempty\" graphql:\"staticAddress\""
+}
+
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface) GetIPAssignment() *cato_models.ZtnaAppConnectorIPAssignmentMode {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return &t.IPAssignment
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface) GetStaticAddress() *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return t.StaticAddress
+}
+
 type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector struct {
 	CreatedAt                 *string                                                                                                                                              "json:\"createdAt,omitempty\" graphql:\"createdAt\""
 	Description               *string                                                                                                                                              "json:\"description,omitempty\" graphql:\"description\""
 	GroupName                 string                                                                                                                                               "json:\"groupName\" graphql:\"groupName\""
 	ID                        string                                                                                                                                               "json:\"id\" graphql:\"id\""
 	IsRegistered              bool                                                                                                                                                 "json:\"isRegistered\" graphql:\"isRegistered\""
+	LanInterface              ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface                 "json:\"lanInterface\" graphql:\"lanInterface\""
 	Location                  ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
 	Name                      string                                                                                                                                               "json:\"name\" graphql:\"name\""
 	PooledBandwidthAllocation []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
@@ -273183,6 +274033,12 @@ func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Una
 		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.IsRegistered
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector) GetLanInterface() *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_LanInterface {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.LanInterface
 }
 func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector) GetLocation() *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Location {
 	if t == nil {
@@ -273502,12 +274358,70 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppCo
 	return t.LicenseID
 }
 
+type ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress struct {
+	Gateway            string  "json:\"gateway\" graphql:\"gateway\""
+	LocalIP            string  "json:\"localIp\" graphql:\"localIp\""
+	PrimaryDNSServer   string  "json:\"primaryDnsServer\" graphql:\"primaryDnsServer\""
+	SecondaryDNSServer *string "json:\"secondaryDnsServer,omitempty\" graphql:\"secondaryDnsServer\""
+	Subnet             string  "json:\"subnet\" graphql:\"subnet\""
+}
+
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetGateway() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Gateway
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetLocalIP() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.LocalIP
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetPrimaryDNSServer() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.PrimaryDNSServer
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSecondaryDNSServer() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.SecondaryDNSServer
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSubnet() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Subnet
+}
+
+type ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface struct {
+	IPAssignment  cato_models.ZtnaAppConnectorIPAssignmentMode                                                                                "json:\"ipAssignment\" graphql:\"ipAssignment\""
+	StaticAddress *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress "json:\"staticAddress,omitempty\" graphql:\"staticAddress\""
+}
+
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface) GetIPAssignment() *cato_models.ZtnaAppConnectorIPAssignmentMode {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return &t.IPAssignment
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface) GetStaticAddress() *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return t.StaticAddress
+}
+
 type ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector struct {
 	CreatedAt                 *string                                                                                                                      "json:\"createdAt,omitempty\" graphql:\"createdAt\""
 	Description               *string                                                                                                                      "json:\"description,omitempty\" graphql:\"description\""
 	GroupName                 string                                                                                                                       "json:\"groupName\" graphql:\"groupName\""
 	ID                        string                                                                                                                       "json:\"id\" graphql:\"id\""
 	IsRegistered              bool                                                                                                                         "json:\"isRegistered\" graphql:\"isRegistered\""
+	LanInterface              ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface                 "json:\"lanInterface\" graphql:\"lanInterface\""
 	Location                  ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
 	Name                      string                                                                                                                       "json:\"name\" graphql:\"name\""
 	PooledBandwidthAllocation []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
@@ -273550,6 +274464,12 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppCo
 		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.IsRegistered
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector) GetLanInterface() *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_LanInterface {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.LanInterface
 }
 func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector) GetLocation() *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_Location {
 	if t == nil {
@@ -302323,6 +303243,24 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Ap
 	return t.Name
 }
 
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -302347,6 +303285,7 @@ type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Applic
 	ApplicationType        []cato_models.ApplicationType                                                                                            "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -302379,6 +303318,12 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Ap
 		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application) GetGroup() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Group {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.Group
 }
 func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -303526,6 +304471,24 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Da
 	return t.Name
 }
 
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -303550,6 +304513,7 @@ type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRu
 	ApplicationType        []cato_models.ApplicationType                                                                                     "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -303582,6 +304546,12 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Da
 		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application) GetGroup() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Group {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.Group
 }
 func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application) GetSanctionedAppsCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -304879,6 +305849,24 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Fi
 	return t.Name
 }
 
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Group) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Group) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Group{}
+	}
+	return t.Name
+}
+
 type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -304903,6 +305891,7 @@ type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRu
 	ApplicationType        []cato_models.ApplicationType                                                                                     "json:\"applicationType\" graphql:\"applicationType\""
 	CustomApp              *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
 	CustomCategory         *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	Group                  *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Group                  "json:\"group,omitempty\" graphql:\"group\""
 	SanctionedAppsCategory *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
 }
 
@@ -304935,6 +305924,12 @@ func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Fi
 		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application{}
 	}
 	return t.CustomCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application) GetGroup() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Group {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.Group
 }
 func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application) GetSanctionedAppsCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory {
 	if t == nil {
@@ -341143,6 +342138,31 @@ func (t *SiteGeneralDetails_Site_SiteGeneralDetails_PreferredPopLocationSiteGene
 	return t.Secondary
 }
 
+type SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit struct {
+	DownstreamMaxBandwidthMbps int64 "json:\"downstreamMaxBandwidthMbps\" graphql:\"downstreamMaxBandwidthMbps\""
+	Override                   bool  "json:\"override\" graphql:\"override\""
+	UpstreamMaxBandwidthMbps   int64 "json:\"upstreamMaxBandwidthMbps\" graphql:\"upstreamMaxBandwidthMbps\""
+}
+
+func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetDownstreamMaxBandwidthMbps() int64 {
+	if t == nil {
+		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
+	}
+	return t.DownstreamMaxBandwidthMbps
+}
+func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetOverride() bool {
+	if t == nil {
+		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
+	}
+	return t.Override
+}
+func (t *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit) GetUpstreamMaxBandwidthMbps() int64 {
+	if t == nil {
+		t = &SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit{}
+	}
+	return t.UpstreamMaxBandwidthMbps
+}
+
 type SiteGeneralDetails_Site_SiteGeneralDetails_WorkingHours struct {
 	FromTimeMinuteOffset *int64                  "json:\"fromTimeMinuteOffset,omitempty\" graphql:\"fromTimeMinuteOffset\""
 	Override             bool                    "json:\"override\" graphql:\"override\""
@@ -341180,6 +342200,7 @@ type SiteGeneralDetails_Site_SiteGeneralDetails struct {
 	DisableACLForSip                              bool                                                                                      "json:\"disableAclForSip\" graphql:\"disableAclForSip\""
 	PreferredPopLocationSiteGeneralDetailsPayload *SiteGeneralDetails_Site_SiteGeneralDetails_PreferredPopLocationSiteGeneralDetailsPayload "json:\"preferredPopLocationSiteGeneralDetailsPayload,omitempty\" graphql:\"preferredPopLocationSiteGeneralDetailsPayload\""
 	Site                                          SiteGeneralDetails_Site_SiteGeneralDetails_Site                                           "json:\"site\" graphql:\"site\""
+	SiteBandwidthLimit                            *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit                            "json:\"siteBandwidthLimit,omitempty\" graphql:\"siteBandwidthLimit\""
 	SiteLocation                                  SiteGeneralDetails_Site_SiteGeneralDetails_SiteLocation                                   "json:\"siteLocation\" graphql:\"siteLocation\""
 	SiteType                                      cato_models.SiteType                                                                      "json:\"siteType\" graphql:\"siteType\""
 	WorkingHours                                  *SiteGeneralDetails_Site_SiteGeneralDetails_WorkingHours                                  "json:\"workingHours,omitempty\" graphql:\"workingHours\""
@@ -341208,6 +342229,12 @@ func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSite() *SiteGeneralDetai
 		t = &SiteGeneralDetails_Site_SiteGeneralDetails{}
 	}
 	return &t.Site
+}
+func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSiteBandwidthLimit() *SiteGeneralDetails_Site_SiteGeneralDetails_SiteBandwidthLimit {
+	if t == nil {
+		t = &SiteGeneralDetails_Site_SiteGeneralDetails{}
+	}
+	return t.SiteBandwidthLimit
 }
 func (t *SiteGeneralDetails_Site_SiteGeneralDetails) GetSiteLocation() *SiteGeneralDetails_Site_SiteGeneralDetails_SiteLocation {
 	if t == nil {
@@ -358342,12 +359369,70 @@ func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Pool
 	return t.LicenseID
 }
 
+type ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress struct {
+	Gateway            string  "json:\"gateway\" graphql:\"gateway\""
+	LocalIP            string  "json:\"localIp\" graphql:\"localIp\""
+	PrimaryDNSServer   string  "json:\"primaryDnsServer\" graphql:\"primaryDnsServer\""
+	SecondaryDNSServer *string "json:\"secondaryDnsServer,omitempty\" graphql:\"secondaryDnsServer\""
+	Subnet             string  "json:\"subnet\" graphql:\"subnet\""
+}
+
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetGateway() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Gateway
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetLocalIP() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.LocalIP
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetPrimaryDNSServer() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.PrimaryDNSServer
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSecondaryDNSServer() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.SecondaryDNSServer
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress) GetSubnet() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Subnet
+}
+
+type ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface struct {
+	IPAssignment  cato_models.ZtnaAppConnectorIPAssignmentMode                                                   "json:\"ipAssignment\" graphql:\"ipAssignment\""
+	StaticAddress *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress "json:\"staticAddress,omitempty\" graphql:\"staticAddress\""
+}
+
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface) GetIPAssignment() *cato_models.ZtnaAppConnectorIPAssignmentMode {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return &t.IPAssignment
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface) GetStaticAddress() *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface_StaticAddress {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface{}
+	}
+	return t.StaticAddress
+}
+
 type ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector struct {
 	CreatedAt                 *string                                                                                         "json:\"createdAt,omitempty\" graphql:\"createdAt\""
 	Description               *string                                                                                         "json:\"description,omitempty\" graphql:\"description\""
 	GroupName                 string                                                                                          "json:\"groupName\" graphql:\"groupName\""
 	ID                        string                                                                                          "json:\"id\" graphql:\"id\""
 	IsRegistered              bool                                                                                            "json:\"isRegistered\" graphql:\"isRegistered\""
+	LanInterface              ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface                 "json:\"lanInterface\" graphql:\"lanInterface\""
 	Location                  ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
 	Name                      string                                                                                          "json:\"name\" graphql:\"name\""
 	PooledBandwidthAllocation []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
@@ -358390,6 +359475,12 @@ func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) Get
 		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.IsRegistered
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) GetLanInterface() *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_LanInterface {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.LanInterface
 }
 func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) GetLocation() *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Location {
 	if t == nil {
@@ -358705,12 +359796,70 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorL
 	return t.LicenseID
 }
 
+type ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress struct {
+	Gateway            string  "json:\"gateway\" graphql:\"gateway\""
+	LocalIP            string  "json:\"localIp\" graphql:\"localIp\""
+	PrimaryDNSServer   string  "json:\"primaryDnsServer\" graphql:\"primaryDnsServer\""
+	SecondaryDNSServer *string "json:\"secondaryDnsServer,omitempty\" graphql:\"secondaryDnsServer\""
+	Subnet             string  "json:\"subnet\" graphql:\"subnet\""
+}
+
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress) GetGateway() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Gateway
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress) GetLocalIP() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.LocalIP
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress) GetPrimaryDNSServer() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.PrimaryDNSServer
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress) GetSecondaryDNSServer() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.SecondaryDNSServer
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress) GetSubnet() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress{}
+	}
+	return t.Subnet
+}
+
+type ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface struct {
+	IPAssignment  cato_models.ZtnaAppConnectorIPAssignmentMode                                                                            "json:\"ipAssignment\" graphql:\"ipAssignment\""
+	StaticAddress *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress "json:\"staticAddress,omitempty\" graphql:\"staticAddress\""
+}
+
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface) GetIPAssignment() *cato_models.ZtnaAppConnectorIPAssignmentMode {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface{}
+	}
+	return &t.IPAssignment
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface) GetStaticAddress() *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface_StaticAddress {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface{}
+	}
+	return t.StaticAddress
+}
+
 type ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector struct {
 	CreatedAt                 *string                                                                                                                  "json:\"createdAt,omitempty\" graphql:\"createdAt\""
 	Description               *string                                                                                                                  "json:\"description,omitempty\" graphql:\"description\""
 	GroupName                 string                                                                                                                   "json:\"groupName\" graphql:\"groupName\""
 	ID                        string                                                                                                                   "json:\"id\" graphql:\"id\""
 	IsRegistered              bool                                                                                                                     "json:\"isRegistered\" graphql:\"isRegistered\""
+	LanInterface              ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface                 "json:\"lanInterface\" graphql:\"lanInterface\""
 	Location                  ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
 	Name                      string                                                                                                                   "json:\"name\" graphql:\"name\""
 	PooledBandwidthAllocation []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
@@ -358753,6 +359902,12 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorL
 		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector{}
 	}
 	return t.IsRegistered
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector) GetLanInterface() *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_LanInterface {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector{}
+	}
+	return &t.LanInterface
 }
 func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector) GetLocation() *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_Location {
 	if t == nil {
@@ -373424,6 +374579,10 @@ const PolicyApplicationControlAddRuleDocument = `mutation policyApplicationContr
 									id
 									name
 								}
+								group {
+									id
+									name
+								}
 								sanctionedAppsCategory {
 									id
 									name
@@ -373614,6 +374773,10 @@ const PolicyApplicationControlAddRuleDocument = `mutation policyApplicationContr
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -373831,6 +374994,10 @@ const PolicyApplicationControlAddRuleDocument = `mutation policyApplicationContr
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -374171,6 +375338,10 @@ const PolicyApplicationControlCreatePolicyRevisionDocument = `mutation policyApp
 										id
 										name
 									}
+									group {
+										id
+										name
+									}
 									sanctionedAppsCategory {
 										id
 										name
@@ -374361,6 +375532,10 @@ const PolicyApplicationControlCreatePolicyRevisionDocument = `mutation policyApp
 										name
 									}
 									customCategory {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -374578,6 +375753,10 @@ const PolicyApplicationControlCreatePolicyRevisionDocument = `mutation policyApp
 										name
 									}
 									customCategory {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -374884,6 +376063,10 @@ const PolicyApplicationControlDiscardPolicyRevisionDocument = `mutation policyAp
 										id
 										name
 									}
+									group {
+										id
+										name
+									}
 									sanctionedAppsCategory {
 										id
 										name
@@ -375074,6 +376257,10 @@ const PolicyApplicationControlDiscardPolicyRevisionDocument = `mutation policyAp
 										name
 									}
 									customCategory {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -375291,6 +376478,10 @@ const PolicyApplicationControlDiscardPolicyRevisionDocument = `mutation policyAp
 										name
 									}
 									customCategory {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -375595,6 +376786,10 @@ const PolicyApplicationControlMoveRuleDocument = `mutation policyApplicationCont
 									id
 									name
 								}
+								group {
+									id
+									name
+								}
 								sanctionedAppsCategory {
 									id
 									name
@@ -375785,6 +376980,10 @@ const PolicyApplicationControlMoveRuleDocument = `mutation policyApplicationCont
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -376002,6 +377201,10 @@ const PolicyApplicationControlMoveRuleDocument = `mutation policyApplicationCont
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -376342,6 +377545,10 @@ const PolicyApplicationControlPublishPolicyRevisionDocument = `mutation policyAp
 										id
 										name
 									}
+									group {
+										id
+										name
+									}
 									sanctionedAppsCategory {
 										id
 										name
@@ -376532,6 +377739,10 @@ const PolicyApplicationControlPublishPolicyRevisionDocument = `mutation policyAp
 										name
 									}
 									customCategory {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -376749,6 +377960,10 @@ const PolicyApplicationControlPublishPolicyRevisionDocument = `mutation policyAp
 										name
 									}
 									customCategory {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -377053,6 +378268,10 @@ const PolicyApplicationControlRemoveRuleDocument = `mutation policyApplicationCo
 									id
 									name
 								}
+								group {
+									id
+									name
+								}
 								sanctionedAppsCategory {
 									id
 									name
@@ -377243,6 +378462,10 @@ const PolicyApplicationControlRemoveRuleDocument = `mutation policyApplicationCo
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -377460,6 +378683,10 @@ const PolicyApplicationControlRemoveRuleDocument = `mutation policyApplicationCo
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -377800,6 +379027,10 @@ const PolicyApplicationControlUpdatePolicyDocument = `mutation policyApplication
 										id
 										name
 									}
+									group {
+										id
+										name
+									}
 									sanctionedAppsCategory {
 										id
 										name
@@ -377990,6 +379221,10 @@ const PolicyApplicationControlUpdatePolicyDocument = `mutation policyApplication
 										name
 									}
 									customCategory {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -378207,6 +379442,10 @@ const PolicyApplicationControlUpdatePolicyDocument = `mutation policyApplication
 										name
 									}
 									customCategory {
+										id
+										name
+									}
+									group {
 										id
 										name
 									}
@@ -378511,6 +379750,10 @@ const PolicyApplicationControlUpdateRuleDocument = `mutation policyApplicationCo
 									id
 									name
 								}
+								group {
+									id
+									name
+								}
 								sanctionedAppsCategory {
 									id
 									name
@@ -378701,6 +379944,10 @@ const PolicyApplicationControlUpdateRuleDocument = `mutation policyApplicationCo
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -378918,6 +380165,10 @@ const PolicyApplicationControlUpdateRuleDocument = `mutation policyApplicationCo
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -421564,6 +422815,16 @@ const ZtnaAppConnectorAddZtnaAppConnectorDocument = `mutation ztnaAppConnectorAd
 					licenseId
 					bw
 				}
+				lanInterface {
+					ipAssignment
+					staticAddress {
+						localIp
+						subnet
+						gateway
+						primaryDnsServer
+						secondaryDnsServer
+					}
+				}
 			}
 			pooledBandwidthAllocation {
 				allocationId
@@ -421705,6 +422966,16 @@ const ZtnaAppConnectorAssignSocketToZtnaAppConnectorDocument = `mutation ztnaApp
 					licenseId
 					bw
 				}
+				lanInterface {
+					ipAssignment
+					staticAddress {
+						localIp
+						subnet
+						gateway
+						primaryDnsServer
+						secondaryDnsServer
+					}
+				}
 			}
 		}
 	}
@@ -421839,6 +423110,16 @@ const ZtnaAppConnectorRemoveZtnaAppConnectorDocument = `mutation ztnaAppConnecto
 					licenseId
 					bw
 				}
+				lanInterface {
+					ipAssignment
+					staticAddress {
+						localIp
+						subnet
+						gateway
+						primaryDnsServer
+						secondaryDnsServer
+					}
+				}
 			}
 		}
 	}
@@ -421945,6 +423226,16 @@ const ZtnaAppConnectorUnassignSocketFromZtnaAppConnectorDocument = `mutation ztn
 					licenseId
 					bw
 				}
+				lanInterface {
+					ipAssignment
+					staticAddress {
+						localIp
+						subnet
+						gateway
+						primaryDnsServer
+						secondaryDnsServer
+					}
+				}
 			}
 		}
 	}
@@ -422048,6 +423339,16 @@ const ZtnaAppConnectorUpdateZtnaAppConnectorDocument = `mutation ztnaAppConnecto
 					allocationId
 					licenseId
 					bw
+				}
+				lanInterface {
+					ipAssignment
+					staticAddress {
+						localIp
+						subnet
+						gateway
+						primaryDnsServer
+						secondaryDnsServer
+					}
 				}
 			}
 		}
@@ -428804,6 +430105,10 @@ const ApplicationControlPolicyDocument = `query applicationControlPolicy ($accou
 									id
 									name
 								}
+								group {
+									id
+									name
+								}
 								sanctionedAppsCategory {
 									id
 									name
@@ -428994,6 +430299,10 @@ const ApplicationControlPolicyDocument = `query applicationControlPolicy ($accou
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -429211,6 +430520,10 @@ const ApplicationControlPolicyDocument = `query applicationControlPolicy ($accou
 									name
 								}
 								customCategory {
+									id
+									name
+								}
+								group {
 									id
 									name
 								}
@@ -436468,6 +437781,11 @@ const SiteGeneralDetailsDocument = `query siteGeneralDetails ($siteRefInput: Sit
 				}
 				preferredOnly
 			}
+			siteBandwidthLimit {
+				override
+				upstreamMaxBandwidthMbps
+				downstreamMaxBandwidthMbps
+			}
 			workingHours {
 				override
 				fromTimeMinuteOffset
@@ -439753,6 +441071,16 @@ const ZtnaAppConnectorZtnaAppConnectorDocument = `query ztnaAppConnectorZtnaAppC
 				licenseId
 				bw
 			}
+			lanInterface {
+				ipAssignment
+				staticAddress {
+					localIp
+					subnet
+					gateway
+					primaryDnsServer
+					secondaryDnsServer
+				}
+			}
 		}
 	}
 }
@@ -439856,6 +441184,16 @@ const ZtnaAppConnectorZtnaAppConnectorListDocument = `query ztnaAppConnectorZtna
 					allocationId
 					licenseId
 					bw
+				}
+				lanInterface {
+					ipAssignment
+					staticAddress {
+						localIp
+						subnet
+						gateway
+						primaryDnsServer
+						secondaryDnsServer
+					}
 				}
 			}
 			pageInfo {
